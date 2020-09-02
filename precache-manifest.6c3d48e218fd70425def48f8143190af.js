@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "77d690a7adfc052edb20fbc54c767182",
+    "revision": "d8a871aa1fabc3a2974c488a0de6f28e",
     "url": "/sr-rework-creator/index.html"
   },
   {
-    "revision": "59d70f9a6a2cedcec8b0",
+    "revision": "1a7b362f991b51efcc9a",
     "url": "/sr-rework-creator/static/css/main.967c7bf8.chunk.css"
   },
   {
@@ -16,15 +16,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sr-rework-creator/static/js/2.4f118bad.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "59d70f9a6a2cedcec8b0",
-    "url": "/sr-rework-creator/static/js/main.8d83a369.chunk.js"
+    "revision": "1a7b362f991b51efcc9a",
+    "url": "/sr-rework-creator/static/js/main.5349cf3e.chunk.js"
   },
   {
     "revision": "ccb3532760e7697f3494",
     "url": "/sr-rework-creator/static/js/runtime-main.a0710d13.js"
   },
   {
-    "revision": "5d5d9eefa31e5e13a6610d9fa7a283bb",
-    "url": "/sr-rework-creator/static/media/logo.5d5d9eef.svg"
+    "revision": "b455ce56378e6882b1e2ebd46fb610a1",
+    "url": "/sr-rework-creator/static/media/logo.b455ce56.svg"
   }
 ]);
