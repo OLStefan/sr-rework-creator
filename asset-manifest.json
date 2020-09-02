@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/sr-rework-creator/static/css/main.5f361e03.chunk.css",
+    "main.js": "/sr-rework-creator/static/js/main.6fad044e.chunk.js",
+    "main.js.map": "/sr-rework-creator/static/js/main.6fad044e.chunk.js.map",
+    "runtime-main.js": "/sr-rework-creator/static/js/runtime-main.a0710d13.js",
+    "runtime-main.js.map": "/sr-rework-creator/static/js/runtime-main.a0710d13.js.map",
+    "static/js/2.4f118bad.chunk.js": "/sr-rework-creator/static/js/2.4f118bad.chunk.js",
+    "static/js/2.4f118bad.chunk.js.map": "/sr-rework-creator/static/js/2.4f118bad.chunk.js.map",
+    "index.html": "/sr-rework-creator/index.html",
+    "precache-manifest.f3b9663a28776fa9266ca3c004e058ae.js": "/sr-rework-creator/precache-manifest.f3b9663a28776fa9266ca3c004e058ae.js",
+    "service-worker.js": "/sr-rework-creator/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/sr-rework-creator/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.4f118bad.chunk.js.LICENSE.txt": "/sr-rework-creator/static/js/2.4f118bad.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/sr-rework-creator/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a0710d13.js",
+    "static/js/2.4f118bad.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.6fad044e.chunk.js"
+  ]
+}
