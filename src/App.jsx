@@ -5,8 +5,9 @@ import './default.css';
 
 function App({ ...otherProps }) {
 	return (
-		<div className="app" {...otherProps}>
+		<div {...otherProps}>
 			<img src={logo} className="app-logo" alt="logo" />
+			<div className="app-text">Someday there may be something here</div>
 		</div>
 	);
 }
@@ -19,6 +20,11 @@ export default styled(App)`
 	align-items: center;
 	justify-content: center;
 
+	.app-text {
+		color: white;
+		font-size: 3em;
+	}
+
 	.app-logo {
 		height: 60vmin;
 		pointer-events: none;
@@ -26,7 +32,7 @@ export default styled(App)`
 
 	@media (prefers-reduced-motion: no-preference) {
 		.app-logo {
-			animation: app-logo-spin infinite 5s linear;
+			animation: app-logo-spin infinite 30s linear;
 		}
 	}
 
