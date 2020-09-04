@@ -92,10 +92,10 @@ export default styled(SideBarMenu)`
 	pointer-events: none;
 
 	.menu {
-		font-size: 2em;
+		font-size: var(--menu-font-size);
 		height: 100%;
 		width: 25%;
-		min-width: 15ch;
+		min-width: var(--menu-min-width);
 		background-color: var(--primary-color);
 		display: flex;
 		flex-direction: column;

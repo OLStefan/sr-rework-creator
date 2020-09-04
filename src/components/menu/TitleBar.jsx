@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import BurgerMenuButton from './menu/BurgerMenuButton';
-import { useStableCallbacks, useLabels } from '../hooks';
-import { showMenu } from '../redux/ui/uiActions';
-import { useCharacterName } from '../selectors';
+import BurgerMenuButton from './BurgerMenuButton';
+import { useStableCallbacks, useLabels } from '../../hooks';
+import { showMenu } from '../../redux/ui/uiActions';
+import { useCharacterName } from '../../selectors';
 
 function TitleBar({ ...otherProps }) {
 	const name = useCharacterName();
@@ -33,19 +33,13 @@ function TitleBar({ ...otherProps }) {
 export default styled(TitleBar)`
 	background-color: var(--primary-color);
 	color: var(--text-on-primary);
-	display: grid;
-	grid-template-columns: auto 1fr;
-	column-gap: 1ch;
+	display: flex;
 	align-items: center;
+	font-size: var(--title-bar-font-size);
 
-	.title-container {
-		font-size: 3em;
+	& > .title-container {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: pre;
-	}
-
-	${BurgerMenuButton} {
-		width: 5ch;
 	}
 `;

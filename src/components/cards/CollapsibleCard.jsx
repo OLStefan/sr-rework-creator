@@ -11,17 +11,12 @@ function ExpandIconUnstyled({ expanded = false, ...otherProps }) {
 }
 
 const ExpandIcon = styled(ExpandIconUnstyled)`
-	padding: 0;
-	border: none;
-	background: none;
-	user-select: none;
-	width: 1em;
-	display: flex;
-	transform: rotate(${(props) => (props.expanded ? '90' : '0')}deg);
+	width: var(--card-expand-font-size);
+	transform: rotate(${({ expanded }) => (expanded ? '90' : '0')}deg);
 	transition-property: all;
-	transition-duration: 0.3s;
+	transition-duration: var(--long-animation-duration);
 	color: var(--primary-color);
-	/* Neded for font offset on top */
+	/* Needed for font offset on top*/
 	padding-bottom: 6px;
 `;
 
@@ -63,14 +58,9 @@ function CollapsibleCard({ title, children, expanded = false, onExpandClick = ()
 const CollapsibleCardMemo = React.memo(CollapsibleCard);
 
 export default styled(CollapsibleCardMemo)`
-	display: block;
-	flex-direction: column;
-	position: relative;
-	padding: var(--spacing-medium);
-
 	& > .titlebar {
 		width: 100%;
-		font-size: 2em;
+		font-size: var(--card-title-font-size);
 		background: none;
 		display: flex;
 		justify-content: flex-start;
@@ -88,7 +78,7 @@ export default styled(CollapsibleCardMemo)`
 		overflow: hidden;
 
 		& > .empty {
-			padding: var(--spacing-large) 0 0 0;
+			padding-top: var(--spacing-large);
 		}
 	}
 `;

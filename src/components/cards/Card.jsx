@@ -14,18 +14,14 @@ const CardUnstyled = React.forwardRef(function Card({ title, children, renderTit
 });
 
 export default styled(CardUnstyled)`
-	display: block;
-	flex-direction: column;
 	position: relative;
 	background: var(--background);
 	padding: var(--spacing-medium);
-	border-radius: 4px;
-	background-clip: padding-box;
+	border-radius: var(--border-radius);
 	box-shadow: var(--card-shadow);
 
 	& > .title {
-		flex: 0 0 auto;
-		font-size: 1.5em;
+		font-size: var(--card-title-font-size);
 		background: none;
 		border: none;
 		user-select: none;

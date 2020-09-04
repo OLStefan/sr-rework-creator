@@ -11,14 +11,20 @@
 
 	--textfield-default-size: 32px;
 
-	--background: hsl(0, 0%, 100%);
-	--primary-color: hsl(201, 67%, 44%);
-	--primary-color-tint: hsl(201, 77%, 49%);
-	--primary-color-shade: hsl(201, 57%, 29%);
-	--secondary-color: hsl(37, 98%, 53%);
-
 	--button-outline: 1px solid var(--text-on-primary);
 	--button-outline-offset: var(--spacing-small);
+
+	--border-radius: 4px;
+
+	--title-bar-font-size: 3em;
+	--menu-font-size: 2em;
+	--card-title-font-size: 2em;
+	--card-expand-font-size: 1em;
+
+	--character-editor-crad-min-width: 400px;
+	--character-editor-crad-max-width: 50%;
+
+	--menu-min-width: 15ch;
 
 	font-family: 'Roboto', sans-serif;
 	user-select: none;
@@ -42,6 +48,8 @@ body {
 	--primary-color-shade: hsl(201, 57%, 29%);
 	--secondary-color: hsl(37, 98%, 53%);
 
+	--backgound-logo-color: hsl(0, 0%, 50%);
+
 	--text-on-background: hsl(0, 0%, 100%);
 	--text-on-primary: hsl(0, 0%, 100%);
 
@@ -56,6 +64,8 @@ body {
 	--primary-color-shade: hsl(201, 57%, 29%);
 	--secondary-color: hsl(37, 98%, 53%);
 
+	--backgound-logo-color: hsl(0, 0%, 50%);
+
 	--text-on-background: hsl(0, 0%, 0%);
 	--text-on-primary: hsl(0, 0%, 100%);
 
@@ -66,7 +76,7 @@ button {
 	font-size: 100%;
 	font-family: inherit;
 	border: none;
-	border-radius: var(--spacing-small);
+	border-radius: var(--border-radius);
 	padding: 0;
 	background-color: var(--primary-color);
 	color: var(--text-on-primary);

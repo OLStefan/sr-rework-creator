@@ -125,8 +125,8 @@ export default styled(CharacterEditor)`
 	align-content: flex-start;
 
 	& > .card-container {
-		min-width: 400px;
-		max-width: 50%;
+		min-width: var(--character-editor-crad-min-width);
+		max-width: var(--character-editor-crad-max-width);
 		flex: 1 1 0;
 		padding: var(--spacing-medium);
 	}
