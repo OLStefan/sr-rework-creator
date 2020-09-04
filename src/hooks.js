@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 export function useLabels(labelsFunction, ...args) {
 	const { t } = useTranslation(...args);
+
 	return useMemo(
 		() => ({
 			t,
@@ -40,4 +41,14 @@ export function useStableCallbacks(callbacks) {
 	}
 
 	return stableCallbacks.current;
+}
+
+export function useStableCallback(callback) {
+	const callbackRef = useRef(callback);
+
+	useEffect(() => {
+		callbackRef.current = callback;
+	});
+
+	return callbackRef.current;
 }

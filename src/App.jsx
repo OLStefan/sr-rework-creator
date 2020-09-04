@@ -1,63 +1,37 @@
 import React, { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import BurgerMenuButton from './components/menu/BurgerMenuButton';
+import CharacterEditor from './components/character/CharacterEditor';
 import SideBarMenu from './components/menu/SideBarMenu';
-import SpinningLogo from './components/SpinningLogo';
+import TitleBar from './components/TitleBar';
 import './default.css';
-import { useStableCallbacks } from './hooks';
-import { hideMenu, showMenu } from './redux/ui/uiActions';
+import { useDarkMode, useCharacterLoaded } from './selectors';
+import Logo from './components/Logo';
 
 // used in styling
 // eslint-disable-next-line no-unused-vars
 function App({ className, ...otherProps }) {
-	const { darkMode, displayMenu } = useSelector((state) => state.ui);
-	const dispatch = useDispatch();
-	const callbacks = useStableCallbacks({
-		show: () => dispatch(showMenu()),
-		hide: () => dispatch(hideMenu()),
-		renderMenu: () => (
-			<>
-				<button className="menu-entry" type="button">
-					Menu Entry 1
-				</button>
-				<button className="menu-entry" type="button">
-					Menu Entry 2
-				</button>
-				<button className="menu-entry" type="button">
-					Menu Entry 3
-				</button>
-			</>
-		),
-	});
+	const characterLoaded = useCharacterLoaded();
+	const darkMode = useDarkMode();
 
 	return (
 		<div className={`${className} ${darkMode ? 'dark' : 'bright'}`} {...otherProps}>
-			<div className="wrapper">
-				{useMemo(
-					() => (
-						<div className="title-bar">
-							<BurgerMenuButton onClick={callbacks.show} />
-							<div className="title-container">I am a title bar!</div>
-						</div>
-					),
-					[callbacks.show],
-				)}
-
-				{useMemo(
-					() => (
-						<div className="content">
-							<SpinningLogo />
-						</div>
-					),
-					[],
-				)}
-			</div>
 			{useMemo(
 				() => (
-					<SideBarMenu display={displayMenu} onHide={callbacks.hide} renderContent={callbacks.renderMenu} />
+					<div className="wrapper">
+						<TitleBar />
+						<div className="content">
+							<Logo className="logo" color="grey" />
+							{characterLoaded && <CharacterEditor />}
+						</div>
+					</div>
 				),
-				[callbacks, displayMenu],
+				[characterLoaded],
+			)}
+			{useMemo(
+				() => (
+					<SideBarMenu />
+				),
+				[],
 			)}
 		</div>
 	);
@@ -66,43 +40,37 @@ function App({ className, ...otherProps }) {
 export default styled(App)`
 	display: grid;
 	height: 100vh;
+	background-color: var(--background);
+	color: var(--text-on-background);
 
-	.wrapper {
+	& > .wrapper {
 		grid-area: 1/1;
 		display: flex;
 		flex-direction: column;
 		height: 100%;
 
-		.title-bar {
+		${TitleBar} {
 			flex: 0 0 auto;
-			background-color: var(--primary-color);
-			color: var(--text-on-primary);
-			display: grid;
-			grid-template-columns: auto 1fr;
-			column-gap: 1ch;
-			align-items: center;
-
-			.title-container {
-				font-size: 3em;
-			}
 		}
 
-		.content {
+		& > .content {
+			position: relative;
 			flex: 1 1 0;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
+			overflow: auto;
+
+			& > .logo {
+				padding: var(--spacing-large);
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				opacity: 0.1;
+			}
 		}
 	}
 
-	${SideBarMenu} {
+	& > ${SideBarMenu} {
 		grid-area: 1/1;
-
-		.menu-entry {
-			width: 100%;
-			padding: var(--spacing-medium);
-			text-align: left;
-		}
 	}
 `;

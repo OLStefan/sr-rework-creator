@@ -1,0 +1,3 @@
+const CHARACTER_ACTION_PREFIX = 'character.';
+export const CREATE_NEW_CHARACTER = `${CHARACTER_ACTION_PREFIX}createNew`;
+export const LOAD_CHARACTER = `${CHARACTER_ACTION_PREFIX}load`;

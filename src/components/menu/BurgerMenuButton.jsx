@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 function BurgerMenuButton({ onClick, ...otherProps }) {
 	return (
-		<button type="button" className="burger-button" {...{ onClick }} {...otherProps}>
+		<button type="button" {...{ onClick }} {...otherProps}>
 			<div className="bar top" />
 			<div className="bar middle" />
 			<div className="bar bottom" />
@@ -12,7 +12,6 @@ function BurgerMenuButton({ onClick, ...otherProps }) {
 }
 
 export default styled(BurgerMenuButton)`
-	width: 5ch;
 	height: 100%;
 	padding: 30% var(--spacing-small);
 	display: flex;

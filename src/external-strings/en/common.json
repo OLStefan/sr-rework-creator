@@ -1,0 +1,20 @@
+{
+	"appName": "SR Rework Creator",
+	"details": "Details",
+	"qualities": "Qualities",
+	"attributes": "Attributes",
+	"skills": "Skills",
+	"spells": "Spells",
+	"weapons": "Weapons",
+	"armor": "Armor",
+	"gear": "Gear",
+	"drones": "Drones",
+	"vehicles": "Vehicles",
+	"lifestyles": "Lifestyles",
+	"contacts": "Contacts",
+	"newCharacter": "New Character",
+	"save": "Save",
+	"saveAs": "Save as...",
+	"open": "Load Character",
+	"darkMode": "Dark Mode"
+}

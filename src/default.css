@@ -5,6 +5,28 @@
 	--spacing-medium: 8px;
 	--spacing-large: 16px;
 
+	--short-animation-duration: 100ms;
+	--animation-duration: 250ms;
+	--long-animation-duration: 500ms;
+
+	--textfield-default-size: 32px;
+
+	--background: hsl(0, 0%, 100%);
+	--primary-color: hsl(201, 67%, 44%);
+	--primary-color-tint: hsl(201, 77%, 49%);
+	--primary-color-shade: hsl(201, 57%, 29%);
+	--secondary-color: hsl(37, 98%, 53%);
+
+	--button-outline: 1px solid var(--text-on-primary);
+	--button-outline-offset: var(--spacing-small);
+
+	font-family: 'Roboto', sans-serif;
+	user-select: none;
+}
+
+body {
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
 	user-select: none;
 }
 
@@ -16,41 +38,54 @@
 .dark {
 	--background: hsl(220, 13%, 18%);
 	--primary-color: hsl(201, 67%, 44%);
-	--primary-color-highlighted: hsl(201, 77%, 49%);
+	--primary-color-tint: hsl(201, 77%, 49%);
+	--primary-color-shade: hsl(201, 57%, 29%);
 	--secondary-color: hsl(37, 98%, 53%);
 
 	--text-on-background: hsl(0, 0%, 100%);
 	--text-on-primary: hsl(0, 0%, 100%);
 
-	background-color: var(--background);
-	color: var(--text-on-background);
+	--card-shadow: 0 0 4px 2px hsla(0, 0%, 100%, 0.2);
 }
 
 /* Bright Mode colors*/
 .bright {
 	--background: hsl(0, 0%, 100%);
 	--primary-color: hsl(201, 67%, 44%);
-	--primary-color-highlighted: hsl(201, 77%, 49%);
+	--primary-color-tint: hsl(201, 77%, 49%);
+	--primary-color-shade: hsl(201, 57%, 29%);
 	--secondary-color: hsl(37, 98%, 53%);
 
 	--text-on-background: hsl(0, 0%, 0%);
 	--text-on-primary: hsl(0, 0%, 100%);
 
-	background-color: var(--background);
-	color: var(--text-on-background);
+	--card-shadow: 0 0 4px 2px hsla(0, 0%, 0%, 0.2);
 }
 
 button {
 	font-size: 100%;
 	font-family: inherit;
 	border: none;
-	outline: none;
 	border-radius: var(--spacing-small);
 	padding: 0;
 	background-color: var(--primary-color);
 	color: var(--text-on-primary);
 }
 
+button:focus {
+	outline: var(--button-outline);
+	outline-offset: var(--button-outline-offset);
+}
+
 button:hover {
-	background-color: var(--primary-color-highlighted);
+	background-color: var(--primary-color-tint);
+}
+
+input {
+	height: var(--textfield-default-size);
+}
+
+div:focus,
+span:focus {
+	outline: none;
 }
