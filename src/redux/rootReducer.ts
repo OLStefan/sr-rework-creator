@@ -1,20 +1,14 @@
 import { combineReducers } from 'redux';
 import characterReducer from './character/characterReducer';
+import messagesReducer from './messages/messagesReducer';
 import uiReducer from './ui/uiReducer';
 
 const rootReducer = combineReducers({
 	character: characterReducer,
 	ui: uiReducer,
+	messages: messagesReducer,
 });
 
-export default function (state, action) {
-	// catch unhandled unexpected exceptions and save in error state
-	try {
-		return rootReducer(state, action);
-	} catch (error) {
-		return {
-			...state,
-			error,
-		};
-	}
-}
+export type State = ReturnType<typeof rootReducer>;
+
+export default rootReducer;

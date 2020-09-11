@@ -1,6 +1,7 @@
 import React from 'react';
 
-export default function ({ color, ...otherProps }) {
+type Props = { color: string; className?: string };
+export default function ({ color, ...otherProps }: Props) {
 	return (
 		<div {...otherProps}>
 			<svg height="100%" width="100%" viewBox="0 0 137.899 176.987">

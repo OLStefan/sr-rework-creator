@@ -4,7 +4,7 @@ import CharacterEditor from './components/character/CharacterEditor';
 import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
 import './default.css';
-import { useDarkMode, useCharacterLoaded } from './selectors';
+import { useDarkMode, useCharacterLoaded } from './redux/selectors';
 import Logo from './components/Logo';
 
 const computedStyle = getComputedStyle(document.documentElement);
@@ -22,15 +22,18 @@ function App({ ...otherProps }) {
 		<div {...otherProps}>
 			{useMemo(
 				() => (
+					<Logo className="background" color={color} />
+				),
+				[color],
+			)}
+			{useMemo(
+				() => (
 					<div className="wrapper">
 						<TitleBar />
-						<div className="content">
-							<Logo className="logo" color={color} />
-							{characterLoaded && <CharacterEditor />}
-						</div>
+						<div className="content">{characterLoaded && <CharacterEditor />}</div>
 					</div>
 				),
-				[characterLoaded, color],
+				[characterLoaded],
 			)}
 			{useMemo(
 				() => (
@@ -43,10 +46,8 @@ function App({ ...otherProps }) {
 }
 
 export default styled(App)`
-	width: 100vw;
 	height: 100vh;
 	display: grid;
-	background-color: var(--background);
 	color: var(--text-on-background);
 
 	& > .wrapper {
@@ -60,23 +61,30 @@ export default styled(App)`
 		}
 
 		& > .content {
-			position: relative;
 			flex: 1 1 0;
 			overflow: auto;
-
-			& > .logo {
-				padding: var(--spacing-large);
-				position: absolute;
-				top: 0;
-				left: 0;
-				height: 100%;
-				width: 100%;
-				opacity: 0.1;
-			}
+			height: 100%;
 		}
 	}
 
 	& > ${SideBarMenu} {
 		grid-area: 1/1;
+	}
+
+	& > .background {
+		grid-area: 1/1;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		display: grid;
+		place-content: center;
+		background-color: var(--background);
+		height: 100%;
+		width: 100%;
+		z-index: -1;
+		padding-top: var(--title-bar-font-size);
+
+		& > svg {
+			opacity: 0.1;
+		}
 	}
 `;

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export function useLabels(labelsFunction, ...args) {
+export function useLabels(labelsFunction: any, ...args: any[]) {
 	const { t } = useTranslation(...args);
 
 	return useMemo(
@@ -9,18 +9,18 @@ export function useLabels(labelsFunction, ...args) {
 			t,
 			labels: labelsFunction(t),
 		}),
-		// labelsFunction is missing because the labelsFunction needs to be pure and is never meant to be updated
+		// labelsFunction not needed, it is never meant to be updated
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[t],
 	);
 }
 
-function replaceCallbacks(getObject) {
-	const newObject = {};
+function replaceCallbacks(getObject: (...args: any[]) => any): any {
+	const newObject: { [x: string]: any } = {};
 	const object = getObject();
-	Object.keys(object).forEach((key) => {
+	Object.keys(object).forEach((key: string) => {
 		if (typeof object[key] === 'function') {
-			newObject[key] = (...args) => getObject()[key](...args);
+			newObject[key] = (...args: any[]) => getObject()[key](...args);
 		} else {
 			newObject[key] = replaceCallbacks(() => getObject()[key]);
 		}
@@ -28,7 +28,7 @@ function replaceCallbacks(getObject) {
 	return newObject;
 }
 
-export function useStableCallbacks(callbacks) {
+export function useStableCallbacks(callbacks: any): any {
 	const callbackRefs = useRef(callbacks);
 
 	useEffect(() => {
@@ -41,14 +41,4 @@ export function useStableCallbacks(callbacks) {
 	}
 
 	return stableCallbacks.current;
-}
-
-export function useStableCallback(callback) {
-	const callbackRef = useRef(callback);
-
-	useEffect(() => {
-		callbackRef.current = callback;
-	});
-
-	return callbackRef.current;
 }

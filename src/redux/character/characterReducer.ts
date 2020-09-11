@@ -1,7 +1,7 @@
-import { LOAD_CHARACTER, CREATE_NEW_CHARACTER } from './characterActionTypes';
+import { LOAD_CHARACTER, CREATE_NEW_CHARACTER, CharacterState, CharacterAction } from './characterTypes';
 import createNewCharacter from './createNewCharacter';
 
-const initialState = createNewCharacter();
+const initialState: CharacterState = createNewCharacter();
 
 function handleCreateNewCharacter() {
 	return createNewCharacter();
@@ -11,7 +11,7 @@ function handleLoadCharacter() {
 	return createNewCharacter();
 }
 
-export default function (character = initialState, action) {
+export default function (character = initialState, action: CharacterAction): CharacterState {
 	switch (action.type) {
 		case CREATE_NEW_CHARACTER:
 			return handleCreateNewCharacter();

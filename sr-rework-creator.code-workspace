@@ -14,6 +14,7 @@
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"workbench.tree.indent": 17,
-		"files.eol": "\n"
+		"files.eol": "\n",
+		"todo-tree.general.rootFolder": "${workspaceFolder}/src"
 	}
 }

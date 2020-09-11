@@ -1,21 +1,21 @@
-import { SHOW_MENU, HIDE_MENU, CHANGE_DARK_MODE, TOGGLE_CARD } from './uiActionTypes';
-import { CREATE_NEW_CHARACTER, LOAD_CHARACTER } from '../character/characterActionTypes';
 import {
-	QUALITIES,
+	ARMOR,
 	ATTRIBUTES,
+	CONTACTS,
+	DETAILS,
+	DRONES,
+	GEAR,
+	LIFESTYLES,
+	QUALITIES,
 	SKILLS,
 	SPELLS,
-	WEAPONS,
-	ARMOR,
-	GEAR,
 	VEHICLES,
-	DRONES,
-	LIFESTYLES,
-	DETAILS,
-	CONTACTS,
+	WEAPONS,
 } from '../../constants';
+import { CharacterAction, CREATE_NEW_CHARACTER, LOAD_CHARACTER } from '../character/characterTypes';
+import { CHANGE_DARK_MODE, HIDE_MENU, SHOW_MENU, TOGGLE_CARD, UiAction, UiState } from './uiTypes';
 
-const initialState = {
+const initialState: UiState = {
 	displayMenu: false,
 	darkMode: true,
 	expandedCards: {
@@ -34,30 +34,32 @@ const initialState = {
 	},
 };
 
-function handleShowMenu(ui) {
+function handleShowMenu(ui: any) {
 	if (ui.displayMenu) {
 		return ui;
 	}
 	return { ...ui, displayMenu: true };
 }
 
-function handleHideMenu(ui) {
+function handleHideMenu(ui: any) {
 	if (!ui.displayMenu) {
 		return ui;
 	}
 	return { ...ui, displayMenu: false };
 }
 
-function handleChangeDarkMode(ui) {
+function handleChangeDarkMode(ui: any) {
 	return { ...ui, darkMode: !ui.darkMode };
 }
 
-function handleToggleCard(ui, action) {
-	const { card } = action;
+function handleToggleCard(ui: any, { card }: { card: string }) {
+	if (!card) {
+		return ui;
+	}
 	return { ...ui, expandedCards: { ...ui.expandedCards, [card]: !ui.expandedCards[card] } };
 }
 
-export default function (ui = initialState, action) {
+export default function (ui = initialState, action: UiAction | CharacterAction): UiState {
 	switch (action.type) {
 		case SHOW_MENU:
 			return handleShowMenu(ui);

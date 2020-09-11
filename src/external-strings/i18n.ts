@@ -1,13 +1,14 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-const RESOURCES = require('./external-strings/resources');
+const all_en = require('./en/all.json');
 
 i18n.use(initReactI18next).init({
-	interpolation: { escapeValue: false },
 	lng: 'en',
-	defaultNS: 'Common',
-	resources: RESOURCES,
+	defaultNS: 'All',
+	resources: {
+		en: { All: all_en },
+	},
 });
 
 export default i18n;

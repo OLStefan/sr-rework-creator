@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CardUnstyled = React.forwardRef(function Card({ title, children, renderTitle, contentRef, ...otherProps }, ref) {
+type Props = { title?: string; renderTitle: any; children: any };
+const CardUnstyled = React.forwardRef<HTMLDivElement, Props>(({ title, renderTitle, children, ...otherProps }, ref) => {
 	return (
-		<div ref={ref} {...otherProps}>
+		<div {...otherProps}>
 			{renderTitle ? renderTitle() : <span className="title">{title}</span>}
-			<div className="content" ref={contentRef}>
+			<div className="content" ref={ref}>
 				<div className="empty" />
 				{children}
 			</div>

@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../atoms/Button';
 
-function BurgerMenuButton({ onClick, ...otherProps }) {
+type Props = { onClick: any };
+function BurgerMenuButton({ onClick, ...otherProps }: Props) {
 	return (
-		<button type="button" className="burger-button" {...{ onClick }} {...otherProps}>
+		<Button className="burger-button" {...{ onClick }} {...otherProps}>
 			<div className="bar top" />
 			<div className="bar middle" />
 			<div className="bar bottom" />
-		</button>
+		</Button>
 	);
 }
 

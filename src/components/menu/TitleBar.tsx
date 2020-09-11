@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import BurgerMenuButton from './BurgerMenuButton';
 import { useStableCallbacks, useLabels } from '../../hooks';
 import { showMenu } from '../../redux/ui/uiActions';
-import { useCharacterName } from '../../selectors';
+import { useCharacterName } from '../../redux/selectors';
 
 function TitleBar({ ...otherProps }) {
 	const name = useCharacterName();
@@ -13,7 +13,7 @@ function TitleBar({ ...otherProps }) {
 		onShowMenu: () => dispatch(showMenu()),
 	});
 
-	const { labels } = useLabels((t) => ({
+	const { labels } = useLabels((t: any) => ({
 		title: t('appName'),
 	}));
 

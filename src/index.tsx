@@ -6,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import rootReducer from './redux/rootReducer';
 
-import './i18n';
+import './external-strings/i18n';
 
 const store = createStore(rootReducer, composeWithDevTools());
 

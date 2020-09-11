@@ -1,3 +1,4 @@
+import { noop } from 'lodash';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import Switch from 'react-switch';
@@ -6,21 +7,23 @@ import { ESCAPE_KEY } from '../../constants';
 import { useLabels, useStableCallbacks } from '../../hooks';
 import { createNewCharacter } from '../../redux/character/characterActions';
 import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
-import { useDarkMode, useDisplayMenu } from '../../selectors';
+import { useCharacterLoaded, useDarkMode, useDisplayMenu } from '../../redux/selectors';
+import Button from '../atoms/Button';
 
 function SideBarMenu({ ...otherProps }) {
 	const displayMenu = useDisplayMenu();
 	const darkMode = useDarkMode();
+	const characterLoaded = useCharacterLoaded();
 
 	const dispatch = useDispatch();
-	const ref = useRef();
+	const ref = useRef<any>();
 
-	const callbacks = useStableCallbacks({
+	const callbacks: any = useStableCallbacks({
 		onHide: () => dispatch(hideMenu()),
 		onSwitchDarkMode: () => dispatch(changeDarkMode()),
 	});
 
-	const { labels } = useLabels((t) => ({
+	const { labels } = useLabels((t: any) => ({
 		newCharacter: t('newCharacter'),
 		save: t('save'),
 		saveAs: t('saveAs'),
@@ -30,20 +33,20 @@ function SideBarMenu({ ...otherProps }) {
 
 	// Set Focus on dislplay
 	useEffect(() => {
-		if (displayMenu) {
+		if (displayMenu && ref?.current) {
 			ref.current.focus();
 		}
 	}, [displayMenu]);
 
 	// Handle hide on escape key
-	const onKeyDown = (event) => {
+	const onKeyDown = (event: any) => {
 		if (event.key === ESCAPE_KEY) {
 			callbacks.onHide();
 		}
 	};
 
 	// Handle focus loss on element or children
-	const onBlur = (event) => {
+	const onBlur = (event: any) => {
 		if (displayMenu && !event.currentTarget.contains(event.relatedTarget)) {
 			callbacks.onHide();
 		}
@@ -51,21 +54,26 @@ function SideBarMenu({ ...otherProps }) {
 
 	return (
 		<div {...otherProps}>
+			<div className={`filler ${displayMenu ? 'background' : ''}`} />
 			{displayMenu && (
 				<div className="menu" ref={ref} tabIndex={-1} {...{ onKeyDown, onBlur }}>
 					<div className="button-container">
-						<button className="close-button" type="button" onClick={callbacks.onHide}>
+						<Button className="close-button" onClick={callbacks.onHide}>
 							X
-						</button>
+						</Button>
 					</div>
 					<div className="content">
-						<button type="button" onClick={() => dispatch(createNewCharacter())}>
-							{labels.newCharacter}
-						</button>
-						<button type="button">{labels.save}</button>
-						<button type="button">{labels.saveAs}</button>
-						<button type="button">{labels.open}</button>
+						<Button onClick={() => dispatch(createNewCharacter())}>{labels.newCharacter}</Button>
+						<Button onClick={noop}>{labels.open}</Button>
+						<div className="divider" />
+						<Button disabled={!characterLoaded} onClick={noop}>
+							{labels.save}
+						</Button>
+						<Button disabled={!characterLoaded} onClick={noop}>
+							{labels.saveAs}
+						</Button>
 						<div className="filler" />
+						<div className="divider" />
 						<div className="dark-mode">
 							<span className="dark-mode-label">{labels.darkMode}</span>
 							<span className="filler" />
@@ -90,8 +98,9 @@ export default styled(SideBarMenu)`
 	height: 100%;
 	z-index: 1000000;
 	pointer-events: none;
+	position: relative;
 
-	.menu {
+	& > .menu {
 		font-size: var(--menu-font-size);
 		height: 100%;
 		width: 25%;
@@ -106,7 +115,15 @@ export default styled(SideBarMenu)`
 			flex: 1 0 0;
 		}
 
-		.button-container {
+		.divider {
+			height: var(--menu-divider-height);
+			width: 95%;
+			border-radius: var(--border-radius);
+			background-color: var(--text-on-primary);
+			transform: translateX(2.5%);
+		}
+
+		& > .button-container {
 			flex: 0 0 auto;
 			display: flex;
 			justify-content: flex-end;
@@ -116,31 +133,58 @@ export default styled(SideBarMenu)`
 			}
 		}
 
-		.content {
+		& > .content {
 			flex: 1 0 auto;
 			display: flex;
 			flex-direction: column;
 
-			button {
+			& > ${Button} {
+				border-radius: none;
+				text-align: left;
 				padding: var(--spacing-medium);
 				width: 100%;
 			}
 
-			button {
-				text-align: left;
-			}
-
-			.dark-mode {
+			& > .dark-mode {
 				padding: var(--spacing-medium);
 				width: 100%;
 
 				display: flex;
 				align-items: center;
 
-				.dark-mode-label {
+				& > .dark-mode-label {
 					color: var(--text-on-primary);
 				}
 			}
+		}
+	}
+
+	& > .filler {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		transition: background-color var(--long-animation-duration);
+		z-index: -1;
+
+		&.background {
+			background-color: hsla(0, 0%, 0%, 0.3);
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		& > .menu {
+			animation: menu-slide 1 var(--long-animation-duration) linear;
+		}
+	}
+
+	@keyframes menu-slide {
+		from {
+			transform: translateX(-100%);
+		}
+		to {
+			transform: translateX(0%);
 		}
 	}
 `;
