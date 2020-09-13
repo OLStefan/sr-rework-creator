@@ -5,41 +5,17 @@ import Button from '../atoms/Button';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-// Used in styling
-// eslint-disable-next-line no-unused-vars
-function ExpandIconUnstyled({ expanded = false, ...otherProps }) {
-	return <div {...otherProps}>❯</div>;
-}
-
-const ExpandIcon = styled(ExpandIconUnstyled)`
-	width: var(--card-expand-font-size);
-	transform: rotate(${({ expanded }) => (expanded ? '90' : '0')}deg);
-	transition-property: all;
-	transition-duration: var(--long-animation-duration);
-	color: var(--primary-color);
-	/* Needed for font offset on top*/
-	padding-bottom: 6px;
-`;
-
-type CardProps = {
+interface Props {
 	title: string;
-	children: any;
+	children: React.ReactNode;
+	onExpandClick: (event: React.MouseEvent) => void;
 	expanded?: boolean;
 	error?: string;
 	hint?: string;
-	onExpandClick: () => void;
-};
-function CollapsibleCard({
-	title,
-	children,
-	expanded = false,
-	error,
-	hint,
-	onExpandClick = () => null,
-	...otherProps
-}: CardProps) {
+}
+function CollapsibleCard({ title, children, expanded = false, error, hint, onExpandClick, ...otherProps }: Props) {
 	const first = useRef<boolean>(true);
-	const content = useRef<any>();
+	const content = useRef<HTMLDivElement>(null);
 
 	useLayoutEffect(() => {
 		if (content.current) {
@@ -61,7 +37,7 @@ function CollapsibleCard({
 	const renderTitle = useCallback(() => {
 		return (
 			<Button className="titlebar" onClick={onExpandClick}>
-				<ExpandIcon expanded={expanded} />
+				<div className="expand">❯</div>
 				<span className="title">{title}</span>
 				<div className="filler" />
 				{error && (
@@ -76,7 +52,7 @@ function CollapsibleCard({
 				)}
 			</Button>
 		);
-	}, [error, expanded, hint, onExpandClick, title]);
+	}, [error, hint, onExpandClick, title]);
 
 	return (
 		<Card renderTitle={renderTitle} ref={content} {...otherProps}>
@@ -95,6 +71,16 @@ export default styled(CollapsibleCardMemo)`
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+
+		& > .expand {
+			width: var(--card-expand-font-size);
+			transform: rotate(${({ expanded }) => (expanded ? '90' : '0')}deg);
+			transition-property: all;
+			transition-duration: var(--long-animation-duration);
+			color: var(--primary-color);
+			/* Needed for font offset on top*/
+			padding-bottom: 6px;
+		}
 
 		& > .title {
 			color: var(--primary-color);

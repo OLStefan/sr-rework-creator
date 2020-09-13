@@ -1,7 +1,7 @@
 import { LOAD_CHARACTER, CREATE_NEW_CHARACTER, CharacterState, CharacterAction } from './characterTypes';
 import createNewCharacter from './createNewCharacter';
 
-const initialState: CharacterState = createNewCharacter();
+const initialState: CharacterState = null;
 
 function handleCreateNewCharacter() {
 	return createNewCharacter();

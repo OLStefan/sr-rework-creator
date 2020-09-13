@@ -1,7 +1,12 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-type props = { children: any; onClick: () => void; disabled?: boolean; className?: string };
+type props = {
+	children: React.ReactNode;
+	onClick: (event: React.MouseEvent) => void;
+	disabled?: boolean;
+	className?: string;
+};
 const Button = function ({ children, ...otherProps }: props) {
 	return (
 		<button type="button" {...otherProps}>

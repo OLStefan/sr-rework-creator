@@ -1,7 +1,19 @@
+export const ADD_ERROR_MESSAGE = 'addErrorMessage';
+export const ADD_HINT_MESSAGE = 'addHintMessage';
+
 // Types
 export interface MessagesState {
-	errors: { [x: string]: string };
-	hints: { [x: string]: string };
+	errors: { [sectionName: string]: string };
+	hints: { [sectionName: string]: string };
 }
 
-export type MessagesAction = any;
+interface AddErrorMessageAction {
+	type: typeof ADD_ERROR_MESSAGE;
+	card: string;
+}
+interface AddHintMessageAction {
+	type: typeof ADD_HINT_MESSAGE;
+	card: string;
+}
+
+export type MessagesAction = AddErrorMessageAction | AddHintMessageAction;

@@ -62,7 +62,6 @@ export default styled(App)`
 
 		& > .content {
 			flex: 1 1 0;
-			overflow: auto;
 			height: 100%;
 		}
 	}
@@ -84,6 +83,7 @@ export default styled(App)`
 		padding-top: var(--title-bar-font-size);
 
 		& > svg {
+			padding: var(--spacing-large);
 			opacity: 0.1;
 		}
 	}

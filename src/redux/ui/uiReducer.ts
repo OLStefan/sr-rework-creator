@@ -34,25 +34,25 @@ const initialState: UiState = {
 	},
 };
 
-function handleShowMenu(ui: any) {
+function handleShowMenu(ui: UiState) {
 	if (ui.displayMenu) {
 		return ui;
 	}
 	return { ...ui, displayMenu: true };
 }
 
-function handleHideMenu(ui: any) {
+function handleHideMenu(ui: UiState) {
 	if (!ui.displayMenu) {
 		return ui;
 	}
 	return { ...ui, displayMenu: false };
 }
 
-function handleChangeDarkMode(ui: any) {
+function handleChangeDarkMode(ui: UiState) {
 	return { ...ui, darkMode: !ui.darkMode };
 }
 
-function handleToggleCard(ui: any, { card }: { card: string }) {
+function handleToggleCard(ui: UiState, { card }: { card: string }) {
 	if (!card) {
 		return ui;
 	}
@@ -63,9 +63,9 @@ export default function (ui = initialState, action: UiAction | CharacterAction):
 	switch (action.type) {
 		case SHOW_MENU:
 			return handleShowMenu(ui);
-		case CREATE_NEW_CHARACTER:
-		case LOAD_CHARACTER:
 		case HIDE_MENU:
+		case LOAD_CHARACTER:
+		case CREATE_NEW_CHARACTER:
 			return handleHideMenu(ui);
 		case CHANGE_DARK_MODE:
 			return handleChangeDarkMode(ui);

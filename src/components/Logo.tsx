@@ -1,6 +1,6 @@
 import React from 'react';
 
-type Props = { color: string; className?: string };
+interface Props { color: string; className?: string };
 export default function ({ color, ...otherProps }: Props) {
 	return (
 		<div {...otherProps}>

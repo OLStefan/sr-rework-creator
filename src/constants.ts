@@ -27,6 +27,20 @@ export const DRONES: string = 'drones';
 export const VEHICLES: string = 'vehicles';
 export const LIFESTYLES: string = 'lifestyles';
 export const CONTACTS: string = 'contacts';
+export const sections: string[] = [
+	DETAILS,
+	QUALITIES,
+	ATTRIBUTES,
+	SKILLS,
+	SPELLS,
+	WEAPONS,
+	ARMOR,
+	GEAR,
+	DRONES,
+	VEHICLES,
+	LIFESTYLES,
+	CONTACTS,
+];
 
 // Misc
 export const ESCAPE_KEY: string = 'Escape';

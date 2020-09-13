@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
+
 :root {
 	height: 100%;
 
@@ -17,14 +19,14 @@
 	--button-outline: 1px solid var(--text-on-primary);
 	--button-outline-offset: var(--spacing-small);
 
-	--border-radius: 4px;
+	--border-radius: 8px;
 
 	--title-bar-font-size: 3em;
 	--menu-font-size: 2em;
 	--card-title-font-size: 2em;
 	--card-expand-font-size: 1em;
 
-	--font-weight-bold: 600;
+	--font-weight-bold: 700;
 
 	--character-editor-card-min-width: 500px;
 	--character-editor-card-max-width: calc(2 * var(--character-editor-card-min-width));
@@ -73,7 +75,7 @@ body {
 
 	--text-on-background: hsl(0, 0%, 0%);
 	--text-on-primary: hsl(0, 0%, 100%);
-	--text-disabled: hsl(0, 0%, 50%);
+	--text-disabled: hsl(0, 0%, 66%);
 
 	--card-shadow: 0 0 4px 2px hsla(0, 0%, 0%, 0.2);
 }

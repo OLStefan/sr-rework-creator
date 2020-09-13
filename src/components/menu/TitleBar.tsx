@@ -1,19 +1,21 @@
+import { TFunction } from 'i18next';
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import BurgerMenuButton from './BurgerMenuButton';
-import { useStableCallbacks, useLabels } from '../../hooks';
-import { showMenu } from '../../redux/ui/uiActions';
+import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import { useLabels } from '../../hooks';
 import { useCharacterName } from '../../redux/selectors';
+import { showMenu } from '../../redux/ui/uiActions';
+import BurgerMenuButton from './BurgerMenuButton';
 
 function TitleBar({ ...otherProps }) {
 	const name = useCharacterName();
 	const dispatch = useDispatch();
-	const callbacks = useStableCallbacks({
+	const callbacks = useUpdatingCallbacks({
 		onShowMenu: () => dispatch(showMenu()),
 	});
 
-	const { labels } = useLabels((t: any) => ({
+	const { labels } = useLabels((t: TFunction) => ({
 		title: t('appName'),
 	}));
 

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-type Props = { title?: string; renderTitle: any; children: any };
-const CardUnstyled = React.forwardRef<HTMLDivElement, Props>(({ title, renderTitle, children, ...otherProps }, ref) => {
+interface Props {
+	renderTitle: () => JSX.Element;
+	children: React.ReactNode;
+}
+const CardUnstyled = React.forwardRef<HTMLDivElement, Props>(({ renderTitle, children, ...otherProps }, ref) => {
 	return (
 		<div {...otherProps}>
-			{renderTitle ? renderTitle() : <span className="title">{title}</span>}
+			{useMemo(() => renderTitle(), [renderTitle])}
 			<div className="content" ref={ref}>
 				<div className="empty" />
 				{children}
@@ -40,7 +43,7 @@ export default styled(CardUnstyled)`
 		height: 100%;
 
 		.empty {
-			padding: var(--spacing-large) 0 0 0;
+			padding-top: var(--spacing-large);
 		}
 	}
 `;

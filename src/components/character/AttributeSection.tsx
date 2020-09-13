@@ -12,18 +12,31 @@ import {
 	attributes as attributeNames,
 } from '../../constants';
 import Button from '../atoms/Button';
+import { TFunction } from 'i18next';
+import { useCharacterAttributes } from '../../redux/selectors';
+import { Attribute } from '../../redux/character/characterTypes';
 
-type AttributeProps = { attribute: any; title: string; onChangeAttribute: () => void; className?: string };
-const Attribute = React.memo(function ({ attribute, title, onChangeAttribute, ...otherProps }: AttributeProps) {
+interface AttributeProps {
+	attribute: Attribute;
+	title: string;
+	onChangeAttribute: () => void;
+	className?: string;
+}
+const AttributeComponent = React.memo(function ({
+	attribute,
+	title,
+	onChangeAttribute,
+	...otherProps
+}: AttributeProps) {
 	return (
 		<div {...otherProps}>
 			<div className="title">{title}</div>
-			<Button disabled={attribute.rating <= attribute.minRating} onClick={noop}>
+			<Button disabled={attribute.rating <= attribute.minRating} onClick={onChangeAttribute}>
 				<div className="filler" />
 				<div className="minus">‒</div>
 			</Button>
 			<input type="number" maxLength={2} value={attribute.rating} onChange={onChangeAttribute} />
-			<Button disabled={attribute.rating >= attribute.maxRating} onClick={noop}>
+			<Button disabled={attribute.rating >= attribute.maxRating} onClick={onChangeAttribute}>
 				<div className="filler" />
 				<div className="plus">+</div>
 			</Button>
@@ -31,9 +44,12 @@ const Attribute = React.memo(function ({ attribute, title, onChangeAttribute, ..
 	);
 });
 
-type Props = { attributes: any[]; onChangeAttribute: () => void };
-function AttributeSection({ attributes, onChangeAttribute, ...otherProps }: Props) {
-	const { labels } = useLabels((t: any) => ({
+interface Props {}
+function AttributeSection({ ...otherProps }: Props) {
+	const attributes = useCharacterAttributes();
+	const onChangeAttribute = noop;
+
+	const { labels } = useLabels((t: TFunction) => ({
 		[ATTRIBUTE_STRENGTH]: t(ATTRIBUTE_STRENGTH),
 		[ATTRIBUTE_AGILITY]: t(ATTRIBUTE_AGILITY),
 		[ATTRIBUTE_BODY]: t(ATTRIBUTE_BODY),
@@ -44,17 +60,19 @@ function AttributeSection({ attributes, onChangeAttribute, ...otherProps }: Prop
 
 	return (
 		<div {...otherProps}>
-			<div className="attribute-container">
-				{attributeNames.map((attribute: any) => (
-					<Attribute
-						key={attribute}
-						className="attribute"
-						title={labels[attribute]}
-						attribute={attributes[attribute]}
-						{...{ onChangeAttribute }}
-					/>
-				))}
-			</div>
+			{attributes && (
+				<div className="attribute-container">
+					{attributeNames.map((attributeName: string) => (
+						<AttributeComponent
+							key={attributeName}
+							className="attribute"
+							title={labels[attributeName]}
+							attribute={attributes[attributeName]}
+							{...{ onChangeAttribute }}
+						/>
+					))}
+				</div>
+			)}
 			<div className="filler" />
 		</div>
 	);

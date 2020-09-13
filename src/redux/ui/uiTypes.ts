@@ -7,7 +7,7 @@ export const TOGGLE_CARD = 'toggleCard';
 export interface UiState {
 	displayMenu: boolean;
 	darkMode: boolean;
-	expandedCards: { [x: string]: boolean };
+	expandedCards: { [cardname: string]: boolean };
 }
 
 interface ShowMenuAction {

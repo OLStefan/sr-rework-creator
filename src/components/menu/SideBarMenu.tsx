@@ -1,29 +1,44 @@
 import { noop } from 'lodash';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import Switch from 'react-switch';
 import styled from 'styled-components';
 import { ESCAPE_KEY } from '../../constants';
-import { useLabels, useStableCallbacks } from '../../hooks';
+import { useLabels } from '../../hooks';
 import { createNewCharacter } from '../../redux/character/characterActions';
 import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
 import { useCharacterLoaded, useDarkMode, useDisplayMenu } from '../../redux/selectors';
 import Button from '../atoms/Button';
+import { TFunction } from 'i18next';
+import { useUpdatingCallbacks } from 'use-updating-callbacks';
 
-function SideBarMenu({ ...otherProps }) {
+interface Props {
+	className?: string;
+}
+function SideBarMenu({ className, ...otherProps }: Props) {
 	const displayMenu = useDisplayMenu();
 	const darkMode = useDarkMode();
 	const characterLoaded = useCharacterLoaded();
 
 	const dispatch = useDispatch();
-	const ref = useRef<any>();
 
-	const callbacks: any = useStableCallbacks({
+	const callbacks = useUpdatingCallbacks({
 		onHide: () => dispatch(hideMenu()),
 		onSwitchDarkMode: () => dispatch(changeDarkMode()),
+		createNewCharacter: () => dispatch(createNewCharacter()),
+		onKeyDown: (event: React.KeyboardEvent) => {
+			if (event.key === ESCAPE_KEY) {
+				callbacks.onHide();
+			}
+		},
+		onBlur: (event: React.FocusEvent) => {
+			if (displayMenu && event.target !== ref.current) {
+				callbacks.onHide();
+			}
+		},
 	});
 
-	const { labels } = useLabels((t: any) => ({
+	const { labels } = useLabels((t: TFunction) => ({
 		newCharacter: t('newCharacter'),
 		save: t('save'),
 		saveAs: t('saveAs'),
@@ -32,63 +47,66 @@ function SideBarMenu({ ...otherProps }) {
 	}));
 
 	// Set Focus on dislplay
+	const ref = useRef<HTMLDivElement>(null);
 	useEffect(() => {
-		if (displayMenu && ref?.current) {
+		if (displayMenu && ref.current) {
 			ref.current.focus();
 		}
 	}, [displayMenu]);
 
-	// Handle hide on escape key
-	const onKeyDown = (event: any) => {
-		if (event.key === ESCAPE_KEY) {
-			callbacks.onHide();
-		}
-	};
-
-	// Handle focus loss on element or children
-	const onBlur = (event: any) => {
-		if (displayMenu && !event.currentTarget.contains(event.relatedTarget)) {
-			callbacks.onHide();
-		}
-	};
-
 	return (
-		<div {...otherProps}>
+		<div className={`${className} ${displayMenu ? '' : 'hidden'}`} {...otherProps}>
 			<div className={`filler ${displayMenu ? 'background' : ''}`} />
-			{displayMenu && (
-				<div className="menu" ref={ref} tabIndex={-1} {...{ onKeyDown, onBlur }}>
-					<div className="button-container">
-						<Button className="close-button" onClick={callbacks.onHide}>
-							X
-						</Button>
-					</div>
-					<div className="content">
-						<Button onClick={() => dispatch(createNewCharacter())}>{labels.newCharacter}</Button>
-						<Button onClick={noop}>{labels.open}</Button>
-						<div className="divider" />
-						<Button disabled={!characterLoaded} onClick={noop}>
-							{labels.save}
-						</Button>
-						<Button disabled={!characterLoaded} onClick={noop}>
-							{labels.saveAs}
-						</Button>
-						<div className="filler" />
-						<div className="divider" />
-						<div className="dark-mode">
-							<span className="dark-mode-label">{labels.darkMode}</span>
-							<span className="filler" />
-							<Switch
-								onColor="#205774"
-								offColor="#aaa"
-								checkedIcon={false}
-								uncheckedIcon={false}
-								checked={darkMode}
-								onChange={callbacks.onSwitchDarkMode}
-							/>
+
+			<div className="menu" ref={ref} tabIndex={-1} onKeyDown={callbacks.onKeyDown} onBlur={callbacks.onBlur}>
+				{useMemo(
+					() => (
+						<div className="button-container">
+							<Button className="close-button" onClick={callbacks.onHide}>
+								X
+							</Button>
 						</div>
-					</div>
+					),
+					[callbacks.onHide],
+				)}
+				<div className="content">
+					{useMemo(
+						() => (
+							<>
+								<Button onClick={callbacks.createNewCharacter}>{labels.newCharacter}</Button>
+								<Button onClick={noop}>{labels.open}</Button>
+								<div className="divider" />
+								<Button disabled={!characterLoaded} onClick={noop}>
+									{labels.save}
+								</Button>
+								<Button disabled={!characterLoaded} onClick={noop}>
+									{labels.saveAs}
+								</Button>
+								<div className="filler" />
+								<div className="divider" />
+							</>
+						),
+						[callbacks.createNewCharacter, characterLoaded, labels],
+					)}
+					{useMemo(
+						() => (
+							<div className="dark-mode">
+								<span className="dark-mode-label">{labels.darkMode}</span>
+								<span className="filler" />
+								<Switch
+									onColor="#205774"
+									offColor="#aaa"
+									checkedIcon={false}
+									uncheckedIcon={false}
+									checked={darkMode}
+									onChange={callbacks.onSwitchDarkMode}
+								/>
+							</div>
+						),
+						[callbacks.onSwitchDarkMode, darkMode, labels.darkMode],
+					)}
 				</div>
-			)}
+			</div>
 		</div>
 	);
 }
@@ -99,6 +117,10 @@ export default styled(SideBarMenu)`
 	z-index: 1000000;
 	pointer-events: none;
 	position: relative;
+
+	&.hidden {
+		display: none;
+	}
 
 	& > .menu {
 		font-size: var(--menu-font-size);
@@ -115,14 +137,6 @@ export default styled(SideBarMenu)`
 			flex: 1 0 0;
 		}
 
-		.divider {
-			height: var(--menu-divider-height);
-			width: 95%;
-			border-radius: var(--border-radius);
-			background-color: var(--text-on-primary);
-			transform: translateX(2.5%);
-		}
-
 		& > .button-container {
 			flex: 0 0 auto;
 			display: flex;
@@ -137,12 +151,20 @@ export default styled(SideBarMenu)`
 			flex: 1 0 auto;
 			display: flex;
 			flex-direction: column;
+			align-items: center;
 
 			& > ${Button} {
-				border-radius: none;
+				border-radius: 0;
 				text-align: left;
 				padding: var(--spacing-medium);
 				width: 100%;
+			}
+
+			.divider {
+				width: 95%;
+				border-radius: var(--border-radius);
+				background-color: var(--text-on-primary);
+				flex: 0 0 var(--menu-divider-height);
 			}
 
 			& > .dark-mode {
