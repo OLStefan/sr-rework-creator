@@ -13,8 +13,13 @@ import {
 	WEAPONS,
 } from '../../constants';
 import { CharacterAction, CREATE_NEW_CHARACTER, LOAD_CHARACTER } from '../character/characterTypes';
-import { CHANGE_DARK_MODE, HIDE_MENU, SHOW_MENU, TOGGLE_CARD, UiAction, UiState } from './uiTypes';
+import { CHANGE_DARK_MODE, HIDE_MENU, SHOW_MENU, TOGGLE_CARD, UiAction } from './uiActions';
 
+export interface UiState {
+	displayMenu: boolean;
+	darkMode: boolean;
+	expandedCards: { [cardname: string]: boolean };
+}
 const initialState: UiState = {
 	displayMenu: false,
 	darkMode: true,
@@ -52,11 +57,11 @@ function handleChangeDarkMode(ui: UiState) {
 	return { ...ui, darkMode: !ui.darkMode };
 }
 
-function handleToggleCard(ui: UiState, { card }: { card: string }) {
-	if (!card) {
+function handleToggleCard(ui: UiState, { cardName }: { cardName: string }) {
+	if (!cardName) {
 		return ui;
 	}
-	return { ...ui, expandedCards: { ...ui.expandedCards, [card]: !ui.expandedCards[card] } };
+	return { ...ui, expandedCards: { ...ui.expandedCards, [cardName]: !ui.expandedCards[cardName] } };
 }
 
 export default function (ui = initialState, action: UiAction | CharacterAction): UiState {
