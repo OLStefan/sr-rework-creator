@@ -15,6 +15,17 @@
 		},
 		"workbench.tree.indent": 17,
 		"files.eol": "\n",
-		"todo-tree.general.rootFolder": "${workspaceFolder}/src"
+		"todo-tree.general.rootFolder": "${workspaceFolder}/src",
+		"gitlens.advanced.telemetry.enabled": false
+	},
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"jpoissonnier.vscode-styled-components",
+			"gruntfuggly.todo-tree",
+			"msjsdiag.debugger-for-chrome",
+			"firefox-devtools.vscode-firefox-debug"
+		]
 	}
 }
