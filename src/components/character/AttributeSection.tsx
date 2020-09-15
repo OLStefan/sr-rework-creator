@@ -14,7 +14,7 @@ import {
 import Button from '../atoms/Button';
 import { TFunction } from 'i18next';
 import { useCharacterAttributes } from '../../redux/selectors';
-import { Attribute } from '../../redux/character/characterTypes';
+import { Attribute } from '../../redux/character/characterReducer';
 
 interface AttributeProps {
 	attribute: Attribute;

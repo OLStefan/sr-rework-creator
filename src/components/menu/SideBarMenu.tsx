@@ -1,7 +1,6 @@
 import { noop } from 'lodash';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import Switch from 'react-switch';
 import styled from 'styled-components';
 import { ESCAPE_KEY } from '../../constants';
 import { useLabels } from '../../hooks';
@@ -11,6 +10,7 @@ import { useCharacterLoaded, useDarkMode, useDisplayMenu } from '../../redux/sel
 import Button from '../atoms/Button';
 import { TFunction } from 'i18next';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import Switch from '../atoms/Switch';
 
 interface Props {
 	className?: string;
@@ -24,7 +24,7 @@ function SideBarMenu({ className, ...otherProps }: Props) {
 
 	const callbacks = useUpdatingCallbacks({
 		onHide: () => dispatch(hideMenu()),
-		onSwitchDarkMode: () => dispatch(changeDarkMode()),
+		toggleDarkMode: () => dispatch(changeDarkMode()),
 		createNewCharacter: () => dispatch(createNewCharacter()),
 		onKeyDown: (event: React.KeyboardEvent) => {
 			if (event.key === ESCAPE_KEY) {
@@ -32,7 +32,7 @@ function SideBarMenu({ className, ...otherProps }: Props) {
 			}
 		},
 		onBlur: (event: React.FocusEvent) => {
-			if (displayMenu && event.target !== ref.current) {
+			if (displayMenu && !event.currentTarget.contains(event.relatedTarget as Node)) {
 				callbacks.onHide();
 			}
 		},
@@ -92,18 +92,11 @@ function SideBarMenu({ className, ...otherProps }: Props) {
 						() => (
 							<div className="dark-mode">
 								<span className="dark-mode-label">{labels.darkMode}</span>
-								<span className="filler" />
-								<Switch
-									onColor="#205774"
-									offColor="#aaa"
-									checkedIcon={false}
-									uncheckedIcon={false}
-									checked={darkMode}
-									onChange={callbacks.onSwitchDarkMode}
-								/>
+								<div className="filler" />
+								<Switch checked={darkMode} handleToggle={callbacks.toggleDarkMode} />
 							</div>
 						),
-						[callbacks.onSwitchDarkMode, darkMode, labels.darkMode],
+						[callbacks.toggleDarkMode, darkMode, labels.darkMode],
 					)}
 				</div>
 			</div>
@@ -170,12 +163,15 @@ export default styled(SideBarMenu)`
 			& > .dark-mode {
 				padding: var(--spacing-medium);
 				width: 100%;
-
 				display: flex;
 				align-items: center;
 
 				& > .dark-mode-label {
 					color: var(--text-on-primary);
+				}
+
+				${Switch} {
+					flex: 0 0 4ch;
 				}
 			}
 		}
@@ -191,7 +187,8 @@ export default styled(SideBarMenu)`
 		z-index: -1;
 
 		&.background {
-			background-color: hsla(0, 0%, 0%, 0.3);
+			background-color: black;
+			opacity: 30%;
 		}
 	}
 

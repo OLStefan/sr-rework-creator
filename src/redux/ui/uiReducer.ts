@@ -12,7 +12,7 @@ import {
 	VEHICLES,
 	WEAPONS,
 } from '../../constants';
-import { CharacterAction, CREATE_NEW_CHARACTER, LOAD_CHARACTER } from '../character/characterTypes';
+import { CharacterAction, CREATE_NEW_CHARACTER, LOAD_CHARACTER } from '../character/characterActions';
 import { CHANGE_DARK_MODE, HIDE_MENU, SHOW_MENU, TOGGLE_CARD, UiAction } from './uiActions';
 
 export interface UiState {
