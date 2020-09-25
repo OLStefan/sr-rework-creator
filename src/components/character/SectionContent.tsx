@@ -2,7 +2,7 @@ import { TFunction } from 'i18next';
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { ATTRIBUTES } from '../../constants';
+import { SectionName } from '../../constants';
 import { useLabels } from '../../hooks';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
 import { toggleCard } from '../../redux/ui/uiActions';
@@ -10,13 +10,13 @@ import CollapsibleCard from '../cards/CollapsibleCard';
 import AttributeSection from './AttributeSection';
 
 interface Props {
-	name: string;
+	name: SectionName;
 	className?: string;
 }
 const CardContent = React.memo(function Content({ name, ...otherProps }: Props) {
 	return useMemo(() => {
 		switch (name) {
-			case ATTRIBUTES:
+			case SectionName.attributes:
 				return <AttributeSection {...otherProps} />;
 			default:
 				return <span>Some text</span>;

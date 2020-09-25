@@ -1,35 +1,30 @@
-export const SHOW_MENU = 'showMenu';
-export const HIDE_MENU = 'hideMenu';
-export const CHANGE_DARK_MODE = 'changeDarkMode';
-export const TOGGLE_CARD = 'toggleCard';
+import { SectionName } from '../../constants';
 
-interface ShowMenuAction {
-	type: typeof SHOW_MENU;
-}
-export function showMenu(): UiAction {
-	return { type: SHOW_MENU };
+export enum UiActionTypes {
+	SHOW_MENU = 'showMenu',
+	HIDE_MENU = 'hideMenu',
+	CHANGE_DARK_MODE = 'changeDarkMode',
+	TOGGLE_CARD = 'toggleCard',
 }
 
-interface HideMenuAction {
-	type: typeof HIDE_MENU;
-}
-export function hideMenu(): UiAction {
-	return { type: HIDE_MENU };
+export function showMenu() {
+	return { type: UiActionTypes.SHOW_MENU } as const;
 }
 
-interface ChangeDarkModeAction {
-	type: typeof CHANGE_DARK_MODE;
-}
-export function changeDarkMode(): UiAction {
-	return { type: CHANGE_DARK_MODE };
+export function hideMenu() {
+	return { type: UiActionTypes.HIDE_MENU } as const;
 }
 
-interface ToggleCardAction {
-	type: typeof TOGGLE_CARD;
-	cardName: string;
-}
-export function toggleCard(cardName: string): UiAction {
-	return { type: TOGGLE_CARD, cardName };
+export function changeDarkMode() {
+	return { type: UiActionTypes.CHANGE_DARK_MODE } as const;
 }
 
-export type UiAction = ShowMenuAction | HideMenuAction | ChangeDarkModeAction | ToggleCardAction;
+export function toggleCard(cardName: keyof typeof SectionName) {
+	return { type: UiActionTypes.TOGGLE_CARD, cardName } as const;
+}
+
+export type UiAction =
+	| ReturnType<typeof showMenu>
+	| ReturnType<typeof hideMenu>
+	| ReturnType<typeof changeDarkMode>
+	| ReturnType<typeof toggleCard>;

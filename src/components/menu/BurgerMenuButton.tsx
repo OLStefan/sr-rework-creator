@@ -3,30 +3,42 @@ import styled from 'styled-components';
 import Button from '../atoms/Button';
 
 interface Props {
-	onClick: (event: React.MouseEvent) => void;
+	onClick: React.MouseEventHandler;
 }
 function BurgerMenuButton({ onClick, ...otherProps }: Props) {
 	return (
-		<Button className="burger-button" onClick={onClick} {...otherProps}>
-			<div className="bar top" />
-			<div className="bar middle" />
-			<div className="bar bottom" />
-		</Button>
+		<div {...otherProps}>
+			<div className="filler" />
+			<Button className="burger-button" onClick={onClick}>
+				<div className="bar top" />
+				<div className="bar middle" />
+				<div className="bar bottom" />
+			</Button>
+		</div>
 	);
 }
 
 export default styled(BurgerMenuButton)`
-	width: 2ch;
-	height: 100%;
-	padding: var(--spacing-small) var(--spacing-medium);
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
+	width: var(--burger-button-size);
+	display: grid;
 
-	.bar {
-		flex: 0 0 12.5%;
-		width: 100%;
-		background: var(--text-on-primary);
-		border-radius: var(--border-radius);
+	.filler {
+		grid-area: 1/1;
+		padding-top: 100%;
+	}
+
+	.burger-button {
+		grid-area: 1/1;
+		padding: var(--spacing-small) var(--spacing-medium);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+
+		.bar {
+			flex: 0 0 12.5%;
+			width: 100%;
+			background: var(--text-on-primary);
+			border-radius: var(--border-radius);
+		}
 	}
 `;

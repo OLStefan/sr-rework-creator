@@ -5,7 +5,8 @@ import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
 import './default.css';
 import { useDarkMode, useCharacterLoaded } from './redux/selectors';
-import Logo from './components/Logo';
+import Logo from './components/Background';
+import Dropzone from './components/Dropzone';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
@@ -22,18 +23,16 @@ function App({ ...otherProps }) {
 		<div {...otherProps}>
 			{useMemo(
 				() => (
-					<Logo className="background" color={color} />
-				),
-				[color],
-			)}
-			{useMemo(
-				() => (
-					<div className="wrapper">
+					<div className="content">
 						<TitleBar />
-						<div className="content">{characterLoaded && <CharacterEditor />}</div>
+						<div className="editor">
+							<Logo className="background" color={color} />
+							{!characterLoaded && <Dropzone className="dropzone" />}
+							{characterLoaded && <CharacterEditor />}
+						</div>
 					</div>
 				),
-				[characterLoaded],
+				[characterLoaded, color],
 			)}
 			{useMemo(
 				() => (
@@ -47,44 +46,44 @@ function App({ ...otherProps }) {
 
 export default styled(App)`
 	height: 100vh;
+	width: 100%;
 	display: grid;
 	color: var(--text-on-background);
 
-	& > .wrapper {
+	.content {
 		grid-area: 1/1;
 		display: flex;
 		flex-direction: column;
-		height: 100%;
 
-		${TitleBar} {
-			flex: 0 0 auto;
-		}
+		.editor {
+			position: relative;
+			flex: 1 0 0;
 
-		& > .content {
-			flex: 1 1 0;
-			height: 100%;
+			.background {
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: var(--background);
+				height: 100%;
+				width: 100%;
+				z-index: -1;
+
+				.logo-container {
+					height: 100%;
+					width: 100%;
+
+					.logo {
+						height: 100%;
+						width: 100%;
+						padding: var(--spacing-large);
+						opacity: 0.1;
+					}
+				}
+			}
 		}
 	}
 
-	& > ${SideBarMenu} {
+	${SideBarMenu} {
 		grid-area: 1/1;
-	}
-
-	& > .background {
-		grid-area: 1/1;
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr;
-		display: grid;
-		place-content: center;
-		background-color: var(--background);
-		height: 100%;
-		width: 100%;
-		z-index: -1;
-		padding-top: var(--title-bar-font-size);
-
-		& > svg {
-			padding: var(--spacing-large);
-			opacity: 0.1;
-		}
 	}
 `;

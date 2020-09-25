@@ -1,19 +1,43 @@
 import { useSelector } from 'react-redux';
-import { State } from './rootReducer';
+import { SectionName, TOOLTIP_BULLET_POINT, TOOLTIP_LINE_BREAK } from '../constants';
+import { UndoableState } from './rootReducer';
 
 // UI
-export const useDisplayMenu = () => useSelector((state: State) => state.ui.displayMenu);
-export const useDarkMode = () => useSelector((state: State) => state.ui.darkMode);
-export const useExpandedCard = (cardName: string) => useSelector((state: State) => state.ui.expandedCards[cardName]);
+export const useDisplayMenu = () => useSelector(({ present: { ui } }: UndoableState) => ui.displayMenu);
+export const useDarkMode = () => useSelector(({ present: { ui } }: UndoableState) => ui.darkMode);
+export const useExpandedCard = (cardName: SectionName) =>
+	useSelector(({ present: { ui } }: UndoableState) => ui.expandedCards[cardName]);
 
 // Character
-export const useCharacterLoaded = () => useSelector((state: State) => !!state.character);
-export const useCharacterName = () => useSelector((state: State) => state.character?.name || null);
-export const useCharacter = () => useSelector((state: State) => state.character || null);
-export const useCharacterAttributes = () => useSelector((state: State) => state.character?.attributes || null);
+export const useCharacterLoaded = () => useSelector(({ present: { character } }: UndoableState) => !!character);
+export const useCharacterName = () =>
+	useSelector(({ present: { character } }: UndoableState) => character?.name || null);
+export const useCharacter = () => useSelector(({ present: { character } }: UndoableState) => character || null);
+export const useCharacterAttributes = () =>
+	useSelector(({ present: { character } }: UndoableState) => character?.attributes || null);
 
 // Errors
-export const useHints = () => useSelector((state: State) => state.messages.hints);
-export const useErrorMessage = (sectionName: string) =>
-	useSelector((state: State) => state.messages.errors[sectionName]);
-export const useHintMessage = (sectionName: string) => useSelector((state: State) => state.messages.hints[sectionName]);
+export const useErrorMessage = (sectionName: SectionName) =>
+	useSelector(({ present: { messages } }: UndoableState) => {
+		const errorMessages = messages.errors[sectionName];
+		if (!errorMessages) {
+			return '';
+		}
+		return errorMessages.length === 1
+			? errorMessages[0]
+			: errorMessages
+					.sort()
+					.reduce((prev, current) => `${prev}${TOOLTIP_BULLET_POINT} ${current}${TOOLTIP_LINE_BREAK}`, '');
+	});
+export const useHintMessage = (sectionName: SectionName) =>
+	useSelector(({ present: { messages } }: UndoableState) => {
+		const hintMessages = messages.hints[sectionName];
+		if (!hintMessages) {
+			return '';
+		}
+		return hintMessages.length === 1
+			? hintMessages[0]
+			: hintMessages
+					.sort()
+					.reduce((prev, current) => `${prev}${TOOLTIP_BULLET_POINT} ${current}${TOOLTIP_LINE_BREAK}`, '');
+	});

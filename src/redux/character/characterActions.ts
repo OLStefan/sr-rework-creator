@@ -1,28 +1,31 @@
-export const CREATE_NEW_CHARACTER = 'createNew';
-export const LOAD_CHARACTER = 'load';
-export const CHANGE_ATTRIBUTE = 'changeAttribute';
+import { AttributeName } from '../../constants';
+import { CharacterState } from './types';
 
-interface CreateNewCharacterAction {
-	type: typeof CREATE_NEW_CHARACTER;
-}
-export function createNewCharacter(): CharacterAction {
-	return { type: CREATE_NEW_CHARACTER };
-}
-
-interface LoadCharacterAction {
-	type: typeof LOAD_CHARACTER;
-}
-export function loadCharacter(): CharacterAction {
-	return { type: LOAD_CHARACTER };
+export enum CharacterActionTypes {
+	CREATE_NEW_CHARACTER = 'createNewCharacter',
+	LOAD_CHARACTER = 'loadCharacter',
+	SAVE_CHARACTER = 'saveCharacter',
+	CHANGE_ATTRIBUTE = 'changeAttribute',
 }
 
-interface ChangeAttribute {
-	type: typeof CHANGE_ATTRIBUTE;
-	attributeName: string;
-	change: number;
-}
-export function changeAttribute(attributeName: string, change: number): CharacterAction {
-	return { type: CHANGE_ATTRIBUTE, attributeName, change };
+export function createNewCharacter() {
+	return { type: CharacterActionTypes.CREATE_NEW_CHARACTER } as const;
 }
 
-export type CharacterAction = CreateNewCharacterAction | LoadCharacterAction | ChangeAttribute;
+export function loadCharacter(loadedCharacter: CharacterState) {
+	return { type: CharacterActionTypes.LOAD_CHARACTER, loadedCharacter } as const;
+}
+
+export function saveCharacter(increment: number) {
+	return { type: CharacterActionTypes.SAVE_CHARACTER, increment } as const;
+}
+
+export function changeAttribute(attributeName: AttributeName, change: number) {
+	return { type: CharacterActionTypes.CHANGE_ATTRIBUTE, attributeName, change } as const;
+}
+
+export type CharacterAction =
+	| ReturnType<typeof createNewCharacter>
+	| ReturnType<typeof loadCharacter>
+	| ReturnType<typeof saveCharacter>
+	| ReturnType<typeof changeAttribute>;

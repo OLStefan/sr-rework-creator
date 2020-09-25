@@ -21,10 +21,10 @@
 
 	--border-radius: 8px;
 
-	--title-bar-font-size: 3em;
-	--menu-font-size: 2em;
-	--card-title-font-size: 2em;
-	--card-expand-font-size: 1em;
+	--title-bar-font-size: 3rem;
+	--menu-font-size: 2rem;
+	--card-title-font-size: 2rem;
+	--card-expand-font-size: 2rem;
 
 	--font-weight-bold: 700;
 
@@ -36,6 +36,8 @@
 
 	--menu-min-width: 15ch;
 	--menu-divider-height: 2px;
+
+	--burger-button-size: 3.75rem;
 }
 
 body {
@@ -78,12 +80,6 @@ body {
 	--text-disabled: hsl(0, 0%, 66%);
 
 	--card-shadow: 0 0 4px 2px hsla(0, 0%, 0%, 0.2);
-}
-
-input {
-	height: var(--textfield-default-size);
-	min-width: 0;
-	font-size: 1.5em;
 }
 
 div:focus,

@@ -38,8 +38,15 @@ export default styled(TitleBar)`
 	display: flex;
 	align-items: center;
 	font-size: var(--title-bar-font-size);
+	width: 100%;
+
+	& > ${BurgerMenuButton} {
+		flex: 0 0 auto;
+	}
 
 	& > .title-container {
+		flex: 1 0 0;
+		width: 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: pre;

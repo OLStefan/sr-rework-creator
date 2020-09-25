@@ -8,8 +8,8 @@ const computedStyle = getComputedStyle(document.documentElement);
 interface Props {
 	title: string;
 	children: React.ReactNode;
-	onExpandClick: (event: React.MouseEvent) => void;
-	expanded?: boolean;
+	onExpandClick: React.MouseEventHandler;
+	expanded: boolean;
 	error?: string;
 	hint?: string;
 }
@@ -39,14 +39,13 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 			<Button className="titlebar" onClick={onExpandClick}>
 				<div className="expand">❯</div>
 				<span className="title">{title}</span>
-				<div className="filler" />
 				{error && (
-					<div className="error" title={error}>
+					<div data-html="true" className="error" title={error}>
 						!
 					</div>
 				)}
 				{!error && hint && (
-					<div className="hint" title={hint}>
+					<div data-html="true" className="hint" title={hint}>
 						!
 					</div>
 				)}
@@ -83,12 +82,17 @@ export default styled(CollapsibleCardMemo)`
 		}
 
 		& > .title {
+			flex: 1 1 auto;
 			color: var(--primary-color);
 			margin-left: var(--spacing-medium);
+			text-align: left;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
-		& > .filler {
-			flex: 1 0 0;
+		.error,
+		.hint {
+			white-space: pre-line;
 		}
 
 		& > .error {

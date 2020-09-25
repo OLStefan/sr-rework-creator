@@ -2,14 +2,14 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 interface Props {
-	checked?: boolean;
-	handleToggle: () => any;
+	checked: boolean;
+	onClick: React.MouseEventHandler;
 }
-function Switch({ checked, handleToggle, ...otherProps }: Props) {
+function Switch({ checked, onClick, ...otherProps }: Props) {
 	return (
 		<div {...otherProps}>
 			<div className="filler" />
-			<label className="switch-label" onClick={handleToggle}>
+			<label className="switch-label" onClick={onClick}>
 				<div className="switch-handle">
 					<div className="filler" />
 				</div>

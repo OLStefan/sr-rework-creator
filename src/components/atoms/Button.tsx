@@ -1,19 +1,13 @@
-import React from 'react';
+import React, { HTMLProps } from 'react';
 import styled, { css } from 'styled-components';
 
-type props = {
-	children: React.ReactNode;
-	onClick: (event: React.MouseEvent) => void;
-	disabled?: boolean;
-	className?: string;
-};
-const Button = function ({ children, ...otherProps }: props) {
+function Button({ children, ...otherProps }: HTMLProps<HTMLButtonElement>) {
 	return (
-		<button type="button" {...otherProps}>
+		<button {...otherProps} type="button">
 			{children}
 		</button>
 	);
-};
+}
 
 export default styled(Button)`
 	font-size: 100%;

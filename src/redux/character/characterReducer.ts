@@ -1,25 +1,21 @@
-import { LOAD_CHARACTER, CREATE_NEW_CHARACTER, CharacterAction, CHANGE_ATTRIBUTE } from './characterActions';
+import { Action } from '../rootReducer';
+import { CharacterState } from './types';
+import { changeAttribute, CharacterActionTypes, loadCharacter } from './characterActions';
 import createNewCharacter from './createNewCharacter';
 
-export type CharacterState = null | {
-	name: string;
-	careerMode: boolean;
-	attributes: { [attributeName: string]: Attribute };
-};
-export type Attribute = { name: string; minRating: number; maxRating: number; rating: number };
-const initialState: CharacterState = null;
+const initialState: null | CharacterState = null;
+
+function handleLoadCharacter({ loadedCharacter }: ReturnType<typeof loadCharacter>) {
+	return loadedCharacter;
+}
 
 function handleCreateNewCharacter() {
 	return createNewCharacter();
 }
 
-function handleLoadCharacter() {
-	return createNewCharacter();
-}
-
 function handleChangeAttribute(
 	character: CharacterState,
-	{ attributeName, change }: { attributeName: string; change: number },
+	{ attributeName, change }: ReturnType<typeof changeAttribute>,
 ) {
 	if (!character || !character.attributes[attributeName]) {
 		return character;
@@ -28,6 +24,10 @@ function handleChangeAttribute(
 	const attribute = character.attributes[attributeName];
 
 	const newRating = Math.min(Math.max(attribute.rating + change, attribute.minRating), attribute.maxRating);
+
+	if (newRating === attribute.rating) {
+		return character;
+	}
 
 	return {
 		...character,
@@ -38,13 +38,13 @@ function handleChangeAttribute(
 	};
 }
 
-export default function (character = initialState, action: CharacterAction): CharacterState {
+export default function (character = initialState, action: Action): CharacterState {
 	switch (action.type) {
-		case CREATE_NEW_CHARACTER:
+		case CharacterActionTypes.LOAD_CHARACTER:
+			return handleLoadCharacter(action);
+		case CharacterActionTypes.CREATE_NEW_CHARACTER:
 			return handleCreateNewCharacter();
-		case LOAD_CHARACTER:
-			return handleLoadCharacter();
-		case CHANGE_ATTRIBUTE:
+		case CharacterActionTypes.CHANGE_ATTRIBUTE:
 			return handleChangeAttribute(character, action);
 		default:
 			return character;

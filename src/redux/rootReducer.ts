@@ -1,14 +1,29 @@
-import { combineReducers } from 'redux';
+import { CharacterAction } from './character/characterActions';
 import characterReducer from './character/characterReducer';
-import messagesReducer from './messages/messagesReducer';
+import validateCharacter, { MessagesState } from './character/validateCharacter';
+import { UiAction } from './ui/uiActions';
 import uiReducer from './ui/uiReducer';
+import undoable, { StateWithHistory } from 'redux-undo';
+import { CharacterState } from './character/types';
+import { UiState } from './ui/types';
 
-const rootReducer = combineReducers({
-	character: characterReducer,
-	ui: uiReducer,
-	messages: messagesReducer,
-});
+type State = { ui: UiState; character?: CharacterState; messages: MessagesState };
+export type UndoableState = StateWithHistory<State>;
+export type Action = CharacterAction | UiAction;
 
-export type State = ReturnType<typeof rootReducer>;
+function rootReducer(state: State | undefined, action: Action) {
+	const newCharacter = characterReducer(state?.character, action);
+	const newUiState = uiReducer(state?.ui, action);
+	const newMessagesState = validateCharacter({
+		oldCharacter: state?.character,
+		newCharacter,
+		oldMessages: state?.messages,
+		action,
+	});
 
-export default rootReducer;
+	return { ui: newUiState, character: newCharacter, messages: newMessagesState };
+}
+
+const undoableReducer = undoable(rootReducer);
+
+export default undoableReducer;

@@ -11,6 +11,7 @@ import Button from '../atoms/Button';
 import { TFunction } from 'i18next';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import Switch from '../atoms/Switch';
+import { exportCharacterFile } from '../../redux/character/characterThunks';
 
 interface Props {
 	className?: string;
@@ -36,6 +37,9 @@ function SideBarMenu({ className, ...otherProps }: Props) {
 				callbacks.onHide();
 			}
 		},
+		saveCharacter: () => {
+			dispatch(exportCharacterFile());
+		},
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
@@ -57,7 +61,6 @@ function SideBarMenu({ className, ...otherProps }: Props) {
 	return (
 		<div className={`${className} ${displayMenu ? '' : 'hidden'}`} {...otherProps}>
 			<div className={`filler ${displayMenu ? 'background' : ''}`} />
-
 			<div className="menu" ref={ref} tabIndex={-1} onKeyDown={callbacks.onKeyDown} onBlur={callbacks.onBlur}>
 				{useMemo(
 					() => (
@@ -75,25 +78,22 @@ function SideBarMenu({ className, ...otherProps }: Props) {
 							<>
 								<Button onClick={callbacks.createNewCharacter}>{labels.newCharacter}</Button>
 								<Button onClick={noop}>{labels.open}</Button>
-								<div className="divider" />
-								<Button disabled={!characterLoaded} onClick={noop}>
+								<Button disabled={!characterLoaded} onClick={callbacks.saveCharacter}>
 									{labels.save}
 								</Button>
-								<Button disabled={!characterLoaded} onClick={noop}>
-									{labels.saveAs}
-								</Button>
+								<div className="divider" />
 								<div className="filler" />
 								<div className="divider" />
 							</>
 						),
-						[callbacks.createNewCharacter, characterLoaded, labels],
+						[callbacks, characterLoaded, labels],
 					)}
 					{useMemo(
 						() => (
 							<div className="dark-mode">
 								<span className="dark-mode-label">{labels.darkMode}</span>
 								<div className="filler" />
-								<Switch checked={darkMode} handleToggle={callbacks.toggleDarkMode} />
+								<Switch checked={darkMode} onClick={callbacks.toggleDarkMode} />
 							</div>
 						),
 						[callbacks.toggleDarkMode, darkMode, labels.darkMode],
@@ -124,7 +124,7 @@ export default styled(SideBarMenu)`
 		display: flex;
 		flex-direction: column;
 		outline: none;
-		pointer-events: all;
+		pointer-events: auto;
 
 		.filler {
 			flex: 1 0 0;
@@ -154,9 +154,10 @@ export default styled(SideBarMenu)`
 			}
 
 			.divider {
-				width: 95%;
+				width: 75%;
 				border-radius: var(--border-radius);
 				background-color: var(--text-on-primary);
+				margin: var(--menu-divider-height) 0;
 				flex: 0 0 var(--menu-divider-height);
 			}
 
@@ -189,6 +190,7 @@ export default styled(SideBarMenu)`
 		&.background {
 			background-color: black;
 			opacity: 30%;
+			pointer-events: auto;
 		}
 	}
 

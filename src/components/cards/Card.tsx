@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 interface Props {
-	renderTitle: () => JSX.Element;
+	renderTitle: () => React.ReactNode;
 	children: React.ReactNode;
 }
 const CardUnstyled = React.forwardRef<HTMLDivElement, Props>(({ renderTitle, children, ...otherProps }, ref) => {

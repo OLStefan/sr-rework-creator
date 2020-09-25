@@ -1,29 +1,23 @@
 import { TFunction } from 'i18next';
+import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import {
-	attributes as attributeNames,
-	ATTRIBUTE_AGILITY,
-	ATTRIBUTE_BODY,
-	ATTRIBUTE_CHARISMA,
-	ATTRIBUTE_INTELLIGENCE,
-	ATTRIBUTE_STRENGTH,
-	ATTRIBUTE_WILLPOWER,
-} from '../../constants';
+import { AttributeName } from '../../constants';
 import { useLabels } from '../../hooks';
+import { Attribute } from '../../redux/character/types';
 import { changeAttribute } from '../../redux/character/characterActions';
-import { Attribute } from '../../redux/character/characterReducer';
 import { useCharacterAttributes } from '../../redux/selectors';
 import Button from '../atoms/Button';
+import TextField from '../atoms/TextField';
 
 interface AttributeProps {
 	attribute: Attribute;
 	title: string;
-	onChangeAttribute: (attributeName: string, newRating: number) => any;
-	onIncreaseAttribute: (attributeName: string) => any;
-	onDecreaseAttribute: (attributeName: string) => any;
+	onChangeAttribute: (attributeName: AttributeName, newRating: number) => void;
+	onIncreaseAttribute: (attributeName: AttributeName) => void;
+	onDecreaseAttribute: (attributeName: AttributeName) => void;
 	className?: string;
 }
 const AttributeComponent = React.memo(function ({
@@ -49,17 +43,20 @@ const AttributeComponent = React.memo(function ({
 				<div className="filler" />
 				<div className="minus">-</div>
 			</Button>
-			<input
+			<TextField
 				type="number"
 				maxLength={2}
-				value={attribute.rating}
 				ref={ref}
+				value={attribute.rating}
+				onWheel={noop}
 				onFocus={() => ref.current?.select()}
 				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-					const value = event.currentTarget.value;
-					const newRating = Number(value);
-					if (value.trim() !== '' && !Number.isNaN(newRating))
-						onChangeAttribute(attribute.name, newRating - attribute.rating);
+					const value = event?.target?.value;
+					console.log(value);
+					// const newRating = Number(value);
+					// if (value && value.trim() !== '' && !Number.isNaN(newRating)) {
+					// 	onChangeAttribute(attribute.name, newRating - attribute.rating);
+					// }
 				}}
 			/>
 			<Button disabled={attribute.rating >= attribute.maxRating} onClick={() => onIncreaseAttribute(attribute.name)}>
@@ -70,31 +67,29 @@ const AttributeComponent = React.memo(function ({
 	);
 });
 
-interface Props {}
-function AttributeSection({ ...otherProps }: Props) {
+function AttributeSection({ ...otherProps }) {
 	const dispatch = useDispatch();
 	const attributes = useCharacterAttributes();
 	const callbacks = useUpdatingCallbacks({
-		onIncreaseAttribute: (attributeName: string) => dispatch(changeAttribute(attributeName, 1)),
-		onDecreaseAttribute: (attributeName: string) => dispatch(changeAttribute(attributeName, -1)),
-		onChangeAttribute: (attributeName: string, newRating: number) =>
+		onIncreaseAttribute: (attributeName: AttributeName) => dispatch(changeAttribute(attributeName, 1)),
+		onDecreaseAttribute: (attributeName: AttributeName) => dispatch(changeAttribute(attributeName, -1)),
+		onChangeAttribute: (attributeName: AttributeName, newRating: number) =>
 			dispatch(changeAttribute(attributeName, newRating)),
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
-		[ATTRIBUTE_STRENGTH]: t(ATTRIBUTE_STRENGTH),
-		[ATTRIBUTE_AGILITY]: t(ATTRIBUTE_AGILITY),
-		[ATTRIBUTE_BODY]: t(ATTRIBUTE_BODY),
-		[ATTRIBUTE_INTELLIGENCE]: t(ATTRIBUTE_INTELLIGENCE),
-		[ATTRIBUTE_WILLPOWER]: t(ATTRIBUTE_WILLPOWER),
-		[ATTRIBUTE_CHARISMA]: t(ATTRIBUTE_CHARISMA),
+		...(function () {
+			const attrs: any = {};
+			Object.values(AttributeName).forEach((attr) => (attrs[attr] = t(attr)));
+			return attrs;
+		})(),
 	}));
 
 	return (
 		<div {...otherProps}>
 			{attributes && (
 				<div className="attribute-container">
-					{attributeNames.map((attributeName: string) => (
+					{Object.values(AttributeName).map((attributeName) => (
 						<AttributeComponent
 							key={attributeName}
 							className="attribute"
@@ -107,20 +102,17 @@ function AttributeSection({ ...otherProps }: Props) {
 					))}
 				</div>
 			)}
-			<div className="filler" />
+			<div className="remaining" />
 		</div>
 	);
 }
 
 export default styled(AttributeSection)`
 	display: flex;
-
-	.filler {
-		flex: 0 1 33%;
-	}
+	flex-wrap: wrap-reverse;
 
 	.attribute-container {
-		flex: 1 0 0;
+		flex: 0 0 auto;
 		display: grid;
 		grid-template-columns: 15ch 5ch 2em 5ch 2em;
 		grid-gap: var(--spacing-medium);
@@ -131,17 +123,6 @@ export default styled(AttributeSection)`
 
 			.title {
 				font-size: 1.25em;
-			}
-
-			input {
-				text-align: center;
-				-moz-appearance: textfield;
-
-				&::-webkit-outer-spin-button,
-				&::-webkit-inner-spin-button {
-					-webkit-appearance: none;
-					margin: 0;
-				}
 			}
 
 			.limit {
@@ -163,6 +144,16 @@ export default styled(AttributeSection)`
 					padding-top: 100%;
 				}
 			}
+
+			${TextField} {
+				font-size: 1.5em;
+			}
 		}
+	}
+
+	.remaining {
+		flex: 1 0 40%;
+		font-size: 1.25em;
+		padding: 0 var(--spacing-small);
 	}
 `;
