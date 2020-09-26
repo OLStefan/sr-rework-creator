@@ -22,6 +22,8 @@ import { exportCharacterFile } from '../../redux/character/characterThunks';
 import { ActionCreators } from 'redux-undo';
 import createNewCharacter from '../../redux/character/createNewCharacter';
 
+const computedStyle = getComputedStyle(document.documentElement);
+
 interface MenuContentProps {
 	className?: string;
 	display: boolean;
@@ -82,7 +84,7 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 			initial={{ x: '-100%' }}
 			animate={{ x: 0 }}
 			exit={{ x: '-100%' }}
-			transition={{ duration: 0.5 }}
+			transition={{ duration: parseFloat(computedStyle.getPropertyValue('--long-animation-duration')) / 1000 }}
 			ref={ref}
 			tabIndex={-1}
 			onKeyDown={callbacks.onKeyDown}

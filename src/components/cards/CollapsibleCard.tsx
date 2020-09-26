@@ -1,6 +1,6 @@
-import React, { useCallback, useLayoutEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Card from './Card';
 import Button from '../atoms/Button';
 
 const computedStyle = getComputedStyle(document.documentElement);
@@ -14,55 +14,71 @@ interface Props {
 	hint?: string;
 }
 function CollapsibleCard({ title, children, expanded = false, error, hint, onExpandClick, ...otherProps }: Props) {
-	const first = useRef<boolean>(true);
-	const content = useRef<HTMLDivElement>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
+	const [realHeight, setRealHeight] = useState(0);
 
 	useLayoutEffect(() => {
-		if (content.current) {
-			const duration = first.current ? 0 : parseFloat(computedStyle.getPropertyValue('--long-animation-duration'));
-			first.current = false;
-
-			content.current.style.maxHeight = '';
-			const height = `${content.current.getBoundingClientRect().height}px`;
-			if (expanded) {
-				content.current.style.maxHeight = '';
-				content.current.animate({ maxHeight: ['0', height] }, { duration, easing: 'ease-in-out' });
-			} else {
-				content.current.style.maxHeight = '0';
-				content.current.animate({ maxHeight: [height, '0'] }, { duration, easing: 'ease-in-out' });
-			}
+		if (contentRef.current) {
+			const height = contentRef.current.getBoundingClientRect().height;
+			setRealHeight(height);
 		}
-	}, [expanded]);
-
-	const renderTitle = useCallback(() => {
-		return (
-			<Button className="titlebar" onClick={onExpandClick}>
-				<div className="expand">❯</div>
-				<span className="title">{title}</span>
-				{error && (
-					<div data-html="true" className="error" title={error}>
-						!
-					</div>
-				)}
-				{!error && hint && (
-					<div data-html="true" className="hint" title={hint}>
-						!
-					</div>
-				)}
-			</Button>
-		);
-	}, [error, hint, onExpandClick, title]);
+	}, []);
 
 	return (
-		<Card renderTitle={renderTitle} ref={content} {...otherProps}>
-			{children}
-		</Card>
+		<div {...otherProps} data-component="card">
+			{useMemo(
+				() => (
+					<Button className="titlebar" onClick={onExpandClick}>
+						<div className="expand">❯</div>
+						<span className="title">{title}</span>
+						{error && (
+							<div data-html="true" className="error" title={error}>
+								!
+							</div>
+						)}
+						{!error && hint && (
+							<div data-html="true" className="hint" title={hint}>
+								!
+							</div>
+						)}
+					</Button>
+				),
+				[error, hint, onExpandClick, title],
+			)}
+			<motion.div
+				initial={{ height: 0 }}
+				animate={{ height: expanded ? realHeight : 0 }}
+				transition={{ duration: parseFloat(computedStyle.getPropertyValue('--long-animation-duration')) / 1000 }}
+				className="content">
+				<div className="content-container" ref={contentRef}>
+					<div className="empty" />
+					{children}
+				</div>
+			</motion.div>
+		</div>
 	);
 }
 
 const CollapsibleCardMemo = React.memo(CollapsibleCard);
 
 export default styled(CollapsibleCardMemo)`
+	position: relative;
+	background: var(--background);
+	padding: var(--spacing-medium);
+	border-radius: var(--border-radius);
+	box-shadow: var(--card-shadow);
+
+	.content {
+		flex: 1 0 auto;
+		vertical-align: top;
+		overflow: hidden;
+		height: 100%;
+
+		.empty {
+			padding-top: var(--spacing-medium);
+		}
+	}
+
 	.titlebar {
 		width: 100%;
 		font-size: var(--card-title-font-size);
