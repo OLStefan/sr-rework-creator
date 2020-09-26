@@ -1,16 +1,11 @@
 import { Action } from '../rootReducer';
-import { CharacterState } from './types';
-import { changeAttribute, CharacterActionTypes, loadCharacter } from './characterActions';
-import createNewCharacter from './createNewCharacter';
+import { CharacterState } from './characterTypes';
+import { changeAttribute, CharacterActionTypes, setCharacter } from './characterActions';
 
 const initialState: null | CharacterState = null;
 
-function handleLoadCharacter({ loadedCharacter }: ReturnType<typeof loadCharacter>) {
+function handleSetCharacter({ loadedCharacter }: ReturnType<typeof setCharacter>) {
 	return loadedCharacter;
-}
-
-function handleCreateNewCharacter() {
-	return createNewCharacter();
 }
 
 function handleChangeAttribute(
@@ -40,10 +35,8 @@ function handleChangeAttribute(
 
 export default function (character = initialState, action: Action): CharacterState {
 	switch (action.type) {
-		case CharacterActionTypes.LOAD_CHARACTER:
-			return handleLoadCharacter(action);
-		case CharacterActionTypes.CREATE_NEW_CHARACTER:
-			return handleCreateNewCharacter();
+		case CharacterActionTypes.SET_CHARACTER:
+			return handleSetCharacter(action);
 		case CharacterActionTypes.CHANGE_ATTRIBUTE:
 			return handleChangeAttribute(character, action);
 		default:

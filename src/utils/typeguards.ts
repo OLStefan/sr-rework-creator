@@ -1,5 +1,5 @@
 import { AttributeName } from '../constants';
-import { Attribute, CharacterState } from '../redux/character/types';
+import { Attribute, CharacterState } from '../redux/character/characterTypes';
 
 export function isCharacter(object: any): object is CharacterState {
 	return (

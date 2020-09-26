@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { AttributeName } from '../../constants';
-import { CharacterState } from './types';
+import { CharacterState } from './characterTypes';
 
 export default function (): CharacterState {
 	return {

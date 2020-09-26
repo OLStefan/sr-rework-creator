@@ -1,6 +1,6 @@
 import { cloneDeep, isEqual } from 'lodash';
 import { AttributeName, SectionName } from '../../constants';
-import { CharacterState } from './types';
+import { CharacterState } from './characterTypes';
 
 export interface MessagesState {
 	errors: { [sectionName in SectionName]: string[] };

@@ -7,7 +7,7 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { AttributeName } from '../../constants';
 import { useLabels } from '../../hooks';
 import { changeAttribute } from '../../redux/character/characterActions';
-import { Attribute } from '../../redux/character/types';
+import { Attribute } from '../../redux/character/characterTypes';
 import { useCharacterAttributes } from '../../redux/selectors';
 import Button from '../atoms/Button';
 import TextField from '../atoms/TextField';

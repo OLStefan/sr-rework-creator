@@ -4,15 +4,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { ESCAPE_KEY } from '../../constants';
 import { useLabels } from '../../hooks';
-import { createNewCharacter } from '../../redux/character/characterActions';
+import { setCharacter } from '../../redux/character/characterActions';
 import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
-import { useCharacterLoaded, useCharacterName, useDarkMode, useDisplayMenu } from '../../redux/selectors';
+import {
+	useCharacterLoaded,
+	useCharacterName,
+	useDarkMode,
+	useDisplayMenu,
+	useHasFuture,
+	useHasPast,
+} from '../../redux/selectors';
 import Button from '../atoms/Button';
 import { TFunction } from 'i18next';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import Switch from '../atoms/Switch';
 import { exportCharacterFile } from '../../redux/character/characterThunks';
 import { ActionCreators } from 'redux-undo';
+import createNewCharacter from '../../redux/character/createNewCharacter';
 
 interface MenuContentProps {
 	className?: string;
@@ -22,6 +30,8 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 	const darkMode = useDarkMode();
 	const characterLoaded = useCharacterLoaded();
 	const characterName = useCharacterName();
+	const undoActive = useHasPast();
+	const redoActive = useHasFuture();
 
 	const dispatch = useDispatch();
 
@@ -39,7 +49,7 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 				callbacks.onHide();
 			}
 		},
-		createNewCharacter: () => dispatch(createNewCharacter()),
+		createNewCharacter: () => dispatch(setCharacter(createNewCharacter())),
 		loadCharacter: () => undefined,
 		importCharacter: () => undefined,
 		saveCharacter: () => undefined,
@@ -81,10 +91,10 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 			{useMemo(
 				() => (
 					<div className="button-container">
-						<Button className="undo" onClick={callbacks.onUndo}>
+						<Button className="undo" onClick={callbacks.onUndo} disabled={!undoActive}>
 							&#xe967;
 						</Button>
-						<Button className="redo" onClick={callbacks.onRedo}>
+						<Button className="redo" onClick={callbacks.onRedo} disabled={!redoActive}>
 							&#xe968;
 						</Button>
 						<Button className="close" onClick={callbacks.onHide}>
@@ -92,7 +102,7 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 						</Button>
 					</div>
 				),
-				[callbacks],
+				[callbacks, redoActive, undoActive],
 			)}
 
 			<div className="content">
@@ -195,6 +205,7 @@ export default styled(SideBarMenu)`
 			.redo {
 				font-family: 'icomoon';
 				flex: 1 0 auto;
+				border-radius: unset;
 			}
 
 			.close {

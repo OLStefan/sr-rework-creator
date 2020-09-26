@@ -2,7 +2,12 @@ import { useSelector } from 'react-redux';
 import { SectionName, TOOLTIP_BULLET_POINT, TOOLTIP_LINE_BREAK } from '../constants';
 import { UndoableState } from './rootReducer';
 
+// Histoy
+export const useHasPast = () => useSelector(({ past }: UndoableState) => past.length >= 1);
+export const useHasFuture = () => useSelector(({ future }: UndoableState) => future.length >= 1);
+
 // UI
+export const useIsDirty = () => useSelector(({ present: { ui, character } }: UndoableState) => false);
 export const useDisplayMenu = () => useSelector(({ present: { ui } }: UndoableState) => ui.displayMenu);
 export const useDarkMode = () => useSelector(({ present: { ui } }: UndoableState) => ui.darkMode);
 export const useExpandedCard = (cardName: SectionName) =>

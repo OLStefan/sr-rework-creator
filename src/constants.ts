@@ -24,8 +24,12 @@ export enum SectionName {
 
 // Misc
 export const ESCAPE_KEY = 'Escape';
+export const Z_KEY = 'z';
+export const Y_KEY = 'y';
+export const O_KEY = 'o';
+export const S_KEY = 's';
 
 export const TOOLTIP_LINE_BREAK = '\n';
 export const TOOLTIP_BULLET_POINT = '•';
 
-export const ALLOWED_FILE_TYPES = '.srchar';
+export const FILE_ENDING = '.srchar';

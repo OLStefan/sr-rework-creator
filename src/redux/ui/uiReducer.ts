@@ -2,7 +2,7 @@ import { CharacterActionTypes, saveCharacter } from '../character/characterActio
 import { toggleCard, UiActionTypes } from './uiActions';
 import { Action } from '../rootReducer';
 import { SectionName } from '../../constants';
-import { UiState } from './types';
+import { UiState } from './uiTypes';
 
 const initialState: UiState = {
 	currentIncrement: 0,
@@ -58,8 +58,7 @@ function handleSavedCharacter(ui: UiState, { increment }: ReturnType<typeof save
 
 export default function (ui = initialState, action: Action): UiState {
 	switch (action.type) {
-		case CharacterActionTypes.LOAD_CHARACTER:
-		case CharacterActionTypes.CREATE_NEW_CHARACTER:
+		case CharacterActionTypes.SET_CHARACTER:
 			return handleNewCharacterDisplayed(ui);
 		case CharacterActionTypes.SAVE_CHARACTER:
 			return handleSavedCharacter(ui, action);

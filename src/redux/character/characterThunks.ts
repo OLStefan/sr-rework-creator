@@ -2,7 +2,8 @@ import { Dispatch } from 'react';
 import { saveAs } from 'file-saver';
 import { isCharacter } from '../../utils/typeguards';
 import { UndoableState } from '../rootReducer';
-import { loadCharacter } from './characterActions';
+import { setCharacter } from './characterActions';
+import { FILE_ENDING } from '../../constants';
 
 export function readCharacterFile(file: File) {
 	const thunk = (dispatch: Dispatch<any>) => {
@@ -13,7 +14,7 @@ export function readCharacterFile(file: File) {
 				const character = JSON.parse(characterJson.toString());
 				if (isCharacter(character)) {
 					console.log('valid character');
-					dispatch(loadCharacter(character));
+					dispatch(setCharacter(character));
 				} else {
 					console.log('invalid file');
 				}
@@ -31,7 +32,7 @@ export function exportCharacterFile(fileName: string) {
 		if (character) {
 			const json = JSON.stringify(character, null, '\t');
 			const blob = new Blob([json], { type: 'text/json' });
-			saveAs(blob, `${fileName}.srchar`);
+			saveAs(blob, `${fileName}${FILE_ENDING}`);
 		}
 	};
 

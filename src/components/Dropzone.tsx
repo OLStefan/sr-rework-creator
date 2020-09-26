@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { ALLOWED_FILE_TYPES } from '../constants';
+import { FILE_ENDING } from '../constants';
 
 interface Props {
 	readFile: (file: File) => void;
@@ -50,7 +50,7 @@ function Dropzone({ readFile, ...otherProps }: Props) {
 			<input
 				type="file"
 				className="input"
-				accept={ALLOWED_FILE_TYPES}
+				accept={FILE_ENDING}
 				multiple={false}
 				ref={inputRef}
 				onChange={callbacks.onInputChange}

@@ -1,42 +1,65 @@
 import React, { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
+import { useUpdatingCallback, useUpdatingCallbacks } from 'use-updating-callbacks';
+import Logo from './components/Background';
 import CharacterEditor from './components/character/CharacterEditor';
+import Dropzone from './components/Dropzone';
 import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
-import { useDarkMode, useCharacterLoaded } from './redux/selectors';
-import Logo from './components/Background';
-import Dropzone from './components/Dropzone';
-import { useUpdatingCallback } from 'use-updating-callbacks';
-import { readCharacterFile } from './redux/character/characterThunks';
+import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
 import './default.css';
+import { readCharacterFile } from './redux/character/characterThunks';
+import { useCharacterLoaded, useDarkMode } from './redux/selectors';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
 
 function App({ ...otherProps }) {
+	const dispatch = useDispatch();
 	const characterLoaded = useCharacterLoaded();
 	const darkMode = useDarkMode();
 	const color = computedStyle.getPropertyValue('--backgound-logo-color');
 
-	const readFile = useUpdatingCallback((file: File) => readCharacterFile(file));
+	const callbacks = useUpdatingCallbacks({
+		readFile: useUpdatingCallback((file: File) => readCharacterFile(file)),
+		onKeyDown: (event: React.KeyboardEvent) => {
+			event.preventDefault();
+			event.stopPropagation();
+			if (event.ctrlKey) {
+				console.log('Key', event.key);
+				switch (event.key) {
+					case Z_KEY:
+						dispatch(ActionCreators.undo());
+						break;
+					case Y_KEY:
+						dispatch(ActionCreators.redo());
+						break;
+					case S_KEY:
+					case O_KEY:
+				}
+			}
+		},
+	});
 
 	// Handle dark mode
 	document.documentElement.className = `${documentClassName} ${darkMode ? 'dark' : 'bright'}`;
 
 	return (
-		<div {...otherProps}>
+		<div onKeyDown={callbacks.onKeyDown} tabIndex={-1} {...otherProps}>
 			{useMemo(
 				() => (
 					<div className="content">
 						<TitleBar />
 						<div className="editor">
 							<Logo className="background" color={color} />
-							{!characterLoaded && <Dropzone readFile={readFile} className="dropzone" />}
+							{!characterLoaded && <Dropzone readFile={callbacks.readFile} className="dropzone" />}
 							{characterLoaded && <CharacterEditor />}
 						</div>
 					</div>
 				),
-				[characterLoaded, color, readFile],
+				[callbacks.readFile, characterLoaded, color],
 			)}
 			{useMemo(
 				() => (
