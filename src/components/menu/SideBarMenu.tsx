@@ -1,4 +1,3 @@
-import { noop } from 'lodash';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
