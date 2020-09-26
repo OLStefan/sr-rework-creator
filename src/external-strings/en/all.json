@@ -19,8 +19,10 @@
 	"lifestyles": "Lifestyles",
 	"contacts": "Contacts",
 	"newCharacter": "New Character",
+	"createNew": "Create New",
+	"load": "Load",
+	"import": "Import",
 	"save": "Save",
-	"saveAs": "Save as...",
-	"open": "Load Character",
+	"export": "Export",
 	"darkMode": "Dark Mode"
 }

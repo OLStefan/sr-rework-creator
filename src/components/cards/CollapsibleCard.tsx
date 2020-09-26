@@ -63,7 +63,7 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 const CollapsibleCardMemo = React.memo(CollapsibleCard);
 
 export default styled(CollapsibleCardMemo)`
-	& > .titlebar {
+	.titlebar {
 		width: 100%;
 		font-size: var(--card-title-font-size);
 		background: none;
@@ -71,7 +71,7 @@ export default styled(CollapsibleCardMemo)`
 		justify-content: flex-start;
 		align-items: center;
 
-		& > .expand {
+		.expand {
 			width: var(--card-expand-font-size);
 			transform: rotate(${({ expanded }) => (expanded ? '90' : '0')}deg);
 			transition-property: all;
@@ -81,11 +81,12 @@ export default styled(CollapsibleCardMemo)`
 			padding-bottom: 6px;
 		}
 
-		& > .title {
+		.title {
 			flex: 1 1 auto;
 			color: var(--primary-color);
 			margin-left: var(--spacing-medium);
-			text-align: left;
+			font-size: var(--card-title-font-size);
+			display: flex;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
@@ -95,26 +96,16 @@ export default styled(CollapsibleCardMemo)`
 			white-space: pre-line;
 		}
 
-		& > .error {
+		.error {
 			width: 1.2em;
 			background-color: var(--error-color);
 			border-radius: 50%;
 		}
 
-		& > .hint {
+		.hint {
 			width: 1.2em;
 			background-color: var(--hint-color);
 			border-radius: 50%;
-		}
-	}
-
-	& > .content {
-		flex: 1 0 auto;
-		vertical-align: top;
-		overflow: hidden;
-
-		& > .empty {
-			padding-top: var(--spacing-large);
 		}
 	}
 `;

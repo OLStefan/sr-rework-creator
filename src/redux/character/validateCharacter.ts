@@ -1,6 +1,5 @@
-import { isEqual } from 'lodash';
-import { SectionName } from '../../constants';
-import { Action } from '../rootReducer';
+import { cloneDeep, isEqual } from 'lodash';
+import { AttributeName, SectionName } from '../../constants';
 import { CharacterState } from './types';
 
 export interface MessagesState {
@@ -24,17 +23,25 @@ export default function ({
 	oldCharacter,
 	newCharacter,
 	oldMessages,
-	action,
 }: {
 	oldCharacter?: CharacterState;
-	oldMessages?: MessagesState;
 	newCharacter: CharacterState;
-	action: Action;
+	oldMessages?: MessagesState;
 }): MessagesState {
 	if (isEqual(oldCharacter, newCharacter) || !newCharacter) {
 		return oldMessages || initialState;
 	}
 
+	const messages = cloneDeep(initialState);
+
+	const maxedAttributes = Object.values(AttributeName).filter(
+		(attribute) => newCharacter.attributes[attribute].rating >= newCharacter.attributes[attribute].maxRating,
+	);
+
+	if (maxedAttributes.length > 1) {
+		messages.errors[SectionName.attributes].push('Only one attribute may be raised to its natural maximum');
+	}
+
 	console.log('Validate Character here');
-	return initialState;
+	return messages;
 }

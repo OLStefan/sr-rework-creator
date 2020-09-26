@@ -1,10 +1,12 @@
+import { v4 as uuid } from 'uuid';
 import { AttributeName } from '../../constants';
 import { CharacterState } from './types';
 
 export default function (): CharacterState {
 	return {
 		saveVersion: 0.1,
-		name: 'New Character',
+		name: '',
+		uuid: uuid(),
 		careerMode: false,
 		attributes: {
 			[AttributeName.strength]: { name: AttributeName.strength, minRating: 1, maxRating: 6, rating: 1 },

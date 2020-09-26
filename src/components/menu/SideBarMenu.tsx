@@ -1,105 +1,166 @@
 import { noop } from 'lodash';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { ESCAPE_KEY } from '../../constants';
 import { useLabels } from '../../hooks';
 import { createNewCharacter } from '../../redux/character/characterActions';
 import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
-import { useCharacterLoaded, useDarkMode, useDisplayMenu } from '../../redux/selectors';
+import { useCharacterLoaded, useCharacterName, useDarkMode, useDisplayMenu } from '../../redux/selectors';
 import Button from '../atoms/Button';
 import { TFunction } from 'i18next';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import Switch from '../atoms/Switch';
 import { exportCharacterFile } from '../../redux/character/characterThunks';
+import { ActionCreators } from 'redux-undo';
 
-interface Props {
+interface MenuContentProps {
 	className?: string;
+	display: boolean;
 }
-function SideBarMenu({ className, ...otherProps }: Props) {
-	const displayMenu = useDisplayMenu();
+function MenuContent({ display, ...otherProps }: MenuContentProps) {
 	const darkMode = useDarkMode();
 	const characterLoaded = useCharacterLoaded();
+	const characterName = useCharacterName();
 
 	const dispatch = useDispatch();
 
 	const callbacks = useUpdatingCallbacks({
+		onUndo: () => dispatch(ActionCreators.undo()),
+		onRedo: () => dispatch(ActionCreators.redo()),
 		onHide: () => dispatch(hideMenu()),
-		toggleDarkMode: () => dispatch(changeDarkMode()),
-		createNewCharacter: () => dispatch(createNewCharacter()),
 		onKeyDown: (event: React.KeyboardEvent) => {
 			if (event.key === ESCAPE_KEY) {
 				callbacks.onHide();
 			}
 		},
 		onBlur: (event: React.FocusEvent) => {
-			if (displayMenu && !event.currentTarget.contains(event.relatedTarget as Node)) {
+			if (display && !event.currentTarget.contains(event.relatedTarget as Node)) {
 				callbacks.onHide();
 			}
 		},
-		saveCharacter: () => {
-			dispatch(exportCharacterFile());
+		createNewCharacter: () => dispatch(createNewCharacter()),
+		loadCharacter: () => undefined,
+		importCharacter: () => undefined,
+		saveCharacter: () => undefined,
+		exportCharacter: () => {
+			dispatch(exportCharacterFile(characterName || labels.newCharacter));
 		},
+		toggleDarkMode: () => dispatch(changeDarkMode()),
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
-		newCharacter: t('newCharacter'),
+		createNew: t('createNew'),
+		load: t('load'),
+		import: t('import'),
 		save: t('save'),
-		saveAs: t('saveAs'),
-		open: t('open'),
+		export: t('export'),
 		darkMode: t('darkMode'),
+		newCharacter: t('newCharacter'),
 	}));
 
 	// Set Focus on dislplay
 	const ref = useRef<HTMLDivElement>(null);
 	useEffect(() => {
-		if (displayMenu && ref.current) {
+		if (display && ref.current) {
 			ref.current.focus();
 		}
-	}, [displayMenu]);
+	}, [display]);
 
 	return (
-		<div className={`${className} ${displayMenu ? '' : 'hidden'}`} {...otherProps}>
-			<div className={`filler ${displayMenu ? 'background' : ''}`} />
-			<div className="menu" ref={ref} tabIndex={-1} onKeyDown={callbacks.onKeyDown} onBlur={callbacks.onBlur}>
+		<motion.div
+			initial={{ x: '-100%' }}
+			animate={{ x: 0 }}
+			exit={{ x: '-100%' }}
+			transition={{ duration: 0.5 }}
+			ref={ref}
+			tabIndex={-1}
+			onKeyDown={callbacks.onKeyDown}
+			onBlur={callbacks.onBlur}
+			{...otherProps}>
+			{useMemo(
+				() => (
+					<div className="button-container">
+						<Button className="undo" onClick={callbacks.onUndo}>
+							&#xe967;
+						</Button>
+						<Button className="redo" onClick={callbacks.onRedo}>
+							&#xe968;
+						</Button>
+						<Button className="close" onClick={callbacks.onHide}>
+							X
+						</Button>
+					</div>
+				),
+				[callbacks],
+			)}
+
+			<div className="content">
 				{useMemo(
 					() => (
-						<div className="button-container">
-							<Button className="close-button" onClick={callbacks.onHide}>
-								X
+						<>
+							<Button onClick={callbacks.createNewCharacter}>
+								<span className="symbol">&#xe924;</span>
+								{labels.newCharacter}
 							</Button>
-						</div>
+							<Button onClick={callbacks.loadCharacter}>
+								<span className="symbol">&#xe930;</span>
+								{labels.load}
+							</Button>
+							<Button onClick={callbacks.importCharacter}>
+								<span className="symbol">&#xe961;</span>
+								{labels.import}
+							</Button>
+							<div className="divider" />
+						</>
 					),
-					[callbacks.onHide],
+					[callbacks, labels],
 				)}
-				<div className="content">
-					{useMemo(
-						() => (
-							<>
-								<Button onClick={callbacks.createNewCharacter}>{labels.newCharacter}</Button>
-								<Button onClick={noop}>{labels.open}</Button>
-								<Button disabled={!characterLoaded} onClick={callbacks.saveCharacter}>
-									{labels.save}
-								</Button>
-								<div className="divider" />
-								<div className="filler" />
-								<div className="divider" />
-							</>
-						),
-						[callbacks, characterLoaded, labels],
-					)}
-					{useMemo(
-						() => (
+				{useMemo(
+					() => (
+						<>
+							<Button disabled={!characterLoaded} onClick={callbacks.saveCharacter}>
+								<span className="symbol">&#xe962;</span>
+								{labels.save}
+							</Button>
+							<Button disabled={!characterLoaded} onClick={callbacks.exportCharacter}>
+								<span className="symbol">&#xe960;</span>
+								{labels.export}
+							</Button>
+							<div className="filler" />
+						</>
+					),
+					[callbacks, characterLoaded, labels],
+				)}
+				{useMemo(
+					() => (
+						<>
+							<div className="divider" />
 							<div className="dark-mode">
+								<span className="symbol">&#xe9d5;</span>
 								<span className="dark-mode-label">{labels.darkMode}</span>
-								<div className="filler" />
 								<Switch checked={darkMode} onClick={callbacks.toggleDarkMode} />
 							</div>
-						),
-						[callbacks.toggleDarkMode, darkMode, labels.darkMode],
-					)}
-				</div>
+						</>
+					),
+					[callbacks.toggleDarkMode, darkMode, labels.darkMode],
+				)}
 			</div>
+		</motion.div>
+	);
+}
+
+interface Props {}
+function SideBarMenu({ ...otherProps }: Props) {
+	const displayMenu = useDisplayMenu();
+
+	return (
+		<div {...otherProps} data-component="side-bar">
+			<div className={`background ${displayMenu ? 'active' : ''}`} />
+			<AnimatePresence>
+				{useMemo(() => displayMenu && <MenuContent display={displayMenu} className="menu" />, [displayMenu])}
+			</AnimatePresence>
 		</div>
 	);
 }
@@ -111,11 +172,7 @@ export default styled(SideBarMenu)`
 	pointer-events: none;
 	position: relative;
 
-	&.hidden {
-		display: none;
-	}
-
-	& > .menu {
+	.menu {
 		font-size: var(--menu-font-size);
 		height: 100%;
 		width: 25%;
@@ -130,27 +187,39 @@ export default styled(SideBarMenu)`
 			flex: 1 0 0;
 		}
 
-		& > .button-container {
+		.button-container {
 			flex: 0 0 auto;
 			display: flex;
 			justify-content: flex-end;
 
-			.close-button {
+			.undo,
+			.redo {
+				font-family: 'icomoon';
+				flex: 1 0 auto;
+			}
+
+			.close {
+				flex: 0 0 auto;
 				padding: 0 var(--spacing-medium);
 			}
 		}
 
-		& > .content {
+		.content {
 			flex: 1 0 auto;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 
-			& > ${Button} {
+			${Button} {
 				border-radius: 0;
 				text-align: left;
 				padding: var(--spacing-medium);
 				width: 100%;
+			}
+
+			.symbol {
+				font-family: 'icomoon';
+				padding-right: var(--spacing-medium);
 			}
 
 			.divider {
@@ -161,14 +230,16 @@ export default styled(SideBarMenu)`
 				flex: 0 0 var(--menu-divider-height);
 			}
 
-			& > .dark-mode {
+			.dark-mode {
 				padding: var(--spacing-medium);
 				width: 100%;
 				display: flex;
 				align-items: center;
+				color: var(--text-on-primary);
 
-				& > .dark-mode-label {
-					color: var(--text-on-primary);
+				.dark-mode-label {
+					flex: 1 0 auto;
+					text-align: left;
 				}
 
 				${Switch} {
@@ -178,7 +249,7 @@ export default styled(SideBarMenu)`
 		}
 	}
 
-	& > .filler {
+	.background {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -187,25 +258,10 @@ export default styled(SideBarMenu)`
 		transition: background-color var(--long-animation-duration);
 		z-index: -1;
 
-		&.background {
+		&.active {
 			background-color: black;
 			opacity: 30%;
 			pointer-events: auto;
-		}
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		& > .menu {
-			animation: menu-slide 1 var(--long-animation-duration) linear;
-		}
-	}
-
-	@keyframes menu-slide {
-		from {
-			transform: translateX(-100%);
-		}
-		to {
-			transform: translateX(0%);
 		}
 	}
 `;

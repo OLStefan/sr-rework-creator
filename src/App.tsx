@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import CharacterEditor from './components/character/CharacterEditor';
 import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
-import './default.css';
 import { useDarkMode, useCharacterLoaded } from './redux/selectors';
 import Logo from './components/Background';
 import Dropzone from './components/Dropzone';
+import { useUpdatingCallback } from 'use-updating-callbacks';
+import { readCharacterFile } from './redux/character/characterThunks';
+import './default.css';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
@@ -15,6 +17,8 @@ function App({ ...otherProps }) {
 	const characterLoaded = useCharacterLoaded();
 	const darkMode = useDarkMode();
 	const color = computedStyle.getPropertyValue('--backgound-logo-color');
+
+	const readFile = useUpdatingCallback((file: File) => readCharacterFile(file));
 
 	// Handle dark mode
 	document.documentElement.className = `${documentClassName} ${darkMode ? 'dark' : 'bright'}`;
@@ -27,12 +31,12 @@ function App({ ...otherProps }) {
 						<TitleBar />
 						<div className="editor">
 							<Logo className="background" color={color} />
-							{!characterLoaded && <Dropzone className="dropzone" />}
+							{!characterLoaded && <Dropzone readFile={readFile} className="dropzone" />}
 							{characterLoaded && <CharacterEditor />}
 						</div>
 					</div>
 				),
-				[characterLoaded, color],
+				[characterLoaded, color, readFile],
 			)}
 			{useMemo(
 				() => (
@@ -55,7 +59,12 @@ export default styled(App)`
 		display: flex;
 		flex-direction: column;
 
+		${TitleBar} {
+			flex: 0 0 auto;
+		}
+
 		.editor {
+			min-height: 0;
 			position: relative;
 			flex: 1 0 0;
 

@@ -3,9 +3,12 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { ALLOWED_FILE_TYPES } from '../constants';
-import { readCharacterFile } from '../redux/character/characterThunks';
 
-function Dropzone({ ...otherProps }) {
+interface Props {
+	readFile: (file: File) => void;
+	className?: string;
+}
+function Dropzone({ readFile, ...otherProps }: Props) {
 	const dispatch = useDispatch();
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -24,7 +27,7 @@ function Dropzone({ ...otherProps }) {
 			event.preventDefault();
 			setDragActive(false);
 			const file = event.dataTransfer.files[0];
-			dispatch(readCharacterFile(file));
+			dispatch(readFile(file));
 		},
 		onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => {
 			const file = event.target.files && event.target.files[0];
@@ -32,7 +35,7 @@ function Dropzone({ ...otherProps }) {
 				console.log('No file');
 				return;
 			}
-			dispatch(readCharacterFile(file));
+			dispatch(readFile(file));
 		},
 	});
 

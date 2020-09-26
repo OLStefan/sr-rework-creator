@@ -7,7 +7,7 @@ interface Props {
 }
 function BurgerMenuButton({ onClick, ...otherProps }: Props) {
 	return (
-		<div {...otherProps}>
+		<div {...otherProps} data-component="burger-button">
 			<div className="filler" />
 			<Button className="burger-button" onClick={onClick}>
 				<div className="bar top" />

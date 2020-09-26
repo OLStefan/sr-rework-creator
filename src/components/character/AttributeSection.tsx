@@ -86,7 +86,7 @@ function AttributeSection({ ...otherProps }) {
 	}));
 
 	return (
-		<div {...otherProps}>
+		<div {...otherProps} data-component="attribute-section">
 			{attributes && (
 				<div className="attribute-container">
 					{Object.values(AttributeName).map((attributeName) => (
@@ -102,7 +102,6 @@ function AttributeSection({ ...otherProps }) {
 					))}
 				</div>
 			)}
-			<div className="remaining" />
 		</div>
 	);
 }
@@ -110,16 +109,21 @@ function AttributeSection({ ...otherProps }) {
 export default styled(AttributeSection)`
 	display: flex;
 	flex-wrap: wrap-reverse;
+	justify-content: center;
 
 	.attribute-container {
-		flex: 0 0 auto;
-		display: grid;
-		grid-template-columns: 15ch 5ch 2em 5ch 2em;
-		grid-gap: var(--spacing-medium);
-		align-items: center;
+		flex: 1 0 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		margin: 0 calc(-1 * var(--spacing-large));
 
 		.attribute {
-			display: contents;
+			display: grid;
+			grid-template-columns: 1fr 5ch 2em 5ch 2em;
+			grid-gap: var(--spacing-medium);
+			align-items: center;
+			margin: 0 var(--spacing-large);
 
 			.title {
 				font-size: 1.25em;
@@ -136,7 +140,9 @@ export default styled(AttributeSection)`
 				display: grid;
 				place-items: center;
 
-				& > * {
+				.filler,
+				.plus,
+				.minus {
 					grid-area: 1/1;
 				}
 
@@ -149,11 +155,5 @@ export default styled(AttributeSection)`
 				font-size: 1.5em;
 			}
 		}
-	}
-
-	.remaining {
-		flex: 1 0 40%;
-		font-size: 1.25em;
-		padding: 0 var(--spacing-small);
 	}
 `;

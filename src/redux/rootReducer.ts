@@ -18,7 +18,6 @@ function rootReducer(state: State | undefined, action: Action) {
 		oldCharacter: state?.character,
 		newCharacter,
 		oldMessages: state?.messages,
-		action,
 	});
 
 	return { ui: newUiState, character: newCharacter, messages: newMessagesState };

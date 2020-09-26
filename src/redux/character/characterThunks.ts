@@ -25,15 +25,13 @@ export function readCharacterFile(file: File) {
 	return thunk;
 }
 
-export function exportCharacterFile() {
+export function exportCharacterFile(fileName: string) {
 	const thunk = (_: any, getState: () => UndoableState) => {
 		const { character } = getState().present;
-		console.log('Saving');
 		if (character) {
-			const fileName = `${character.name}.srchar`;
 			const json = JSON.stringify(character, null, '\t');
 			const blob = new Blob([json], { type: 'text/json' });
-			saveAs(blob, fileName);
+			saveAs(blob, `${fileName}.srchar`);
 		}
 	};
 

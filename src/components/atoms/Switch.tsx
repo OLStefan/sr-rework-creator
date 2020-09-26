@@ -22,11 +22,12 @@ export default styled(Switch)`
 	width: 100%;
 	display: grid;
 
-	& > * {
+	.filler,
+	.switch-label {
 		grid-area: 1/1;
 	}
 
-	& > .filler {
+	.filler {
 		padding-top: 50%;
 	}
 
@@ -71,7 +72,7 @@ export default styled(Switch)`
 					transform: translate(-100%, -50%);
 				`}
 
-			& > .filler {
+			.filler {
 				padding-top: 100%;
 			}
 		}

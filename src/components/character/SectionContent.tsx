@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { SectionName } from '../../constants';
 import { useLabels } from '../../hooks';
@@ -17,7 +18,11 @@ const CardContent = React.memo(function Content({ name, ...otherProps }: Props) 
 	return useMemo(() => {
 		switch (name) {
 			case SectionName.attributes:
-				return <AttributeSection {...otherProps} />;
+				return (
+					<div data-component="card-content">
+						<AttributeSection {...otherProps} />
+					</div>
+				);
 			default:
 				return <span>Some text</span>;
 		}
@@ -40,17 +45,21 @@ function SectionContent({ name, ...otherProps }: Props) {
 	});
 
 	return (
-		<div className="card-container">
+		<div {...otherProps} data-component="section-content">
 			<CollapsibleCard
 				error={errorMessage}
 				hint={hintMessage}
 				expanded={expanded}
 				onExpandClick={callbacks[name]}
 				title={labels[name]}>
-				<CardContent {...{ name }} {...otherProps} />
+				<CardContent {...{ name }} />
 			</CollapsibleCard>
 		</div>
 	);
 }
 
-export default React.memo(SectionContent);
+const SectionContentMemo = React.memo(SectionContent);
+
+export default styled(SectionContentMemo)`
+	padding: var(--spacing-medium);
+`;

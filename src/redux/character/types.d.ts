@@ -2,6 +2,7 @@ import { AttributeName } from '../../constants';
 
 interface BaseCharacter {
 	saveVersion: number;
+	uuid: string;
 	name: string;
 	careerMode: boolean;
 	attributes: { [attributeName in AttributeName]: Attribute };

@@ -7,7 +7,7 @@ interface Props {
 }
 const CardUnstyled = React.forwardRef<HTMLDivElement, Props>(({ renderTitle, children, ...otherProps }, ref) => {
 	return (
-		<div {...otherProps}>
+		<div {...otherProps} data-component="card">
 			{useMemo(() => renderTitle(), [renderTitle])}
 			<div className="content" ref={ref}>
 				<div className="empty" />
@@ -24,26 +24,14 @@ export default styled(CardUnstyled)`
 	border-radius: var(--border-radius);
 	box-shadow: var(--card-shadow);
 
-	& > .title {
-		font-size: var(--card-title-font-size);
-		background: none;
-		border: none;
-		user-select: none;
-		width: 100%;
-		text-align: left;
-		padding: 0;
-		display: flex;
-		margin-left: var(--spacing-small);
-	}
-
-	& > .content {
+	.content {
 		flex: 1 0 auto;
 		vertical-align: top;
 		overflow: hidden;
 		height: 100%;
 
 		.empty {
-			padding-top: var(--spacing-large);
+			padding-top: var(--spacing-medium);
 		}
 	}
 `;

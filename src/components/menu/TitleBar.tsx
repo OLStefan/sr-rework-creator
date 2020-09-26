@@ -4,11 +4,12 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
-import { useCharacterName } from '../../redux/selectors';
+import { useCharacterLoaded, useCharacterName } from '../../redux/selectors';
 import { showMenu } from '../../redux/ui/uiActions';
 import BurgerMenuButton from './BurgerMenuButton';
 
 function TitleBar({ ...otherProps }) {
+	const characterLoaded = useCharacterLoaded();
 	const name = useCharacterName();
 	const dispatch = useDispatch();
 	const callbacks = useUpdatingCallbacks({
@@ -16,18 +17,20 @@ function TitleBar({ ...otherProps }) {
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
-		title: t('appName'),
+		appName: t('appName'),
+		newCharacter: t('newCharacter'),
 	}));
+	const title = characterLoaded ? name || labels.newCharacter : labels.appName;
 
 	return (
-		<div {...otherProps}>
+		<div {...otherProps} data-component="title-bar">
 			{useMemo(
 				() => (
 					<BurgerMenuButton onClick={callbacks.onShowMenu} />
 				),
 				[callbacks.onShowMenu],
 			)}
-			<div className="title-container">{name || labels.title}</div>
+			<div className="title-container">{title}</div>
 		</div>
 	);
 }
@@ -40,11 +43,11 @@ export default styled(TitleBar)`
 	font-size: var(--title-bar-font-size);
 	width: 100%;
 
-	& > ${BurgerMenuButton} {
+	${BurgerMenuButton} {
 		flex: 0 0 auto;
 	}
 
-	& > .title-container {
+	.title-container {
 		flex: 1 0 0;
 		width: 0;
 		overflow: hidden;
