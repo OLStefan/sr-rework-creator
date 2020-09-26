@@ -1,9 +1,9 @@
 import { CharacterAction } from './character/characterActions';
 import characterReducer from './character/characterReducer';
 import validateCharacter, { MessagesState } from './character/validateCharacter';
-import { UiAction } from './ui/uiActions';
+import { UiAction, UiActionTypes } from './ui/uiActions';
 import uiReducer from './ui/uiReducer';
-import undoable, { StateWithHistory } from 'redux-undo';
+import undoable, { excludeAction, StateWithHistory } from 'redux-undo';
 import { CharacterState } from './character/types';
 import { UiState } from './ui/types';
 
@@ -23,6 +23,4 @@ function rootReducer(state: State | undefined, action: Action) {
 	return { ui: newUiState, character: newCharacter, messages: newMessagesState };
 }
 
-const undoableReducer = undoable(rootReducer);
-
-export default undoableReducer;
+export default undoable(rootReducer, { filter: excludeAction(Object.values(UiActionTypes)) });
