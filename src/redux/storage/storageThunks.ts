@@ -42,6 +42,7 @@ export function importCharacterThunk(file: File) {
 					valid = false;
 				}
 				if (valid && isCharacter(character)) {
+					// TODO: Handle character already existing
 					dispatch(saveCharacter(character));
 					dispatch(setCharacter(character));
 				} else {

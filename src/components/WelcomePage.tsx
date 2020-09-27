@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
 import { importCharacterThunk } from '../redux/storage/storageThunks';
+import { selectCharacter } from '../redux/ui/uiActions';
 import Button from './atoms/Button';
 import Dropzone from './Dropzone';
 
@@ -13,6 +14,7 @@ function WelcomePage({ ...otherProps }) {
 
 	const callbacks = useUpdatingCallbacks({
 		importFile: (file: File) => dispatch(importCharacterThunk(file)),
+		loadCharacter: () => dispatch(selectCharacter()),
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
@@ -23,7 +25,7 @@ function WelcomePage({ ...otherProps }) {
 
 	return (
 		<div {...otherProps}>
-			<Button className="load">
+			<Button className="load" onClick={callbacks.loadCharacter}>
 				<span>{labels.load}</span>
 			</Button>
 			<Dropzone
@@ -46,14 +48,15 @@ export default styled(WelcomePage)`
 	.load,
 	.dropzone {
 		width: 50%;
-		height: 25%;
 	}
 
 	.load {
+		height: 10%;
 		font-size: var(--card-title-font-size);
 	}
 
 	.dropzone {
+		height: 25%;
 		box-shadow: var(--card-shadow);
 	}
 `;

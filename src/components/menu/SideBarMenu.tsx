@@ -22,7 +22,7 @@ import {
 	saveCharacterThunk,
 	importCharacterThunk,
 } from '../../redux/storage/storageThunks';
-import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
+import { changeDarkMode, hideMenu, selectCharacter } from '../../redux/ui/uiActions';
 import Button from '../atoms/Button';
 import Switch from '../atoms/Switch';
 import FileSelectButton from '../molecules/FileSelectButton';
@@ -54,11 +54,11 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 		},
 		onBlur: (event: React.FocusEvent) => {
 			if (display && !event.currentTarget.contains(event.relatedTarget as Node)) {
-				// callbacks.onHide();
+				callbacks.onHide();
 			}
 		},
 		createNewCharacter: () => dispatch(createNewCharacterThunk()),
-		loadCharacter: () => undefined,
+		loadCharacter: () => dispatch(selectCharacter()),
 		importCharacter: (file: File) => dispatch(importCharacterThunk(file)),
 		saveCharacter: () => dispatch(saveCharacterThunk()),
 		exportCharacter: () => {
@@ -212,7 +212,6 @@ export default styled(SideBarMenu)`
 			.redo {
 				font-family: 'icomoon';
 				flex: 1 0 auto;
-				border-radius: unset;
 			}
 
 			.close {
