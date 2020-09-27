@@ -1,29 +1,19 @@
-import { CharacterAction, CharacterActionTypes } from './character/characterActions';
-import characterReducer from './character/characterReducer';
-import validateCharacter, { MessagesState } from './character/validateCharacter';
-import { UiAction, UiActionTypes } from './ui/uiActions';
+import { combineReducers } from 'redux';
+import { Character } from './editor/character/characterTypes';
+import { EditorAction } from './editor/editorActions';
+import editorReducer from './editor/editorReducer';
+import { UndoableEditorState } from './editor/editorTypes';
+import { StorageAction } from './storage/storageActions';
+import storageReducer from './storage/storageReducer';
+import { UiAction } from './ui/uiActions';
 import uiReducer from './ui/uiReducer';
-import undoable, { excludeAction, StateWithHistory } from 'redux-undo';
-import { CharacterState } from './character/characterTypes';
 import { UiState } from './ui/uiTypes';
 
-type State = { ui: UiState; character?: CharacterState; messages: MessagesState };
-export type UndoableState = StateWithHistory<State>;
-export type Action = CharacterAction | UiAction;
+export type State = {
+	ui: UiState;
+	editor: UndoableEditorState;
+	storage: { [x: string]: Character };
+};
+export type Action = EditorAction | UiAction | StorageAction;
 
-function rootReducer(state: State | undefined, action: Action) {
-	const newCharacter = characterReducer(state?.character, action);
-	const newUiState = uiReducer(state?.ui, action);
-	const newMessagesState = validateCharacter({
-		oldCharacter: state?.character,
-		newCharacter,
-		oldMessages: state?.messages,
-	});
-
-	return { ui: newUiState, character: newCharacter, messages: newMessagesState };
-}
-
-export default undoable(rootReducer, {
-	filter: excludeAction([CharacterActionTypes.SET_CHARACTER, ...Object.values(UiActionTypes)]),
-	syncFilter: true,
-});
+export default combineReducers({ ui: uiReducer, editor: editorReducer, storage: storageReducer });

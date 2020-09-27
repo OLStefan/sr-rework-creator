@@ -31,13 +31,13 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 					<Button className="titlebar" onClick={onExpandClick}>
 						<div className="expand">❯</div>
 						<span className="title">{title}</span>
-						{error && (
-							<div data-html="true" className="error" title={error}>
+						{hint && (
+							<div data-html="true" className="hint" title={hint}>
 								!
 							</div>
 						)}
-						{!error && hint && (
-							<div data-html="true" className="hint" title={hint}>
+						{error && (
+							<div data-html="true" className="error" title={error}>
 								!
 							</div>
 						)}
@@ -110,18 +110,17 @@ export default styled(CollapsibleCardMemo)`
 		.error,
 		.hint {
 			white-space: pre-line;
+			width: 1.2em;
+			border-radius: 50%;
 		}
 
 		.error {
-			width: 1.2em;
+			margin-left: var(--spacing-medium);
 			background-color: var(--error-color);
-			border-radius: 50%;
 		}
 
 		.hint {
-			width: 1.2em;
 			background-color: var(--hint-color);
-			border-radius: 50%;
 		}
 	}
 `;

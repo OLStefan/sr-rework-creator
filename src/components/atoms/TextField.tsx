@@ -1,10 +1,11 @@
+import { noop } from 'lodash';
 import React, { HTMLProps, useRef } from 'react';
 import styled from 'styled-components';
 
 const ON_CHANGE_DELAY = 0; //ms
 
 const TextField = React.forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(function (
-	{ onChange, ...otherProps },
+	{ onChange, onWheel = noop, ...otherProps },
 	ref,
 ) {
 	const timeoutId = useRef(0);
@@ -12,8 +13,10 @@ const TextField = React.forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>
 	return (
 		<input
 			ref={ref}
-			onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-				if (onChange) {
+			onWheel={onWheel}
+			onChange={
+				onChange &&
+				((event: React.ChangeEvent<HTMLInputElement>) => {
 					event.persist();
 					console.log(event.target.value);
 					if (timeoutId.current) {
@@ -22,10 +25,10 @@ const TextField = React.forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>
 					timeoutId.current = setTimeout(() => {
 						console.log(event.target.value);
 
-						onChange(event);
+						// onChange(event);
 					}, ON_CHANGE_DELAY);
-				}
-			}}
+				})
+			}
 			{...otherProps}
 		/>
 	);

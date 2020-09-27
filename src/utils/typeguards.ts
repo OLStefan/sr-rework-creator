@@ -1,7 +1,7 @@
 import { AttributeName } from '../constants';
-import { Attribute, CharacterState } from '../redux/character/characterTypes';
+import { Attribute, Character } from '../redux/editor/character/characterTypes';
 
-export function isCharacter(object: any): object is CharacterState {
+export function isCharacter(object: any): object is Character {
 	return (
 		isSet(object) &&
 		isType(object.saveVersion, 'number') &&

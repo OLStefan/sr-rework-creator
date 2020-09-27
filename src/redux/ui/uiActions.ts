@@ -1,10 +1,7 @@
-import { SectionName } from '../../constants';
-
 export enum UiActionTypes {
 	SHOW_MENU = 'showMenu',
 	HIDE_MENU = 'hideMenu',
 	CHANGE_DARK_MODE = 'changeDarkMode',
-	TOGGLE_CARD = 'toggleCard',
 }
 
 export function showMenu() {
@@ -19,12 +16,4 @@ export function changeDarkMode() {
 	return { type: UiActionTypes.CHANGE_DARK_MODE } as const;
 }
 
-export function toggleCard(cardName: keyof typeof SectionName) {
-	return { type: UiActionTypes.TOGGLE_CARD, cardName } as const;
-}
-
-export type UiAction =
-	| ReturnType<typeof showMenu>
-	| ReturnType<typeof hideMenu>
-	| ReturnType<typeof changeDarkMode>
-	| ReturnType<typeof toggleCard>;
+export type UiAction = ReturnType<typeof showMenu> | ReturnType<typeof hideMenu> | ReturnType<typeof changeDarkMode>;

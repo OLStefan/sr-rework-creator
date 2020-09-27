@@ -8,8 +8,12 @@ import App from './App';
 import rootReducer from './redux/rootReducer';
 
 import './external-strings/i18n';
+import { loadState, saveState } from './redux/storage/localStorage';
+import { throttle } from 'lodash';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const persistedState = loadState();
+const store = createStore(rootReducer, persistedState, composeWithDevTools(applyMiddleware(thunk)));
+store.subscribe(throttle(() => saveState(store.getState()), 1000));
 
 ReactDOM.render(
 	<React.StrictMode>

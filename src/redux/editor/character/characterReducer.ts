@@ -1,15 +1,16 @@
-import { Action } from '../rootReducer';
-import { CharacterState } from './characterTypes';
-import { changeAttribute, CharacterActionTypes, setCharacter } from './characterActions';
+import { Action } from '../../rootReducer';
+import { setCharacter, StorageActionTypes } from '../../storage/storageActions';
+import { changeAttribute, CharacterActionTypes } from './characterActions';
+import { Character } from './characterTypes';
 
-const initialState: null | CharacterState = null;
+const initialState: Character | null = null;
 
-function handleSetCharacter({ loadedCharacter }: ReturnType<typeof setCharacter>) {
-	return loadedCharacter;
+function handleSetCharacter({ character }: ReturnType<typeof setCharacter>) {
+	return character;
 }
 
 function handleChangeAttribute(
-	character: CharacterState,
+	character: Character | null,
 	{ attributeName, change }: ReturnType<typeof changeAttribute>,
 ) {
 	if (!character || !character.attributes[attributeName]) {
@@ -33,9 +34,9 @@ function handleChangeAttribute(
 	};
 }
 
-export default function (character = initialState, action: Action): CharacterState {
+export default function (character = initialState, action: Action) {
 	switch (action.type) {
-		case CharacterActionTypes.SET_CHARACTER:
+		case StorageActionTypes.SET_CHARACTER:
 			return handleSetCharacter(action);
 		case CharacterActionTypes.CHANGE_ATTRIBUTE:
 			return handleChangeAttribute(character, action);

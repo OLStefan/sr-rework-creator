@@ -1,26 +1,25 @@
+import { AnimatePresence, motion } from 'framer-motion';
+import { TFunction } from 'i18next';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
+import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { ESCAPE_KEY } from '../../constants';
 import { useLabels } from '../../hooks';
-import { setCharacter } from '../../redux/character/characterActions';
-import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
 import {
 	useCharacterLoaded,
 	useCharacterName,
 	useDarkMode,
-	useDisplayMenu,
 	useHasFuture,
 	useHasPast,
+	useIsDirty,
+	useIsMenuDisplayed,
 } from '../../redux/selectors';
+import { createNewCharacterThunk, exportCharacterFile, saveCharacterThunk } from '../../redux/storage/storageThunks';
+import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
 import Button from '../atoms/Button';
-import { TFunction } from 'i18next';
-import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import Switch from '../atoms/Switch';
-import { exportCharacterFile } from '../../redux/character/characterThunks';
-import { ActionCreators } from 'redux-undo';
-import createNewCharacter from '../../redux/character/createNewCharacter';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
@@ -34,6 +33,7 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 	const characterName = useCharacterName();
 	const undoActive = useHasPast();
 	const redoActive = useHasFuture();
+	const isDirty = useIsDirty();
 
 	const dispatch = useDispatch();
 
@@ -51,10 +51,10 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 				callbacks.onHide();
 			}
 		},
-		createNewCharacter: () => dispatch(setCharacter(createNewCharacter())),
+		createNewCharacter: () => dispatch(createNewCharacterThunk()),
 		loadCharacter: () => undefined,
 		importCharacter: () => undefined,
-		saveCharacter: () => undefined,
+		saveCharacter: () => dispatch(saveCharacterThunk()),
 		exportCharacter: () => {
 			dispatch(exportCharacterFile(characterName || labels.newCharacter));
 		},
@@ -131,7 +131,7 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 				{useMemo(
 					() => (
 						<>
-							<Button disabled={!characterLoaded} onClick={callbacks.saveCharacter}>
+							<Button disabled={!isDirty} onClick={callbacks.saveCharacter}>
 								<span className="symbol">&#xe962;</span>
 								{labels.save}
 							</Button>
@@ -142,14 +142,13 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 							<div className="filler" />
 						</>
 					),
-					[callbacks, characterLoaded, labels],
+					[callbacks, labels, characterLoaded, isDirty],
 				)}
 				{useMemo(
 					() => (
 						<>
 							<div className="divider" />
 							<div className="dark-mode">
-								<span className="symbol">&#xe9d5;</span>
 								<span className="dark-mode-label">{labels.darkMode}</span>
 								<Switch checked={darkMode} onClick={callbacks.toggleDarkMode} />
 							</div>
@@ -164,7 +163,7 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 
 interface Props {}
 function SideBarMenu({ ...otherProps }: Props) {
-	const displayMenu = useDisplayMenu();
+	const displayMenu = useIsMenuDisplayed();
 
 	return (
 		<div {...otherProps} data-component="side-bar">

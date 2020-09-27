@@ -10,8 +10,8 @@ import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
 import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
 import './default.css';
-import { readCharacterFile } from './redux/character/characterThunks';
 import { useCharacterLoaded, useDarkMode } from './redux/selectors';
+import { importCharacterThunk, saveCharacterThunk } from './redux/storage/storageThunks';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
@@ -23,22 +23,31 @@ function App({ ...otherProps }) {
 	const color = computedStyle.getPropertyValue('--backgound-logo-color');
 
 	const callbacks = useUpdatingCallbacks({
-		readFile: useUpdatingCallback((file: File) => readCharacterFile(file)),
+		importFile: useUpdatingCallback((file: File) => importCharacterThunk(file)),
 		onKeyDown: (event: React.KeyboardEvent) => {
-			event.preventDefault();
-			event.stopPropagation();
+			let isHandled = false;
 			if (event.ctrlKey) {
-				console.log('Key', event.key);
 				switch (event.key) {
 					case Z_KEY:
+						isHandled = true;
 						dispatch(ActionCreators.undo());
 						break;
 					case Y_KEY:
+						isHandled = true;
 						dispatch(ActionCreators.redo());
 						break;
 					case S_KEY:
+						isHandled = true;
+						dispatch(saveCharacterThunk());
+						break;
 					case O_KEY:
+						isHandled = true;
 				}
+			}
+			if (isHandled) {
+				// Only stop the event if we handle
+				event.preventDefault();
+				event.stopPropagation();
 			}
 		},
 	});
@@ -54,12 +63,12 @@ function App({ ...otherProps }) {
 						<TitleBar />
 						<div className="editor">
 							<Logo className="background" color={color} />
-							{!characterLoaded && <Dropzone readFile={callbacks.readFile} className="dropzone" />}
+							{!characterLoaded && <Dropzone readFile={callbacks.importFile} className="dropzone" />}
 							{characterLoaded && <CharacterEditor />}
 						</div>
 					</div>
 				),
-				[callbacks.readFile, characterLoaded, color],
+				[callbacks.importFile, characterLoaded, color],
 			)}
 			{useMemo(
 				() => (

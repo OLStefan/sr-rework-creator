@@ -1,7 +1,8 @@
-import { AttributeName } from '../../constants';
+import { AttributeName } from '../../../constants';
 
 interface BaseCharacter {
 	saveVersion: number;
+	increment: number;
 	uuid: string;
 	name: string;
 	careerMode: boolean;
@@ -16,5 +17,5 @@ interface CareerCharacter extends BaseCharacter {
 	careerMode: true;
 }
 
-export type CharacterState = CreationCharacter | CareerCharacter | null;
+export type Character = CreationCharacter | CareerCharacter;
 export type Attribute = { name: AttributeName; minRating: number; maxRating: number; rating: number };

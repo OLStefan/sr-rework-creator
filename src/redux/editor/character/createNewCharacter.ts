@@ -1,10 +1,11 @@
 import { v4 as uuid } from 'uuid';
-import { AttributeName } from '../../constants';
-import { CharacterState } from './characterTypes';
+import { AttributeName } from '../../../constants';
+import { Character } from './characterTypes';
 
-export default function (): CharacterState {
+export default function (): Character {
 	return {
 		saveVersion: 0.1,
+		increment: 0,
 		name: '',
 		uuid: uuid(),
 		careerMode: false,

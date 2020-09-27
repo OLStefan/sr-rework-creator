@@ -4,14 +4,16 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
-import { useCharacterLoaded, useCharacterName } from '../../redux/selectors';
+import { useCharacterLoaded, useCharacterName, useIsDirty } from '../../redux/selectors';
 import { showMenu } from '../../redux/ui/uiActions';
 import BurgerMenuButton from './BurgerMenuButton';
 
 function TitleBar({ ...otherProps }) {
+	const dispatch = useDispatch();
 	const characterLoaded = useCharacterLoaded();
 	const name = useCharacterName();
-	const dispatch = useDispatch();
+	const isDirty = useIsDirty();
+
 	const callbacks = useUpdatingCallbacks({
 		onShowMenu: () => dispatch(showMenu()),
 	});
@@ -30,7 +32,10 @@ function TitleBar({ ...otherProps }) {
 				),
 				[callbacks.onShowMenu],
 			)}
-			<div className="title-container">{title}</div>
+			<div className="title-container">
+				{title}
+				{isDirty ? ' *' : ''}
+			</div>
 		</div>
 	);
 }

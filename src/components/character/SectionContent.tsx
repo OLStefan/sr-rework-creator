@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { SectionName } from '../../constants';
 import { useLabels } from '../../hooks';
+import { toggleCard } from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
-import { toggleCard } from '../../redux/ui/uiActions';
-import CollapsibleCard from '../cards/CollapsibleCard';
+import CollapsibleCard from '../molecules/CollapsibleCard';
 import AttributeSection from './AttributeSection';
 
 interface Props {

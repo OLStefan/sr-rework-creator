@@ -1,13 +1,12 @@
 import { TFunction } from 'i18next';
-import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { AttributeName } from '../../constants';
 import { useLabels } from '../../hooks';
-import { changeAttribute } from '../../redux/character/characterActions';
-import { Attribute } from '../../redux/character/characterTypes';
+import { changeAttribute } from '../../redux/editor/character/characterActions';
+import { Attribute } from '../../redux/editor/character/characterTypes';
 import { useCharacterAttributes } from '../../redux/selectors';
 import Button from '../atoms/Button';
 import TextField from '../atoms/TextField';
@@ -48,15 +47,14 @@ const AttributeComponent = React.memo(function ({
 				maxLength={2}
 				ref={ref}
 				value={attribute.rating}
-				onWheel={noop}
 				onFocus={() => ref.current?.select()}
 				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
 					const value = event?.target?.value;
 					console.log(value);
-					// const newRating = Number(value);
-					// if (value && value.trim() !== '' && !Number.isNaN(newRating)) {
-					// 	onChangeAttribute(attribute.name, newRating - attribute.rating);
-					// }
+					const newRating = Number(value);
+					if (value && value.trim() !== '' && !Number.isNaN(newRating)) {
+						onChangeAttribute(attribute.name, newRating - attribute.rating);
+					}
 				}}
 			/>
 			<Button disabled={attribute.rating >= attribute.maxRating} onClick={() => onIncreaseAttribute(attribute.name)}>
