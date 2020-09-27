@@ -44,15 +44,13 @@ export default styled(TitleBar)`
 	display: flex;
 	align-items: center;
 	font-size: var(--title-bar-font-size);
-	max-width: 100%;
 
 	${BurgerMenuButton} {
 		flex: 0 0 auto;
 	}
 
 	.title-container {
-		width: 0;
-		flex: 1 0 0;
+		flex: 0 1 auto;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: pre;

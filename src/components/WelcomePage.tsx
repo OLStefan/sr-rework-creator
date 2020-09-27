@@ -24,7 +24,7 @@ function WelcomePage({ ...otherProps }) {
 	}));
 
 	return (
-		<div {...otherProps}>
+		<div {...otherProps} data-component="welcome-page">
 			<Button className="load" onClick={callbacks.loadCharacter}>
 				<span>{labels.load}</span>
 			</Button>
@@ -44,6 +44,7 @@ export default styled(WelcomePage)`
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
+	overflow-y: auto;
 
 	.load,
 	.dropzone {
@@ -53,10 +54,12 @@ export default styled(WelcomePage)`
 	.load {
 		height: 10%;
 		font-size: var(--card-title-font-size);
+		min-height: 1.5em;
 	}
 
 	.dropzone {
 		height: 25%;
+		min-height: 5em;
 		box-shadow: var(--card-shadow);
 	}
 `;

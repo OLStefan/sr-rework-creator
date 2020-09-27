@@ -19,33 +19,37 @@
 	--animation-duration: 250ms;
 	--long-animation-duration: 500ms;
 
-	--textfield-default-size: 32px;
-
-	--button-outline: 1px solid var(--text-on-primary);
-	--button-outline-offset: var(--spacing-small);
+	--textfield-default-size: 1.5em;
 
 	--border-radius: 8px;
 
-	--title-bar-font-size: 3rem;
-	--menu-font-size: 2rem;
-	--card-title-font-size: 2rem;
-	--card-expand-font-size: 2rem;
+	--title-bar-font-size: 2rem;
+	--menu-font-size: 1.5rem;
+	--card-title-font-size: 1.5rem;
+	--card-expand-font-size: 1.5rem;
 
 	--font-weight-bold: 700;
 
-	--character-editor-card-small-width: 350px;
+	--character-editor-card-small-width: 40ch;
 	--character-editor-card-wide-width: calc(2 * var(--character-editor-card-small-width));
 
-	--menu-min-width: 350px;
-	--menu-divider-height: 2px;
+	--menu-min-width: 20ch;
+	--menu-divider-height: 0.1em;
 
-	--burger-button-size: 3.75rem;
+	--burger-button-size: 1.25em;
 }
 
 body {
 	margin: 0;
 	font-family: 'Roboto', sans-serif;
 	user-select: none;
+	height: 100%;
+	width: 100%;
+}
+
+#root {
+	height: 100%;
+	width: 100%;
 }
 
 * {

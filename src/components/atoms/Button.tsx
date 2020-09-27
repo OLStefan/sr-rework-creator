@@ -19,8 +19,6 @@ export default styled(Button)`
 	color: var(--text-on-primary);
 
 	&:focus {
-		outline: var(--button-outline);
-		outline-offset: var(--button-outline-offset);
 		outline: none;
 	}
 

@@ -67,20 +67,25 @@ export default styled(Dropzone)`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
 	font-size: var(--card-title-font-size);
 	border-radius: var(--border-radius);
+	padding: var(--spacing-small);
 
 	.symbol,
 	.drop-text {
 		pointer-events: none;
+		margin: 0;
 	}
 
 	.symbol {
 		font-family: 'icomoon';
-		font-size: 3em;
-		margin: 0;
+		font-size: 2.5em;
+	}
+
+	.drop-text {
+		text-align: center;
 	}
 
 	.input {

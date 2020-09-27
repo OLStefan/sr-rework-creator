@@ -114,14 +114,14 @@ export default styled(AttributeSection)`
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		margin: 0 calc(-1 * var(--spacing-large));
+		margin-top: calc(-1 * var(--spacing-small));
 
 		.attribute {
 			display: grid;
 			grid-template-columns: 1fr 5ch 2em 5ch 2em;
 			grid-gap: var(--spacing-medium);
 			align-items: center;
-			margin: 0 var(--spacing-large);
+			margin-top: var(--spacing-small);
 
 			.title {
 				font-size: 1.25em;
@@ -150,7 +150,7 @@ export default styled(AttributeSection)`
 			}
 
 			${TextField} {
-				font-size: 1.5em;
+				font-size: 1.25em;
 			}
 		}
 	}

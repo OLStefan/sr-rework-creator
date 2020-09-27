@@ -5,6 +5,8 @@ export function isCharacter(object: any): object is Character {
 	return (
 		isSet(object) &&
 		isType(object.saveVersion, 'number') &&
+		isType(object.increment, 'number') &&
+		isType(object.uuid, 'string') &&
 		isType(object.name, 'string') &&
 		isType(object.careerMode, 'boolean') &&
 		isSet(object.attributes) &&

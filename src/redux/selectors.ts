@@ -6,6 +6,7 @@ import { State } from './rootReducer';
  * Getter
  */
 export const isMenuDisplayed = ({ ui }: State) => ui.displayMenu;
+export const isSelectingCharacter = ({ ui }: State) => ui.loadingCharacter;
 export const getDarkMode = ({ ui }: State) => ui.darkMode;
 
 export const hasPast = ({ editor: { past } }: State) => past.length >= 1;
@@ -90,21 +91,22 @@ export const getHintMessage = (
  */
 
 // UI
-export const useIsMenuDisplayed = () => useSelector((state: State) => isMenuDisplayed(state));
-export const useDarkMode = () => useSelector((state: State) => getDarkMode(state));
+export const useIsMenuDisplayed = () => useSelector(isMenuDisplayed);
+export const useIsSelectingCharacter = () => useSelector(isSelectingCharacter);
+export const useDarkMode = () => useSelector(getDarkMode);
 
 // Editor
-export const useHasPast = () => useSelector((state: State) => hasPast(state));
-export const useHasFuture = () => useSelector((state: State) => hasFuture(state));
-export const useIsDirty = () => useSelector((state: State) => isDirty(state));
+export const useHasPast = () => useSelector(hasPast);
+export const useHasFuture = () => useSelector(hasFuture);
+export const useIsDirty = () => useSelector(isDirty);
 export const useExpandedCard = (cardName: SectionName) =>
 	useSelector((state: State) => getExpandedCard(cardName, state));
 
 // Character
-export const useCharacterLoaded = () => useSelector((state: State) => isCharacterLoaded(state));
-export const useCharacterName = () => useSelector((state: State) => getCharacterName(state));
-export const useCurrentCharacter = () => useSelector((state: State) => getCurrentCharacter(state));
-export const useCharacterAttributes = () => useSelector((state: State) => getAttributes(state));
+export const useCharacterLoaded = () => useSelector(isCharacterLoaded);
+export const useCharacterName = () => useSelector(getCharacterName);
+export const useCurrentCharacter = () => useSelector(getCurrentCharacter);
+export const useCharacterAttributes = () => useSelector(getAttributes);
 
 // Errors
 export const useErrorMessage = (sectionName: SectionName) =>

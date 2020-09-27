@@ -9,7 +9,6 @@ import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
 import WelcomePage from './components/WelcomePage';
 import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
-import './default.css';
 import { useCharacterLoaded, useDarkMode } from './redux/selectors';
 import { saveCharacterThunk } from './redux/storage/storageThunks';
 
@@ -80,7 +79,7 @@ function App({ ...otherProps }) {
 }
 
 export default styled(App)`
-	height: 100vh;
+	height: 100%;
 	width: 100%;
 	display: grid;
 	color: var(--text-on-background);
@@ -89,6 +88,7 @@ export default styled(App)`
 		grid-area: 1/1;
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
 
 		${TitleBar} {
 			flex: 0 0 auto;

@@ -1,6 +1,6 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { TFunction } from 'i18next';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
@@ -19,8 +19,8 @@ import {
 import {
 	createNewCharacterThunk,
 	exportCharacterFile,
-	saveCharacterThunk,
 	importCharacterThunk,
+	saveCharacterThunk,
 } from '../../redux/storage/storageThunks';
 import { changeDarkMode, hideMenu, selectCharacter } from '../../redux/ui/uiActions';
 import Button from '../atoms/Button';
@@ -29,11 +29,11 @@ import FileSelectButton from '../molecules/FileSelectButton';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-interface MenuContentProps {
-	className?: string;
-	display: boolean;
-}
-function MenuContent({ display, ...otherProps }: MenuContentProps) {
+interface Props {}
+function SideBarMenu({ ...otherProps }: Props) {
+	const dispatch = useDispatch();
+
+	const displayMenu = useIsMenuDisplayed();
 	const darkMode = useDarkMode();
 	const characterLoaded = useCharacterLoaded();
 	const characterName = useCharacterName();
@@ -41,20 +41,13 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 	const redoActive = useHasFuture();
 	const isDirty = useIsDirty();
 
-	const dispatch = useDispatch();
-
 	const callbacks = useUpdatingCallbacks({
 		onUndo: () => dispatch(ActionCreators.undo()),
 		onRedo: () => dispatch(ActionCreators.redo()),
 		onHide: () => dispatch(hideMenu()),
 		onKeyDown: (event: React.KeyboardEvent) => {
 			if (event.key === ESCAPE_KEY) {
-				callbacks.onHide();
-			}
-		},
-		onBlur: (event: React.FocusEvent) => {
-			if (display && !event.currentTarget.contains(event.relatedTarget as Node)) {
-				callbacks.onHide();
+				dispatch(hideMenu());
 			}
 		},
 		createNewCharacter: () => dispatch(createNewCharacterThunk()),
@@ -77,106 +70,85 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 		newCharacter: t('newCharacter'),
 	}));
 
-	// Set Focus on dislplay
-	const ref = useRef<HTMLDivElement>(null);
-	useEffect(() => {
-		if (display && ref.current) {
-			ref.current.focus();
-		}
-	}, [display]);
-
-	return (
-		<motion.div
-			initial={{ x: '-100%' }}
-			animate={{ x: 0 }}
-			exit={{ x: '-100%' }}
-			transition={{ duration: parseFloat(computedStyle.getPropertyValue('--long-animation-duration')) / 1000 }}
-			ref={ref}
-			tabIndex={-1}
-			onKeyDown={callbacks.onKeyDown}
-			onBlur={callbacks.onBlur}
-			{...otherProps}>
-			{useMemo(
-				() => (
-					<div className="button-container">
-						<Button className="undo" onClick={callbacks.onUndo} disabled={!undoActive}>
-							&#xe967;
-						</Button>
-						<Button className="redo" onClick={callbacks.onRedo} disabled={!redoActive}>
-							&#xe968;
-						</Button>
-						<Button className="close" onClick={callbacks.onHide}>
-							X
-						</Button>
-					</div>
-				),
-				[callbacks, redoActive, undoActive],
-			)}
-
-			<div className="content">
-				{useMemo(
-					() => (
-						<>
-							<Button onClick={callbacks.createNewCharacter}>
-								<span className="symbol">&#xe924;</span>
-								{labels.newCharacter}
-							</Button>
-							<Button onClick={callbacks.loadCharacter}>
-								<span className="symbol">&#xe930;</span>
-								{labels.load}
-							</Button>
-							<FileSelectButton onFileSelect={callbacks.importCharacter} acceptedFiles={FILE_ENDING} multiple={false}>
-								<span className="symbol">&#xe960;</span>
-								{labels.import}
-							</FileSelectButton>
-							<div className="divider" />
-						</>
-					),
-					[callbacks, labels],
-				)}
-				{useMemo(
-					() => (
-						<>
-							<Button disabled={!isDirty} onClick={callbacks.saveCharacter}>
-								<span className="symbol">&#xe962;</span>
-								{labels.save}
-							</Button>
-							<Button disabled={!characterLoaded} onClick={callbacks.exportCharacter}>
-								<span className="symbol">&#xe961;</span>
-								{labels.export}
-							</Button>
-							<div className="filler" />
-						</>
-					),
-					[callbacks, labels, characterLoaded, isDirty],
-				)}
-				{useMemo(
-					() => (
-						<>
-							<div className="divider" />
-							<div className="dark-mode">
-								<span className="dark-mode-label">{labels.darkMode}</span>
-								<Switch checked={darkMode} onClick={callbacks.toggleDarkMode} />
-							</div>
-						</>
-					),
-					[callbacks.toggleDarkMode, darkMode, labels.darkMode],
-				)}
-			</div>
-		</motion.div>
-	);
-}
-
-interface Props {}
-function SideBarMenu({ ...otherProps }: Props) {
-	const displayMenu = useIsMenuDisplayed();
-
 	return (
 		<div {...otherProps} data-component="side-bar">
-			<div className={`background ${displayMenu ? 'active' : ''}`} />
-			<AnimatePresence>
-				{useMemo(() => displayMenu && <MenuContent display={displayMenu} className="menu" />, [displayMenu])}
-			</AnimatePresence>
+			<div className={`background ${displayMenu ? 'active' : ''}`} onClick={() => dispatch(hideMenu())} />
+			<motion.div
+				initial={{ x: '-100%' }}
+				animate={{ x: displayMenu ? 0 : '-100%' }}
+				//Convert from ms to s
+				transition={{ duration: parseFloat(computedStyle.getPropertyValue('--long-animation-duration')) / 1000 }}
+				tabIndex={-1}
+				onKeyDown={callbacks.onKeyDown}
+				className="menu">
+				{useMemo(
+					() => (
+						<div className="button-container">
+							<Button className="undo" onClick={callbacks.onUndo} disabled={!undoActive}>
+								&#xe967;
+							</Button>
+							<Button className="redo" onClick={callbacks.onRedo} disabled={!redoActive}>
+								&#xe968;
+							</Button>
+							<Button className="close" onClick={callbacks.onHide}>
+								X
+							</Button>
+						</div>
+					),
+					[callbacks, redoActive, undoActive],
+				)}
+
+				<div className="content">
+					{useMemo(
+						() => (
+							<>
+								<Button onClick={callbacks.createNewCharacter}>
+									<span className="symbol">&#xe924;</span>
+									{labels.newCharacter}
+								</Button>
+								<Button onClick={callbacks.loadCharacter}>
+									<span className="symbol">&#xe930;</span>
+									{labels.load}
+								</Button>
+								<FileSelectButton onFileSelect={callbacks.importCharacter} acceptedFiles={FILE_ENDING} multiple={false}>
+									<span className="symbol">&#xe960;</span>
+									{labels.import}
+								</FileSelectButton>
+								<div className="divider" />
+							</>
+						),
+						[callbacks, labels],
+					)}
+					{useMemo(
+						() => (
+							<>
+								<Button disabled={!isDirty} onClick={callbacks.saveCharacter}>
+									<span className="symbol">&#xe962;</span>
+									{labels.save}
+								</Button>
+								<Button disabled={!characterLoaded} onClick={callbacks.exportCharacter}>
+									<span className="symbol">&#xe961;</span>
+									{labels.export}
+								</Button>
+								<div className="filler" />
+							</>
+						),
+						[callbacks, labels, characterLoaded, isDirty],
+					)}
+					{useMemo(
+						() => (
+							<>
+								<div className="divider" />
+								<div className="dark-mode">
+									<span className="dark-mode-label">{labels.darkMode}</span>
+									<Switch checked={darkMode} onClick={callbacks.toggleDarkMode} />
+								</div>
+							</>
+						),
+						[callbacks.toggleDarkMode, darkMode, labels.darkMode],
+					)}
+				</div>
+			</motion.div>
 		</div>
 	);
 }
