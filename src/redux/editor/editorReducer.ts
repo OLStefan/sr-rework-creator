@@ -3,6 +3,7 @@ import { SectionName } from '../../constants';
 import { Action } from '../rootReducer';
 import { CharacterActionTypes } from './character/characterActions';
 import characterReducer from './character/characterReducer';
+import incrementReducer from './character/incrementReducer';
 import { EditorActionTypes, toggleCard } from './editorActions';
 import { EditorState } from './editorTypes';
 import validateCharacter, { initialState as messages } from './messages/validateCharacter';
@@ -29,7 +30,7 @@ function reducer(editor = initialState, action: Action) {
 		return handleToggleCard(editor, action);
 	}
 
-	const newCharacter = characterReducer(editor.currentCharacter, action);
+	const newCharacter = incrementReducer(characterReducer(editor.currentCharacter, action), action);
 	const newMessagesState = validateCharacter({
 		newCharacter,
 		oldCharacter: editor.currentCharacter,
