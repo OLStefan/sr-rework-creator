@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { ESCAPE_KEY } from '../../constants';
+import { ESCAPE_KEY, FILE_ENDING } from '../../constants';
 import { useLabels } from '../../hooks';
 import {
 	useCharacterLoaded,
@@ -16,10 +16,16 @@ import {
 	useIsDirty,
 	useIsMenuDisplayed,
 } from '../../redux/selectors';
-import { createNewCharacterThunk, exportCharacterFile, saveCharacterThunk } from '../../redux/storage/storageThunks';
+import {
+	createNewCharacterThunk,
+	exportCharacterFile,
+	saveCharacterThunk,
+	importCharacterThunk,
+} from '../../redux/storage/storageThunks';
 import { changeDarkMode, hideMenu } from '../../redux/ui/uiActions';
 import Button from '../atoms/Button';
 import Switch from '../atoms/Switch';
+import FileSelectButton from '../molecules/FileSelectButton';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
@@ -48,12 +54,12 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 		},
 		onBlur: (event: React.FocusEvent) => {
 			if (display && !event.currentTarget.contains(event.relatedTarget as Node)) {
-				callbacks.onHide();
+				// callbacks.onHide();
 			}
 		},
 		createNewCharacter: () => dispatch(createNewCharacterThunk()),
 		loadCharacter: () => undefined,
-		importCharacter: () => undefined,
+		importCharacter: (file: File) => dispatch(importCharacterThunk(file)),
 		saveCharacter: () => dispatch(saveCharacterThunk()),
 		exportCharacter: () => {
 			dispatch(exportCharacterFile(characterName || labels.newCharacter));
@@ -119,10 +125,10 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 								<span className="symbol">&#xe930;</span>
 								{labels.load}
 							</Button>
-							<Button onClick={callbacks.importCharacter}>
-								<span className="symbol">&#xe961;</span>
+							<FileSelectButton onFileSelect={callbacks.importCharacter} acceptedFiles={FILE_ENDING} multiple={false}>
+								<span className="symbol">&#xe960;</span>
 								{labels.import}
-							</Button>
+							</FileSelectButton>
 							<div className="divider" />
 						</>
 					),
@@ -136,7 +142,7 @@ function MenuContent({ display, ...otherProps }: MenuContentProps) {
 								{labels.save}
 							</Button>
 							<Button disabled={!characterLoaded} onClick={callbacks.exportCharacter}>
-								<span className="symbol">&#xe960;</span>
+								<span className="symbol">&#xe961;</span>
 								{labels.export}
 							</Button>
 							<div className="filler" />
