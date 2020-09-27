@@ -19,10 +19,11 @@
 	"lifestyles": "Lifestyles",
 	"contacts": "Contacts",
 	"newCharacter": "New Character",
-	"createNew": "Create New",
-	"load": "Load",
-	"import": "Import",
-	"save": "Save",
-	"export": "Export",
-	"darkMode": "Dark Mode"
+	"createNew": "Create New Character",
+	"load": "Load Character",
+	"import": "Import File",
+	"save": "Save Character",
+	"export": "Export File",
+	"darkMode": "Dark Mode",
+	"dropText": "Choose a file or drag it here"
 }

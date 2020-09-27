@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { FILE_ENDING } from '../constants';
 
 interface Props {
 	readFile: (file: File) => void;
+	text: string;
+	textDragging: string;
 	className?: string;
 }
-function Dropzone({ readFile, ...otherProps }: Props) {
-	const dispatch = useDispatch();
+function Dropzone({ readFile, text, textDragging, ...otherProps }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [isDragActive, setDragActive] = useState<boolean>(false);
@@ -27,7 +27,7 @@ function Dropzone({ readFile, ...otherProps }: Props) {
 			event.preventDefault();
 			setDragActive(false);
 			const file = event.dataTransfer.files[0];
-			dispatch(readFile(file));
+			readFile(file);
 		},
 		onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => {
 			const file = event.target.files && event.target.files[0];
@@ -35,7 +35,7 @@ function Dropzone({ readFile, ...otherProps }: Props) {
 				console.log('No file');
 				return;
 			}
-			dispatch(readFile(file));
+			readFile(file);
 		},
 	});
 
@@ -46,6 +46,7 @@ function Dropzone({ readFile, ...otherProps }: Props) {
 			onDragLeave={callbacks.onDragLeave}
 			onDrop={callbacks.onDrop}
 			onClick={() => inputRef.current?.click()}
+			style={{ background: isDragActive ? 'var(--primary-color-tint)' : '' }}
 			{...otherProps}>
 			<input
 				type="file"
@@ -55,11 +56,8 @@ function Dropzone({ readFile, ...otherProps }: Props) {
 				ref={inputRef}
 				onChange={callbacks.onInputChange}
 			/>
-			{isDragActive ? (
-				<p className="drop-text">Drop the files here ...</p>
-			) : (
-				<p className="drop-text">Drag 'n' drop some files here, or click to select files</p>
-			)}
+			<p className="symbol">&#xe960;</p>
+			<p className="drop-text">{text}</p>
 		</div>
 	);
 }
@@ -67,18 +65,22 @@ function Dropzone({ readFile, ...otherProps }: Props) {
 export default styled(Dropzone)`
 	width: 100%;
 	height: 100%;
-	display: grid;
-	place-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
 	font-size: var(--card-title-font-size);
-	background: unset;
-	border-radius: unset;
+	border-radius: var(--border-radius);
 
-	&:hover {
-		background: unset;
+	.symbol,
+	.drop-text {
+		pointer-events: none;
 	}
 
-	.drop-text {
-		text-align: center;
+	.symbol {
+		font-family: 'icomoon';
+		font-size: 3em;
+		margin: 0;
 	}
 
 	.input {

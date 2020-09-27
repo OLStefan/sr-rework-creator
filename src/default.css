@@ -36,10 +36,7 @@
 	--character-editor-card-small-width: 350px;
 	--character-editor-card-wide-width: calc(2 * var(--character-editor-card-small-width));
 
-	--character-editor-sidebar-min-height: 200px;
-	--character-editor-sidebar-min-width: 250px;
-
-	--menu-min-width: 15ch;
+	--menu-min-width: 350px;
 	--menu-divider-height: 2px;
 
 	--burger-button-size: 3.75rem;

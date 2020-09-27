@@ -33,13 +33,20 @@ export function importCharacterThunk(file: File) {
 		reader.onload = (event: ProgressEvent<FileReader>) => {
 			const characterJson = event?.target?.result;
 			if (characterJson) {
-				const character = JSON.parse(characterJson.toString());
-				if (isCharacter(character)) {
-					console.log('valid character');
+				let character;
+				let valid = true;
+				try {
+					character = JSON.parse(characterJson.toString());
+					character.increment = 0;
+				} catch {
+					valid = false;
+				}
+				if (valid && isCharacter(character)) {
 					dispatch(saveCharacter(character));
 					dispatch(setCharacter(character));
 				} else {
-					console.log('invalid file');
+					// TODO Show error to user
+					console.log('Invalid file');
 				}
 			}
 		};
@@ -63,7 +70,11 @@ export function exportCharacterFile(fileName: string) {
 	const thunk = (_: Dispatch<Action>, getState: () => State) => {
 		const { currentCharacter: character } = getState().editor.present;
 		if (character) {
-			const json = JSON.stringify(character, null, '\t');
+			// Remove increment and uuid as it is not needed when exported
+			const object = character as any;
+			delete object.increment;
+
+			const json = JSON.stringify(object, null, '\t');
 			const blob = new Blob([json], { type: 'text/json' });
 			saveAs(blob, `${fileName}${FILE_ENDING}`);
 		}

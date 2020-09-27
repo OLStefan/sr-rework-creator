@@ -6,7 +6,6 @@ export function loadState() {
 	try {
 		const serializedState = localStorage.getItem('state');
 		if (serializedState === null) {
-			console.log('No persisted state found');
 			return undefined;
 		}
 		const state = JSON.parse(serializedState) as State;
@@ -31,7 +30,6 @@ export function saveState(state: State) {
 
 		const serializedState = JSON.stringify(stateClone);
 		localStorage.setItem('state', serializedState);
-		console.log('State persisted');
 	} catch {
 		console.log('Error writing state to local storage');
 		// ignore write errors

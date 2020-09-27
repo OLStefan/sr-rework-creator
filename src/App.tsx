@@ -2,16 +2,16 @@ import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
-import { useUpdatingCallback, useUpdatingCallbacks } from 'use-updating-callbacks';
+import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import Logo from './components/Background';
 import CharacterEditor from './components/character/CharacterEditor';
-import Dropzone from './components/Dropzone';
 import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
+import WelcomePage from './components/WelcomePage';
 import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
 import './default.css';
 import { useCharacterLoaded, useDarkMode } from './redux/selectors';
-import { importCharacterThunk, saveCharacterThunk } from './redux/storage/storageThunks';
+import { saveCharacterThunk } from './redux/storage/storageThunks';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
@@ -23,7 +23,6 @@ function App({ ...otherProps }) {
 	const color = computedStyle.getPropertyValue('--backgound-logo-color');
 
 	const callbacks = useUpdatingCallbacks({
-		importFile: useUpdatingCallback((file: File) => importCharacterThunk(file)),
 		onKeyDown: (event: React.KeyboardEvent) => {
 			let isHandled = false;
 			if (event.ctrlKey) {
@@ -63,12 +62,12 @@ function App({ ...otherProps }) {
 						<TitleBar />
 						<div className="editor">
 							<Logo className="background" color={color} />
-							{!characterLoaded && <Dropzone readFile={callbacks.importFile} className="dropzone" />}
+							{!characterLoaded && <WelcomePage />}
 							{characterLoaded && <CharacterEditor />}
 						</div>
 					</div>
 				),
-				[callbacks.importFile, characterLoaded, color],
+				[characterLoaded, color],
 			)}
 			{useMemo(
 				() => (
