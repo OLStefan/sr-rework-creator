@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
-import { importCharacterThunk } from '../redux/storage/storageThunks';
+import { createNewCharacterThunk, importCharacterThunk } from '../redux/storage/storageThunks';
 import { selectCharacter } from '../redux/ui/uiActions';
 import Button from './atoms/Button';
 import Dropzone from './Dropzone';
@@ -14,10 +14,12 @@ function WelcomePage({ ...otherProps }) {
 
 	const callbacks = useUpdatingCallbacks({
 		importFile: (file: File) => dispatch(importCharacterThunk(file)),
+		newCharacter: () => dispatch(createNewCharacterThunk()),
 		loadCharacter: () => dispatch(selectCharacter()),
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
+		newCharacter: t('newCharacter'),
 		load: t('load'),
 		dropText: t('dropText'),
 		draggingText: t('draggingText'),
@@ -25,6 +27,9 @@ function WelcomePage({ ...otherProps }) {
 
 	return (
 		<div {...otherProps} data-component="welcome-page">
+			<Button className="new" onClick={callbacks.newCharacter}>
+				<span>{labels.newCharacter}</span>
+			</Button>
 			<Button className="load" onClick={callbacks.loadCharacter}>
 				<span>{labels.load}</span>
 			</Button>
@@ -46,11 +51,12 @@ export default styled(WelcomePage)`
 	align-items: center;
 	overflow-y: auto;
 
+	.new,
 	.load,
 	.dropzone {
 		width: 50%;
 	}
-
+	.new,
 	.load {
 		height: 10%;
 		font-size: var(--card-title-font-size);

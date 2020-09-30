@@ -61,13 +61,12 @@ function SideBarMenu({ ...otherProps }: Props) {
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
-		createNew: t('createNew'),
+		newCharacter: t('newCharacter'),
 		load: t('load'),
 		import: t('import'),
 		save: t('save'),
 		export: t('export'),
 		darkMode: t('darkMode'),
-		newCharacter: t('newCharacter'),
 	}));
 
 	return (
