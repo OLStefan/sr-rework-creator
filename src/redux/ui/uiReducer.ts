@@ -1,12 +1,13 @@
 import { Action } from '../rootReducer';
 import { StorageActionTypes } from '../storage/storageActions';
-import { UiActionTypes } from './uiActions';
+import { setAllowStorage, UiActionTypes } from './uiActions';
 import { UiState } from './uiTypes';
 
 const initialState: UiState = {
 	displayMenu: false,
 	loadingCharacter: false,
 	darkMode: true,
+	allowLocalStorage: null,
 };
 
 function handleShowMenu(ui: UiState) {
@@ -35,6 +36,13 @@ function handleSetCharacter(ui: UiState) {
 	return { ...ui, loadingCharacter: false, displayMenu: false };
 }
 
+function handleSetAllowStorage(ui: UiState, { value }: ReturnType<typeof setAllowStorage>) {
+	if (ui.allowLocalStorage === value) {
+		return ui;
+	}
+	return { ...ui, allowLocalStorage: value };
+}
+
 export default function (ui = initialState, action: Action): UiState {
 	switch (action.type) {
 		case UiActionTypes.SHOW_MENU:
@@ -48,6 +56,8 @@ export default function (ui = initialState, action: Action): UiState {
 			return handleChangeDarkMode(ui);
 		case UiActionTypes.SELCT_CHARACTER:
 			return handleSelectCharacter(ui);
+		case UiActionTypes.SET_ALLOW_STORAGE:
+			return handleSetAllowStorage(ui, action);
 		default:
 			return ui;
 	}

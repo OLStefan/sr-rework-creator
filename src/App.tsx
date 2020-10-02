@@ -9,8 +9,9 @@ import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
 import WelcomePage from './components/WelcomePage';
 import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
-import { useCharacterLoaded, useDarkMode } from './redux/selectors';
+import { useCharacterLoaded, useDarkMode, useAllowLocalStorage } from './redux/selectors';
 import { saveCharacterThunk } from './redux/storage/storageThunks';
+import GDPR from './components/GDPR';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
@@ -19,6 +20,7 @@ function App({ ...otherProps }) {
 	const dispatch = useDispatch();
 	const characterLoaded = useCharacterLoaded();
 	const darkMode = useDarkMode();
+	const allowLocalStorage = useAllowLocalStorage();
 	const color = computedStyle.getPropertyValue('--backgound-logo-color');
 
 	const callbacks = useUpdatingCallbacks({
@@ -68,6 +70,7 @@ function App({ ...otherProps }) {
 				),
 				[characterLoaded, color],
 			)}
+			{useMemo(() => (allowLocalStorage === undefined || allowLocalStorage === null) && <GDPR />, [allowLocalStorage])}
 			{useMemo(
 				() => (
 					<SideBarMenu />
@@ -82,6 +85,8 @@ export default styled(App)`
 	height: 100%;
 	width: 100%;
 	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr auto;
 	color: var(--text-on-background);
 
 	.content {

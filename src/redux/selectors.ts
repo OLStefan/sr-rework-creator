@@ -8,6 +8,7 @@ import { State } from './rootReducer';
 export const isMenuDisplayed = ({ ui }: State) => ui.displayMenu;
 export const isSelectingCharacter = ({ ui }: State) => ui.loadingCharacter;
 export const getDarkMode = ({ ui }: State) => ui.darkMode;
+export const getAllowLocalStorage = ({ ui }: State) => ui.allowLocalStorage;
 
 export const hasPast = ({ editor: { past } }: State) => past.length >= 1;
 export const hasFuture = ({ editor: { future } }: State) => future.length >= 1;
@@ -94,6 +95,7 @@ export const getHintMessage = (
 export const useIsMenuDisplayed = () => useSelector(isMenuDisplayed);
 export const useIsSelectingCharacter = () => useSelector(isSelectingCharacter);
 export const useDarkMode = () => useSelector(getDarkMode);
+export const useAllowLocalStorage = () => useSelector(getAllowLocalStorage);
 
 // Editor
 export const useHasPast = () => useSelector(hasPast);

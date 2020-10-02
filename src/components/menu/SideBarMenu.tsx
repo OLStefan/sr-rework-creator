@@ -8,6 +8,7 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { ESCAPE_KEY, FILE_ENDING } from '../../constants';
 import { useLabels } from '../../hooks';
 import {
+	useAllowLocalStorage,
 	useCharacterLoaded,
 	useCharacterName,
 	useDarkMode,
@@ -16,6 +17,7 @@ import {
 	useIsDirty,
 	useIsMenuDisplayed,
 } from '../../redux/selectors';
+import { clearLocalStorageThunk } from '../../redux/storage/localStorage';
 import {
 	createNewCharacterThunk,
 	exportCharacterFile,
@@ -40,6 +42,7 @@ function SideBarMenu({ ...otherProps }: Props) {
 	const undoActive = useHasPast();
 	const redoActive = useHasFuture();
 	const isDirty = useIsDirty();
+	const allowLocalStorage = useAllowLocalStorage();
 
 	const callbacks = useUpdatingCallbacks({
 		onUndo: () => dispatch(ActionCreators.undo()),
@@ -57,6 +60,7 @@ function SideBarMenu({ ...otherProps }: Props) {
 		exportCharacter: () => {
 			dispatch(exportCharacterFile(characterName || labels.newCharacter));
 		},
+		clearLocalStorage: () => dispatch(clearLocalStorageThunk()),
 		toggleDarkMode: () => dispatch(changeDarkMode()),
 	});
 
@@ -67,6 +71,8 @@ function SideBarMenu({ ...otherProps }: Props) {
 		save: t('save'),
 		export: t('export'),
 		darkMode: t('darkMode'),
+		clearLocalStorage: t('clearLocalStorage'),
+		clearLocalStorageExtended: t('clearLocalStorageExtended'),
 	}));
 
 	return (
@@ -138,13 +144,18 @@ function SideBarMenu({ ...otherProps }: Props) {
 						() => (
 							<>
 								<div className="divider" />
+								{allowLocalStorage && (
+									<Button title={labels.clearLocalStorageExtended} onClick={callbacks.clearLocalStorage}>
+										{labels.clearLocalStorage}
+									</Button>
+								)}
 								<div className="dark-mode">
 									<span className="dark-mode-label">{labels.darkMode}</span>
 									<Switch checked={darkMode} onClick={callbacks.toggleDarkMode} />
 								</div>
 							</>
 						),
-						[callbacks.toggleDarkMode, darkMode, labels.darkMode],
+						[callbacks, darkMode, labels, allowLocalStorage],
 					)}
 				</div>
 			</motion.div>

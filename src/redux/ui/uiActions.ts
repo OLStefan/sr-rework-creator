@@ -3,6 +3,7 @@ export enum UiActionTypes {
 	HIDE_MENU = 'hideMenu',
 	CHANGE_DARK_MODE = 'changeDarkMode',
 	SELCT_CHARACTER = 'selectCharacter',
+	SET_ALLOW_STORAGE = 'setAllowStorage',
 }
 
 export function showMenu() {
@@ -21,8 +22,13 @@ export function selectCharacter() {
 	return { type: UiActionTypes.SELCT_CHARACTER } as const;
 }
 
+export function setAllowStorage(value: boolean) {
+	return { type: UiActionTypes.SET_ALLOW_STORAGE, value } as const;
+}
+
 export type UiAction =
 	| ReturnType<typeof showMenu>
 	| ReturnType<typeof hideMenu>
 	| ReturnType<typeof changeDarkMode>
-	| ReturnType<typeof selectCharacter>;
+	| ReturnType<typeof selectCharacter>
+	| ReturnType<typeof setAllowStorage>;

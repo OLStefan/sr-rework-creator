@@ -24,5 +24,10 @@
 	"save": "Save Character",
 	"export": "Export File",
 	"darkMode": "Dark Mode",
-	"dropText": "Choose a file or drag it here"
+	"dropText": "Choose a file or drag it here",
+	"yes": "Allow",
+	"no": "Forbid",
+	"allowLocalStorage": "Allow this app to use your browser's local storage for storing created characters and settings?",
+	"clearLocalStorage": "Clear local storage",
+	"clearLocalStorageExtended": "Clear local storage and forbid future usage"
 }
