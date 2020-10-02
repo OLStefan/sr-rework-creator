@@ -33,3 +33,5 @@ export const TOOLTIP_LINE_BREAK = '\n';
 export const TOOLTIP_BULLET_POINT = '•';
 
 export const FILE_ENDING = '.srchar';
+
+export const DEFAULT_TIMEOUT = 200; //ms

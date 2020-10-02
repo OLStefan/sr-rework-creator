@@ -162,8 +162,7 @@ export default styled(SideBarMenu)`
 	.menu {
 		font-size: var(--menu-font-size);
 		height: 100%;
-		width: 25%;
-		min-width: var(--menu-min-width);
+		width: var(--menu-min-width);
 		background-color: var(--primary-color);
 		display: flex;
 		flex-direction: column;

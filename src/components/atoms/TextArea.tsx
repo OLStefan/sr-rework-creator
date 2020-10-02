@@ -1,12 +1,45 @@
-import React, { HTMLProps } from 'react';
+import React, { HTMLProps, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { withDelayedOnChange } from '../hocs/delayOnChange';
+import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import { DEFAULT_TIMEOUT } from '../../constants';
 
-const DelayTextArea = withDelayedOnChange<HTMLTextAreaElement>((props) => <textarea {...props} />);
+type Props = Omit<HTMLProps<HTMLTextAreaElement>, 'ref'> & { timeout?: number };
+const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
+	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, ...otherProps },
+	ref,
+) {
+	const updateId = useRef<number>(0);
+	const [currentValue, setCurrentValue] = useState(value);
+	const callbacks = useUpdatingCallbacks({
+		onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+			event.persist();
+			if (onChange) {
+				if (updateId.current) {
+					clearTimeout(updateId.current);
+				}
 
-type Props = Omit<HTMLProps<HTMLTextAreaElement>, 'ref'>;
-const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function ({ ...otherProps }, ref) {
-	return <DelayTextArea ref={ref} {...otherProps} />;
+				updateId.current = setTimeout(() => {
+					onChange(event);
+					updateId.current = 0;
+				}, timeout);
+				setCurrentValue(event.target.value);
+			}
+		},
+		onBlur: (event: React.FocusEvent<HTMLTextAreaElement>) => {
+			event.persist();
+			if (onChange && updateId.current) {
+				clearTimeout(updateId.current);
+				onChange(event);
+			}
+			if (onBlur) {
+				onBlur(event);
+			}
+		},
+	});
+
+	return (
+		<textarea ref={ref} onChange={callbacks.onChange} onBlur={callbacks.onBlur} value={currentValue} {...otherProps} />
+	);
 });
 
 export default styled(TextArea)``;

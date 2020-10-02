@@ -44,17 +44,24 @@ const AttributeComponent = React.memo(function ({
 			</Button>
 			<TextField
 				type="number"
-				maxLength={2}
 				ref={ref}
+				min={attribute.minRating}
 				value={attribute.rating}
+				max={attribute.maxRating}
 				onFocus={() => ref.current?.select()}
 				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
 					const value = event?.target?.value;
-					console.log(value);
 					const newRating = Number(value);
 					if (value && value.trim() !== '' && !Number.isNaN(newRating)) {
 						onChangeAttribute(attribute.name, newRating - attribute.rating);
 					}
+				}}
+				limitValue={(newValue: string) => {
+					const newRating = Number(newValue);
+					if (newValue && newValue.trim() !== '' && !Number.isNaN(newRating)) {
+						return String(Math.min(Math.max(newRating, attribute.minRating), attribute.maxRating));
+					}
+					return String(attribute.minRating);
 				}}
 			/>
 			<Button disabled={attribute.rating >= attribute.maxRating} onClick={() => onIncreaseAttribute(attribute.name)}>
