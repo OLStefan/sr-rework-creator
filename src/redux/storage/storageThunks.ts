@@ -47,7 +47,6 @@ export function importCharacterThunk(file: File) {
 					dispatch(setCharacter(character));
 				} else {
 					// TODO Show error to user
-					console.log('Invalid file');
 				}
 			}
 		};
@@ -72,10 +71,12 @@ export function exportCharacterFile(fileName: string) {
 		const { currentCharacter: character } = getState().editor.present;
 		if (character) {
 			// Remove increment and uuid as it is not needed when exported
-			const object = character as any;
-			delete object.increment;
 
-			const json = JSON.stringify(object, null, '\t');
+			// Spreading useed to remove attribute
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { increment, ...cleanedCharacter } = character;
+
+			const json = JSON.stringify(cleanedCharacter, null, '\t');
 			const blob = new Blob([json], { type: 'text/json' });
 			saveAs(blob, `${fileName}${FILE_ENDING}`);
 		}

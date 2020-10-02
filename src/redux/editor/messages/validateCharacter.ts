@@ -44,9 +44,10 @@ export default function ({
 	if (maxedAttributes.length > 1) {
 		messages.errors[SectionName.attributes].push('Only one attribute may be raised to its natural maximum');
 	}
-	if (Object.values(AttributeName).reduce((prev, curr) => prev + newCharacter.attributes[curr].rating, 0) < 25) {
+
+	// TODO: Make real validation
+	if (Object.values(AttributeName).reduce((prev, curr) => prev + newCharacter.attributes[curr].rating, 0) < 10) {
 		messages.hints[SectionName.attributes].push('Spent more attribute points');
 	}
-	console.log('Validate Character here');
 	return messages;
 }

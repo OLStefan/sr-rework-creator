@@ -13,6 +13,8 @@ export function loadState() {
 		const state = JSON.parse(serializedState) as State;
 		return state;
 	} catch (err) {
+		// Just log the error
+		// eslint-disable-next-line no-console
 		console.log('Error reading state from local storage');
 		return undefined;
 	}
@@ -39,8 +41,9 @@ export function saveState(state: State) {
 		const serializedState = JSON.stringify(stateClone);
 		localStorage.setItem('state', serializedState);
 	} catch {
+		// Just log the error
+		// eslint-disable-next-line no-console
 		console.log('Error writing state to local storage');
-		// ignore write errors
 	}
 }
 

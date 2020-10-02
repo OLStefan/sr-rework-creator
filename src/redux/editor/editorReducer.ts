@@ -30,14 +30,19 @@ function reducer(editor = initialState, action: Action) {
 		return handleToggleCard(editor, action);
 	}
 
-	const newCharacter = incrementReducer(characterReducer(editor.currentCharacter, action), action);
-	const newMessagesState = validateCharacter({
-		newCharacter,
-		oldCharacter: editor.currentCharacter,
-		oldMessages: editor.messages,
-	});
+	let newCharacter = characterReducer(editor.currentCharacter, action);
+	if (newCharacter !== editor.currentCharacter) {
+		newCharacter = incrementReducer(newCharacter, action);
 
-	return { ...editor, currentCharacter: newCharacter, messages: newMessagesState };
+		const newMessagesState = validateCharacter({
+			newCharacter,
+			oldCharacter: editor.currentCharacter,
+			oldMessages: editor.messages,
+		});
+		return { ...editor, currentCharacter: newCharacter, messages: newMessagesState };
+	}
+
+	return editor;
 }
 
 export default undoable(reducer, {

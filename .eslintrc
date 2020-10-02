@@ -1,3 +1,25 @@
 {
-	"extends": "eslint:recommended"
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint", "react", "react-hooks"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:react/recommended"
+	],
+	"rules": {
+		"@typescript-eslint/explicit-function-return-type": 0,
+		"@typescript-eslint/no-unused-vars": ["error"],
+		"curly": ["error", "all"],
+		"max-depth": ["warn", 4],
+		"max-statements-per-line": ["error", { "max": 1 }],
+		"no-console": 1,
+		"no-magic-numbers": ["error", { "ignore": [-100, -1, 0, 1, 2, 10, 100, 1000], "enforceConst": true }],
+		"no-return-assign": ["error", "except-parens"],
+		"no-unused-expressions": "error",
+		"no-unused-vars": "off",
+		"react-hooks/exhaustive-deps": 2,
+		"react/jsx-indent": ["warn", "tab"],
+		"react/prop-types": "off"
+	}
 }
