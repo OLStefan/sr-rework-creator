@@ -2,8 +2,8 @@ import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
 import { AttributeName } from '../../../constants';
 import { Attribute as AttributeType } from '../../../redux/editor/character/characterTypes';
-import Button from '../../atoms/Button';
-import TextField from '../../atoms/TextField';
+import Button from '../../generic/atoms/Button';
+import TextField from '../../generic/atoms/TextField';
 
 interface Props {
 	attribute: AttributeType;

@@ -7,7 +7,7 @@ import { SectionName } from '../../constants';
 import { useLabels } from '../../hooks';
 import { toggleCard } from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
-import CollapsibleCard from '../molecules/CollapsibleCard';
+import CollapsibleCard from '../generic/molecules/CollapsibleCard';
 import AttributeSection from './attributes/AttributeSection';
 
 interface Props {

@@ -1,7 +1,7 @@
 import React, { HTMLProps, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { DEFAULT_TIMEOUT } from '../../constants';
+import { DEFAULT_TIMEOUT } from '../../../constants';
 
 type Props = Omit<HTMLProps<HTMLInputElement>, 'ref'> & {
 	timeout?: number;

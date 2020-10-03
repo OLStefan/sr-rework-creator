@@ -25,9 +25,9 @@ import {
 	saveCharacterThunk,
 } from '../../redux/storage/storageThunks';
 import { changeDarkMode, hideMenu, selectCharacter } from '../../redux/ui/uiActions';
-import Button from '../atoms/Button';
-import Switch from '../atoms/Switch';
-import FileSelectButton from '../molecules/FileSelectButton';
+import Button from '../generic/atoms/Button';
+import Switch from '../generic/atoms/Switch';
+import FileSelectButton from '../generic/molecules/FileSelectButton';
 
 const computedStyle = getComputedStyle(document.documentElement);
 

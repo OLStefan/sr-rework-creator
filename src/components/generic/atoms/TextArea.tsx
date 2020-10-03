@@ -1,7 +1,7 @@
 import React, { HTMLProps, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { DEFAULT_TIMEOUT } from '../../constants';
+import { DEFAULT_TIMEOUT } from '../../../constants';
 
 type Props = Omit<HTMLProps<HTMLTextAreaElement>, 'ref'> & { timeout?: number };
 const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (

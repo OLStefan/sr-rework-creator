@@ -6,7 +6,7 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
 import { createNewCharacterThunk, importCharacterThunk } from '../redux/storage/storageThunks';
 import { selectCharacter } from '../redux/ui/uiActions';
-import Button from './atoms/Button';
+import Button from './generic/atoms/Button';
 import Dropzone from './Dropzone';
 
 function WelcomePage({ ...otherProps }) {
