@@ -1,14 +1,19 @@
 import { cloneDeep, isEqual } from 'lodash';
 import { AttributeName, SectionName } from '../../../constants';
 import { Character } from '../character/characterTypes';
-
 export interface MessagesState {
-	errors: Partial<{ [sectionName in SectionName]: string[] }>;
-	hints: Partial<{ [sectionName in SectionName]: string[] }>;
+	errors: { [sectionName in SectionName]: string[] };
+	hints: { [sectionName in SectionName]: string[] };
 }
 export const initialState: MessagesState = {
-	errors: {},
-	hints: {},
+	errors: (function () {
+		const result = Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []]));
+		return result as MessagesState['errors'];
+	})(),
+	hints: (function () {
+		const result = Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []]));
+		return result as MessagesState['hints'];
+	})(),
 };
 
 export default function ({
@@ -34,23 +39,12 @@ export default function ({
 	);
 
 	if (maxedAttributes.length > 1) {
-		messages.errors[SectionName.attributes] = addToMessageList(
-			messages.errors[SectionName.attributes],
-			'Only one attribute may be raised to its natural maximum',
-		);
+		messages.errors[SectionName.attributes].push('Only one attribute may be raised to its natural maximum');
 	}
 
 	// TODO: Make real validation
 	if (Object.values(AttributeName).reduce((prev, curr) => prev + newCharacter.attributes[curr].rating, 0) < 10) {
-		messages.hints[SectionName.attributes] = addToMessageList(
-			messages.hints[SectionName.attributes],
-			'Spent more attribute points',
-		);
+		messages.hints[SectionName.attributes].push('Spent more attribute points');
 	}
 	return messages;
-}
-
-function addToMessageList(messageList: string[] | undefined, newMessage: string) {
-	const list = messageList ?? [];
-	return [...list, newMessage];
 }
