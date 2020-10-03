@@ -22,7 +22,6 @@ function WelcomePage({ ...otherProps }) {
 		newCharacter: t('newCharacter'),
 		load: t('load'),
 		dropText: t('dropText'),
-		draggingText: t('draggingText'),
 	}));
 
 	return (
@@ -33,12 +32,7 @@ function WelcomePage({ ...otherProps }) {
 			<Button className="load" onClick={callbacks.loadCharacter}>
 				<span>{labels.load}</span>
 			</Button>
-			<Dropzone
-				readFile={callbacks.importFile}
-				text={labels.dropText}
-				textDragging={labels.draggingText}
-				className="dropzone"
-			/>
+			<Dropzone readFile={callbacks.importFile} text={labels.dropText} className="dropzone" />
 		</div>
 	);
 }

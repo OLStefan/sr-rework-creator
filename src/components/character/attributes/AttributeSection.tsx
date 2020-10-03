@@ -23,9 +23,8 @@ function AttributeSection({ ...otherProps }) {
 
 	const { labels } = useLabels((t: TFunction) => ({
 		...(function () {
-			const attrs: any = {};
-			Object.values(AttributeName).forEach((attr) => (attrs[attr] = t(attr)));
-			return attrs;
+			const result = Object.fromEntries(Object.values(AttributeName).map((attr) => [attr, t(attr)]));
+			return result as { [x in AttributeName]: string };
 		})(),
 	}));
 

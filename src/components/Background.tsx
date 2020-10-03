@@ -4,7 +4,7 @@ interface Props {
 	color: string;
 	className?: string;
 }
-export default function ({ color, ...otherProps }: Props) {
+export default function Background({ color, ...otherProps }: Props) {
 	return (
 		<div {...otherProps}>
 			<div className="logo-container">

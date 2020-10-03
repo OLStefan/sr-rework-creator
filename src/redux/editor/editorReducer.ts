@@ -12,9 +12,8 @@ export const initialState: EditorState = {
 	currentCharacter: null,
 	messages,
 	expandedCards: (function () {
-		const cards: any = {};
-		Object.values(SectionName).forEach((name) => (cards[name] = name === SectionName.details));
-		return cards;
+		const result = Object.fromEntries(Object.values(SectionName).map((name) => [name, name === SectionName.details]));
+		return result as EditorState['expandedCards'];
 	})(),
 };
 

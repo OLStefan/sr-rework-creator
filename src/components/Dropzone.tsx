@@ -6,10 +6,9 @@ import { FILE_ENDING } from '../constants';
 interface Props {
 	readFile: (file: File) => void;
 	text: string;
-	textDragging: string;
 	className?: string;
 }
-function Dropzone({ readFile, text, textDragging, ...otherProps }: Props) {
+function Dropzone({ readFile, text, ...otherProps }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [isDragActive, setDragActive] = useState<boolean>(false);
@@ -32,7 +31,6 @@ function Dropzone({ readFile, text, textDragging, ...otherProps }: Props) {
 		onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => {
 			const file = event.target.files && event.target.files[0];
 			if (!file) {
-				console.log('No file');
 				return;
 			}
 			readFile(file);

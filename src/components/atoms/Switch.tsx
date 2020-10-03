@@ -5,6 +5,8 @@ interface Props {
 	checked: boolean;
 	onClick: React.MouseEventHandler;
 }
+// Used in styling
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Switch({ checked, onClick, ...otherProps }: Props) {
 	return (
 		<div {...otherProps}>

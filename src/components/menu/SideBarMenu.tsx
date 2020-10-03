@@ -31,8 +31,7 @@ import FileSelectButton from '../molecules/FileSelectButton';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-interface Props {}
-function SideBarMenu({ ...otherProps }: Props) {
+function SideBarMenu({ ...otherProps }) {
 	const dispatch = useDispatch();
 
 	const displayMenu = useIsMenuDisplayed();
@@ -43,6 +42,17 @@ function SideBarMenu({ ...otherProps }: Props) {
 	const redoActive = useHasFuture();
 	const isDirty = useIsDirty();
 	const allowLocalStorage = useAllowLocalStorage();
+
+	const { labels } = useLabels((t: TFunction) => ({
+		newCharacter: t('newCharacter'),
+		load: t('load'),
+		import: t('import'),
+		save: t('save'),
+		export: t('export'),
+		darkMode: t('darkMode'),
+		clearLocalStorage: t('clearLocalStorage'),
+		clearLocalStorageExtended: t('clearLocalStorageExtended'),
+	}));
 
 	const callbacks = useUpdatingCallbacks({
 		onUndo: () => dispatch(ActionCreators.undo()),
@@ -63,17 +73,6 @@ function SideBarMenu({ ...otherProps }: Props) {
 		clearLocalStorage: () => dispatch(clearLocalStorageThunk()),
 		toggleDarkMode: () => dispatch(changeDarkMode()),
 	});
-
-	const { labels } = useLabels((t: TFunction) => ({
-		newCharacter: t('newCharacter'),
-		load: t('load'),
-		import: t('import'),
-		save: t('save'),
-		export: t('export'),
-		darkMode: t('darkMode'),
-		clearLocalStorage: t('clearLocalStorage'),
-		clearLocalStorageExtended: t('clearLocalStorageExtended'),
-	}));
 
 	return (
 		<div {...otherProps} data-component="side-bar">

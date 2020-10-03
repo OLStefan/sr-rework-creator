@@ -17,7 +17,6 @@ function FileSelectButton({ onFileSelect, acceptedFiles, multiple, children, ...
 		onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
 			const file = event.target.files && event.target.files[0];
 			if (!file) {
-				console.log('No file');
 				return;
 			}
 			onFileSelect(file);

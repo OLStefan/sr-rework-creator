@@ -23,7 +23,6 @@
 			"dbaeumer.vscode-eslint",
 			"esbenp.prettier-vscode",
 			"jpoissonnier.vscode-styled-components",
-			"gruntfuggly.todo-tree",
 			"msjsdiag.debugger-for-chrome",
 			"firefox-devtools.vscode-firefox-debug"
 		]
