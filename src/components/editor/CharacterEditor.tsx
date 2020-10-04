@@ -25,4 +25,12 @@ export default styled(CharacterEditor)`
 		flex: 1 0 var(--character-editor-card-small-width);
 		max-width: var(--character-editor-card-wide-width);
 	}
+
+	/* calc(3 * var(--character-editor-card-medium-width))*/
+	@media only screen and (min-width: 1200px) {
+		${SectionContent} {
+			min-width: calc(1.5 * var(--character-editor-card-small-width));
+			max-width: calc(1.5 * var(--character-editor-card-wide-width));
+		}
+	}
 `;
