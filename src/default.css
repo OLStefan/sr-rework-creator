@@ -37,6 +37,8 @@
 	--menu-divider-height: 0.1em;
 
 	--burger-button-size: 1.25em;
+
+	--card-shadow-error: 0 0 4px 2px var(--error-color);
 }
 
 body {

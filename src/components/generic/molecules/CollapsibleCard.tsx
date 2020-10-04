@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
+import React, { useMemo, useRef } from 'react';
+import styled, { css } from 'styled-components';
 import Button from '../atoms/Button';
 
 const computedStyle = getComputedStyle(document.documentElement);
@@ -15,17 +15,9 @@ interface Props {
 }
 function CollapsibleCard({ title, children, expanded = false, error, hint, onExpandClick, ...otherProps }: Props) {
 	const contentRef = useRef<HTMLDivElement>(null);
-	const [realHeight, setRealHeight] = useState(0);
-
-	useLayoutEffect(() => {
-		if (contentRef.current) {
-			const height = contentRef.current.getBoundingClientRect().height;
-			setRealHeight(height);
-		}
-	}, []);
 
 	return (
-		<div data-component="card" style={{}} {...otherProps}>
+		<div data-component="card" {...otherProps}>
 			{useMemo(
 				() => (
 					<Button className="titlebar" onClick={onExpandClick}>
@@ -48,13 +40,13 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 			<motion.div
 				// Needed as per the framer motion
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				initial={{ height: 0, '--display': 'block' } as any}
+				initial={{ height: 0, '--visibility': 'visible' } as any}
 				animate={
 					{
-						height: expanded ? realHeight : 0,
-						'--display': 'block',
+						height: expanded ? contentRef.current?.getBoundingClientRect().height : 0,
+						'--visibility': 'visible',
 						transitionEnd: {
-							'--display': expanded ? 'block' : 'none',
+							'--visibility': expanded ? 'visible' : 'hidden',
 						},
 						// Needed as per the framer motion
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,7 +70,14 @@ export default styled(CollapsibleCardMemo)`
 	background: var(--background);
 	padding: var(--spacing-medium);
 	border-radius: var(--border-radius);
-	box-shadow: var(--card-shadow);
+	${({ error }) =>
+		error
+			? css`
+					box-shadow: var(--card-shadow-error);
+			  `
+			: css`
+					box-shadow: var(--card-shadow);
+			  `}
 
 	& > .content {
 		flex: 1 0 auto;
@@ -87,7 +86,7 @@ export default styled(CollapsibleCardMemo)`
 		height: 100%;
 
 		.content-container {
-			display: var(--display, block);
+			visibility: var(--visibility, block);
 
 			.empty {
 				padding-top: var(--spacing-medium);

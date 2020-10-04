@@ -18,11 +18,7 @@ const CardContent = React.memo(function Content({ name, ...otherProps }: Props) 
 	return useMemo(() => {
 		switch (name) {
 			case SectionName.attributes:
-				return (
-					<div data-component="card-content">
-						<AttributeSection {...otherProps} />
-					</div>
-				);
+				return <AttributeSection {...otherProps} />;
 			default:
 				return <span>Some text</span>;
 		}

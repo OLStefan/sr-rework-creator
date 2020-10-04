@@ -12,7 +12,7 @@ export const initialState: EditorState = {
 	currentCharacter: null,
 	messages,
 	expandedCards: (function () {
-		const result = Object.fromEntries(Object.values(SectionName).map((name) => [name, name === SectionName.details]));
+		const result = Object.fromEntries(Object.values(SectionName).map((name) => [name, false]));
 		return result as EditorState['expandedCards'];
 	})(),
 };

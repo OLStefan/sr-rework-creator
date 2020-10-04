@@ -49,7 +49,9 @@ function AttributeSection({ ...otherProps }) {
 	);
 }
 
-export default styled(AttributeSection)`
+const AttributeSectionMemo = React.memo(AttributeSection);
+
+export default styled(AttributeSectionMemo)`
 	display: flex;
 	flex-wrap: wrap-reverse;
 	justify-content: center;
