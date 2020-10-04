@@ -18,10 +18,6 @@ export default styled(Button)`
 	background-color: var(--primary-color);
 	color: var(--text-on-primary);
 
-	&:focus {
-		outline: none;
-	}
-
 	${({ disabled }) =>
 		disabled
 			? css`

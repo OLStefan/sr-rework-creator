@@ -25,7 +25,7 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 	}, []);
 
 	return (
-		<div {...otherProps} data-component="card">
+		<div data-component="card" style={{}} {...otherProps}>
 			{useMemo(
 				() => (
 					<Button className="titlebar" onClick={onExpandClick}>
@@ -46,8 +46,20 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 				[error, hint, onExpandClick, title],
 			)}
 			<motion.div
-				initial={{ height: 0 }}
-				animate={{ height: expanded ? realHeight : 0 }}
+				// Needed as per the framer motion
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				initial={{ height: 0, '--display': 'block' } as any}
+				animate={
+					{
+						height: expanded ? realHeight : 0,
+						'--display': 'block',
+						transitionEnd: {
+							'--display': expanded ? 'block' : 'none',
+						},
+						// Needed as per the framer motion
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					} as any
+				}
 				transition={{ duration: parseFloat(computedStyle.getPropertyValue('--long-animation-duration')) / 1000 }}
 				className="content">
 				<div className="content-container" ref={contentRef}>
@@ -68,14 +80,18 @@ export default styled(CollapsibleCardMemo)`
 	border-radius: var(--border-radius);
 	box-shadow: var(--card-shadow);
 
-	.content {
+	& > .content {
 		flex: 1 0 auto;
 		vertical-align: top;
 		overflow: hidden;
 		height: 100%;
 
-		.empty {
-			padding-top: var(--spacing-medium);
+		.content-container {
+			display: var(--display, block);
+
+			.empty {
+				padding-top: var(--spacing-medium);
+			}
 		}
 	}
 
