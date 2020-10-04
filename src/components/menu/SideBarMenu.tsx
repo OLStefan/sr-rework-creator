@@ -63,6 +63,7 @@ function SideBarMenu({ ...otherProps }) {
 				dispatch(hideMenu());
 			}
 		},
+		onBackgroundClick: () => dispatch(hideMenu()),
 		createNewCharacter: () => dispatch(createNewCharacterThunk()),
 		loadCharacter: () => dispatch(selectCharacter()),
 		importCharacter: (file: File) => dispatch(importCharacterThunk(file)),
@@ -76,7 +77,7 @@ function SideBarMenu({ ...otherProps }) {
 
 	return (
 		<div {...otherProps} data-component="side-bar">
-			<div className={`background ${displayMenu ? 'active' : ''}`} onClick={() => dispatch(hideMenu())} />
+			<div className={`background ${displayMenu ? 'active' : ''}`} onClick={callbacks.onBackgroundClick} />
 			<motion.div
 				initial={{ x: '-100%' }}
 				animate={{ x: displayMenu ? 0 : '-100%' }}
@@ -165,7 +166,7 @@ function SideBarMenu({ ...otherProps }) {
 export default styled(SideBarMenu)`
 	width: 100%;
 	height: 100%;
-	z-index: 1000000;
+	z-index: 1;
 	pointer-events: none;
 	position: relative;
 
@@ -178,6 +179,7 @@ export default styled(SideBarMenu)`
 		flex-direction: column;
 		outline: none;
 		pointer-events: auto;
+		overflow-y: auto;
 
 		.filler {
 			flex: 1 0 0;

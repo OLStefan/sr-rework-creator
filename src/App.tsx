@@ -85,8 +85,6 @@ export default styled(App)`
 	height: 100%;
 	width: 100%;
 	display: grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr auto;
 	color: var(--text-on-background);
 
 	.content {
@@ -126,6 +124,11 @@ export default styled(App)`
 				}
 			}
 		}
+	}
+
+	${GDPR} {
+		position: fixed;
+		bottom: 0;
 	}
 
 	${SideBarMenu} {
