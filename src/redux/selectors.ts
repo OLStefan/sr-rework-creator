@@ -6,7 +6,7 @@ import { State } from './rootReducer';
  * Getter
  */
 export const isMenuDisplayed = ({ ui }: State) => ui.displayMenu;
-export const isSelectingCharacter = ({ ui }: State) => ui.loadingCharacter;
+export const isSelectingCharacter = ({ ui }: State) => ui.isSelectingCharacter;
 export const getDarkMode = ({ ui }: State) => ui.darkMode;
 export const getAllowLocalStorage = ({ ui }: State) => ui.allowLocalStorage;
 

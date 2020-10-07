@@ -5,7 +5,7 @@ import { UiState } from './uiTypes';
 
 const initialState: UiState = {
 	displayMenu: false,
-	loadingCharacter: false,
+	isSelectingCharacter: false,
 	darkMode: true,
 	allowLocalStorage: null,
 };
