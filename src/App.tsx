@@ -16,7 +16,7 @@ import GDPR from './components/GDPR';
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
 
-function App({ ...otherProps }) {
+function App({ ...otherProps }: {}) {
 	const dispatch = useDispatch();
 	const characterLoaded = useCharacterLoaded();
 	const darkMode = useDarkMode();

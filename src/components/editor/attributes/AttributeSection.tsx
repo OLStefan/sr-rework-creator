@@ -11,7 +11,7 @@ import Button from '../../generic/atoms/Button';
 import TextField from '../../generic/atoms/TextField';
 import Attribute from './Attribute';
 
-function AttributeSection({ ...otherProps }) {
+function AttributeSection({ ...otherProps }: {}) {
 	const dispatch = useDispatch();
 	const attributes = useCharacterAttributes();
 	const callbacks = useUpdatingCallbacks({

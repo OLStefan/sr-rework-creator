@@ -8,7 +8,7 @@ import { useCharacterLoaded, useCharacterName, useIsDirty } from '../../redux/se
 import { showMenu } from '../../redux/ui/uiActions';
 import BurgerMenuButton from './BurgerMenuButton';
 
-function TitleBar({ ...otherProps }) {
+function TitleBar({ ...otherProps }: {}) {
 	const dispatch = useDispatch();
 	const characterLoaded = useCharacterLoaded();
 	const name = useCharacterName();

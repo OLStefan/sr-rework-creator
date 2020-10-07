@@ -31,7 +31,7 @@ import FileSelectButton from '../generic/molecules/FileSelectButton';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-function SideBarMenu({ ...otherProps }) {
+function SideBarMenu({ ...otherProps }: {}) {
 	const dispatch = useDispatch();
 
 	const displayMenu = useIsMenuDisplayed();

@@ -7,7 +7,7 @@ import { useLabels } from '../hooks';
 import { setAllowStorage } from '../redux/ui/uiActions';
 import Button from './generic/atoms/Button';
 
-function GDPR({ ...otherProps }) {
+function GDPR({ ...otherProps }: {}) {
 	const dispatch = useDispatch();
 	const setGdprResult = useUpdatingCallback((value: boolean) => dispatch(setAllowStorage(value)));
 

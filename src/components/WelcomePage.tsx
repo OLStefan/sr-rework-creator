@@ -9,7 +9,7 @@ import { selectCharacter } from '../redux/ui/uiActions';
 import Button from './generic/atoms/Button';
 import Dropzone from './Dropzone';
 
-function WelcomePage({ ...otherProps }) {
+function WelcomePage({ ...otherProps }: {}) {
 	const dispatch = useDispatch();
 
 	const callbacks = useUpdatingCallbacks({
