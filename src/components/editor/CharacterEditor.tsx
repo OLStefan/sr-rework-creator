@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
+import { useUpdatingCallback } from 'use-updating-callbacks';
 import { SectionName } from '../../constants';
 import SectionContent from './SectionContent';
 
-function CharacterEditor({ ...otherProps }) {
+interface ItemType {
+	id: number;
+	name: SectionName;
+}
+
+function sameItems(a: ItemType, b: ItemType) {
+	return a && b && a.id === b.id;
+}
+
+function CharacterEditor({ ...otherProps }: {}) {
+	const [list, setList] = useState<ItemType[]>(
+		Object.values(SectionName).map((section, index) => ({ name: section, id: index })),
+	);
+
+	const updateListOrder = useUpdatingCallback((newList: ItemType[]) => {
+		if (!list.every((item, index) => sameItems(item, newList[index]))) {
+			setList(newList);
+		}
+	});
+
 	return (
 		<div {...otherProps} data-component="character-editor">
-			{Object.values(SectionName).map((sectionName) => (
-				<SectionContent key={sectionName} name={sectionName} />
-			))}
+			<ReactSortable list={list} setList={updateListOrder} className="list">
+				{list.map((sectionItem) => (
+					<SectionContent key={sectionItem.id} name={sectionItem.name} />
+				))}
+			</ReactSortable>
 		</div>
 	);
 }
@@ -16,21 +39,25 @@ function CharacterEditor({ ...otherProps }) {
 export default styled(CharacterEditor)`
 	max-height: 100%;
 	flex: 1 0 0;
-	display: flex;
-	flex-wrap: wrap;
-	align-content: flex-start;
-	overflow-y: auto;
 
-	${SectionContent} {
-		flex: 1 0 var(--character-editor-card-small-width);
-		max-width: var(--character-editor-card-wide-width);
-	}
+	.list {
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-start;
+		overflow-y: auto;
 
-	/* calc(3 * var(--character-editor-card-medium-width))*/
-	@media only screen and (min-width: 1200px) {
 		${SectionContent} {
-			min-width: calc(1.5 * var(--character-editor-card-small-width));
-			max-width: calc(1.5 * var(--character-editor-card-wide-width));
+			flex: 1 0 var(--character-editor-card-small-width);
+			max-width: var(--character-editor-card-wide-width);
+		}
+
+		/* calc(3 * var(--character-editor-card-medium-width))*/
+		@media only screen and (min-width: 1200px) {
+			${SectionContent} {
+				min-width: calc(1.5 * var(--character-editor-card-small-width));
+				max-width: calc(1.5 * var(--character-editor-card-wide-width));
+			}
 		}
 	}
 `;

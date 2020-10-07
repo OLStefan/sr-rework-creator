@@ -9,7 +9,7 @@ function isType(value: unknown, type: string) {
 	return isSet(value) && typeof value === type;
 }
 
-export function isAttribute(x: unknown): x is Attribute {
+function isAttribute(x: unknown): x is Attribute {
 	const object: Attribute = x as Attribute;
 	return (
 		isSet(object) &&

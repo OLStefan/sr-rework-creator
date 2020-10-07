@@ -6,14 +6,10 @@ export interface MessagesState {
 	hints: { [sectionName in SectionName]: string[] };
 }
 export const initialState: MessagesState = {
-	errors: (function () {
-		const result = Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []]));
-		return result as MessagesState['errors'];
-	})(),
-	hints: (function () {
-		const result = Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []]));
-		return result as MessagesState['hints'];
-	})(),
+	errors: (() =>
+		Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['errors'])(),
+	hints: (() =>
+		Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['hints'])(),
 };
 
 export default function ({
