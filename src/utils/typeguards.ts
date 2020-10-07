@@ -1,17 +1,16 @@
-/* Any is explicitly allowed here, since all this meethods are for typechecking any object */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AttributeName } from '../constants';
 import { Attribute, Character } from '../redux/editor/character/characterTypes';
 
-function isSet(value: any) {
+function isSet(value: unknown) {
 	return value !== null && value !== undefined;
 }
 
-function isType(value: any, type: string) {
+function isType(value: unknown, type: string) {
 	return isSet(value) && typeof value === type;
 }
 
-export function isAttribute(object: any): object is Attribute {
+export function isAttribute(x: unknown): x is Attribute {
+	const object: Attribute = x as Attribute;
 	return (
 		isSet(object) &&
 		isSet(object.name) &&
@@ -22,7 +21,8 @@ export function isAttribute(object: any): object is Attribute {
 	);
 }
 
-export function isCharacter(object: any): object is Character {
+export function isCharacter(x: unknown): x is Character {
+	const object: Character = x as Character;
 	return (
 		isSet(object) &&
 		isType(object.saveVersion, 'number') &&
