@@ -35,3 +35,4 @@ export const TOOLTIP_BULLET_POINT = '•';
 export const FILE_ENDING = '.srchar';
 
 export const DEFAULT_TIMEOUT = 200; //ms
+export const DRAG_MOVE_THRESHOLD = 8; // px

@@ -69,10 +69,9 @@ export default styled(AttributeSectionMemo)`
 			grid-gap: var(--spacing-medium);
 			align-items: center;
 			margin-top: var(--spacing-small);
-			padding: 0 var(--spacing-small);
 
 			&:last-child {
-				padding-bottom: var(--spacing-small);
+				margin-bottom: var(--spacing-small);
 			}
 
 			.title {

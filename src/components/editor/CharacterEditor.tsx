@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import { useUpdatingCallback } from 'use-updating-callbacks';
-import { SectionName } from '../../constants';
+import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD, SectionName } from '../../constants';
 import SectionContent from './SectionContent';
 
 interface ItemType {
@@ -11,13 +11,15 @@ interface ItemType {
 }
 
 function sameItems(a: ItemType, b: ItemType) {
-	return a && b && a.id === b.id;
+	return a.id === b.id;
 }
 
 function CharacterEditor({ ...otherProps }: {}) {
-	const [list, setList] = useState<ItemType[]>(
-		Object.values(SectionName).map((section, index) => ({ name: section, id: index })),
+	const initialList = useMemo(
+		() => Object.values(SectionName).map((section, index) => ({ name: section, id: index })),
+		[],
 	);
+	const [list, setList] = useState<ItemType[]>(initialList);
 
 	const updateListOrder = useUpdatingCallback((newList: ItemType[]) => {
 		if (!list.every((item, index) => sameItems(item, newList[index]))) {
@@ -27,7 +29,14 @@ function CharacterEditor({ ...otherProps }: {}) {
 
 	return (
 		<div {...otherProps} data-component="character-editor">
-			<ReactSortable list={list} setList={updateListOrder} className="list">
+			<ReactSortable
+				list={list}
+				setList={updateListOrder}
+				className="list"
+				handle=".titlebar"
+				delay={DEFAULT_TIMEOUT}
+				touchStartThreshold={DRAG_MOVE_THRESHOLD}
+				forceFallback>
 				{list.map((sectionItem) => (
 					<SectionContent key={sectionItem.id} name={sectionItem.name} />
 				))}
@@ -38,14 +47,12 @@ function CharacterEditor({ ...otherProps }: {}) {
 
 export default styled(CharacterEditor)`
 	max-height: 100%;
-	flex: 1 0 0;
+	overflow-y: auto;
 
 	.list {
-		width: 100%;
 		display: flex;
 		flex-wrap: wrap;
 		align-content: flex-start;
-		overflow-y: auto;
 
 		${SectionContent} {
 			flex: 1 0 var(--character-editor-card-small-width);

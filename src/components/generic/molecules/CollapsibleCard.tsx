@@ -55,7 +55,6 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 				transition={{ duration: parseFloat(computedStyle.getPropertyValue('--long-animation-duration')) / 1000 }}
 				className="content">
 				<div className="content-container" ref={contentRef}>
-					<div className="empty" />
 					{children}
 				</div>
 			</motion.div>
@@ -68,7 +67,6 @@ const CollapsibleCardMemo = React.memo(CollapsibleCard);
 export default styled(CollapsibleCardMemo)`
 	position: relative;
 	background: var(--background);
-	padding: var(--spacing-medium);
 	border-radius: var(--border-radius);
 	${({ error }) =>
 		error
@@ -86,11 +84,8 @@ export default styled(CollapsibleCardMemo)`
 		height: 100%;
 
 		.content-container {
+			padding: var(--spacing-medium);
 			visibility: var(--visibility, block);
-
-			.empty {
-				padding-top: var(--spacing-medium);
-			}
 		}
 	}
 
@@ -101,6 +96,7 @@ export default styled(CollapsibleCardMemo)`
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		padding: var(--spacing-medium);
 
 		.expand {
 			width: var(--card-expand-font-size);
