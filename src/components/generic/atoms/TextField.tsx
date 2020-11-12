@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT } from '../../../constants';
 
-type Props = Omit<HTMLProps<HTMLInputElement>, 'ref'> & {
+interface Props extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
 	timeout?: number;
 	limitValue?: (newValue: string) => string;
-};
+}
+
 const TextField = React.forwardRef<HTMLInputElement, Props>(function (
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, limitValue = (value: string) => value, ...otherProps },
 	ref,

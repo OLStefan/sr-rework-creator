@@ -7,7 +7,7 @@ import { useLabels } from '../hooks';
 import { createNewCharacterThunk, importCharacterThunk } from '../redux/storage/storageThunks';
 import { selectCharacter } from '../redux/ui/uiActions';
 import Button from './generic/atoms/Button';
-import Dropzone from './Dropzone';
+import Dropzone from './generic/atoms/Dropzone';
 
 function WelcomePage({ ...otherProps }: {}) {
 	const dispatch = useDispatch();

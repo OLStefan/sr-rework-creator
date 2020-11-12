@@ -1,7 +1,6 @@
-import { Action } from '../../rootReducer';
+import { Action, Character } from '../../../types';
 import { StorageActionTypes } from '../../storage/storageActions';
 import { UiActionTypes } from '../../ui/uiActions';
-import { Character } from './characterTypes';
 
 const initialState: Character | null = null;
 

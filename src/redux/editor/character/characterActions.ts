@@ -1,4 +1,4 @@
-import { AttributeName } from '../../../constants';
+import { AttributeName } from '../../../types';
 
 export enum CharacterActionTypes {
 	CHANGE_ATTRIBUTE = 'changeAttribute',

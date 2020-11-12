@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { SectionName, TOOLTIP_BULLET_POINT, TOOLTIP_LINE_BREAK } from '../constants';
-import { State } from './rootReducer';
+import { TOOLTIP_BULLET_POINT, TOOLTIP_LINE_BREAK } from '../constants';
+import { SectionName, State } from '../types';
 
 /*
  * Getter
@@ -19,7 +19,7 @@ export const isDirty = ({
 	storage,
 }: State) =>
 	!!currentCharacter &&
-	(!storage[currentCharacter.uuid] || currentCharacter.increment !== storage[currentCharacter.uuid].increment);
+	(!storage[currentCharacter.uuid] || currentCharacter.increment !== storage[currentCharacter.uuid]?.increment);
 export const getExpandedCard = (
 	cardName: SectionName,
 	{

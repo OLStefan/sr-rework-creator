@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { FILE_ENDING } from '../constants';
+import { FILE_ENDING } from '../../../constants';
 
 interface Props {
 	readFile: (file: File) => void;

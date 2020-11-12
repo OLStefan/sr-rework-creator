@@ -10,7 +10,7 @@ import rootReducer from './redux/rootReducer';
 import { loadState, saveState } from './redux/storage/localStorage';
 
 import './default.css';
-import './external-strings/i18n';
+import './externalizedStrings/i18n';
 
 const persistedState = loadState();
 const store = createStore(rootReducer, persistedState, composeWithDevTools(applyMiddleware(thunk)));

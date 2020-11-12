@@ -1,7 +1,6 @@
 import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
-import { AttributeName } from '../../../constants';
-import { Attribute as AttributeType } from '../../../redux/editor/character/characterTypes';
+import { Attribute as AttributeType, AttributeName } from '../../../types';
 import Button from '../../generic/atoms/Button';
 import TextField from '../../generic/atoms/TextField';
 

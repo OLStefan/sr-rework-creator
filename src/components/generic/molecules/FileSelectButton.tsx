@@ -13,7 +13,7 @@ function FileSelectButton({ onFileSelect, acceptedFiles, multiple, children, ...
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const callbacks = useUpdatingCallbacks({
-		onClick: () => inputRef.current && inputRef.current.click(),
+		onClick: () => inputRef.current?.click(),
 		onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
 			const file = event.target.files && event.target.files[0];
 			if (!file) {

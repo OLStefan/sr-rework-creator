@@ -3,10 +3,10 @@ import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { SectionName } from '../../constants';
 import { useLabels } from '../../hooks';
 import { toggleCard } from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
+import { SectionName } from '../../types';
 import CollapsibleCard from '../generic/molecules/CollapsibleCard';
 import AttributeSection from './attributes/AttributeSection';
 

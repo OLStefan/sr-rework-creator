@@ -1,4 +1,4 @@
-import { Character } from '../editor/character/characterTypes';
+import { Character } from '../../types';
 
 export enum StorageActionTypes {
 	SET_CHARACTER = 'setCharacter',

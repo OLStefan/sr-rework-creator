@@ -1,11 +1,9 @@
 import undoable, { includeAction } from 'redux-undo';
-import { SectionName } from '../../constants';
-import { Action } from '../rootReducer';
+import { Action, EditorState, SectionName } from '../../types';
 import { CharacterActionTypes } from './character/characterActions';
 import characterReducer from './character/characterReducer';
 import incrementReducer from './character/incrementReducer';
 import { EditorActionTypes, toggleCard } from './editorActions';
-import { EditorState } from './editorTypes';
 import validateCharacter, { initialState as messages } from './messages/validateCharacter';
 
 export const initialState: EditorState = {

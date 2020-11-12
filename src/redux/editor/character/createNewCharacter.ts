@@ -1,6 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { AttributeName } from '../../../constants';
-import { Character } from './characterTypes';
+import { AttributeName, Character } from '../../../types';
 
 export default function (): Character {
 	return {
@@ -10,12 +9,12 @@ export default function (): Character {
 		uuid: uuid(),
 		careerMode: false,
 		attributes: {
-			[AttributeName.strength]: { name: AttributeName.strength, minRating: 1, maxRating: 6, rating: 1 },
-			[AttributeName.agility]: { name: AttributeName.agility, minRating: 1, maxRating: 6, rating: 2 },
-			[AttributeName.body]: { name: AttributeName.body, minRating: 1, maxRating: 6, rating: 3 },
-			[AttributeName.intelligence]: { name: AttributeName.intelligence, minRating: 1, maxRating: 6, rating: 4 },
-			[AttributeName.willpower]: { name: AttributeName.willpower, minRating: 1, maxRating: 6, rating: 5 },
-			[AttributeName.charisma]: { name: AttributeName.charisma, minRating: 1, maxRating: 6, rating: 6 },
+			[AttributeName.STRENGTH]: { name: AttributeName.STRENGTH, minRating: 1, maxRating: 6, rating: 1 },
+			[AttributeName.AGILITY]: { name: AttributeName.AGILITY, minRating: 1, maxRating: 6, rating: 2 },
+			[AttributeName.BODY]: { name: AttributeName.BODY, minRating: 1, maxRating: 6, rating: 3 },
+			[AttributeName.INTELLIGENCE]: { name: AttributeName.INTELLIGENCE, minRating: 1, maxRating: 6, rating: 4 },
+			[AttributeName.WILLPOWER]: { name: AttributeName.WILLPOWER, minRating: 1, maxRating: 6, rating: 5 },
+			[AttributeName.CHARISMA]: { name: AttributeName.CHARISMA, minRating: 1, maxRating: 6, rating: 6 },
 		},
 	};
 }

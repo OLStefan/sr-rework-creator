@@ -1,5 +1,4 @@
-import { AttributeName } from '../constants';
-import { Attribute, Character } from '../redux/editor/character/characterTypes';
+import { AttributeName, Attribute, Character } from '../types';
 
 function isSet(value: unknown) {
 	return value !== null && value !== undefined;

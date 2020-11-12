@@ -1,28 +1,3 @@
-export enum AttributeName {
-	strength = 'strength',
-	agility = 'agility',
-	body = 'body',
-	intelligence = 'intelligence',
-	willpower = 'willpower',
-	charisma = 'charisma',
-}
-
-export enum SectionName {
-	details = 'details',
-	qualities = 'qualities',
-	attributes = 'attributes',
-	skills = 'skills',
-	spells = 'spells',
-	weapons = 'weapons',
-	armor = 'armor',
-	gear = 'gear',
-	drones = 'drones',
-	vehicles = 'vehicles',
-	lifestyles = 'lifestyles',
-	contacts = 'contacts',
-}
-
-// Misc
 export const ESCAPE_KEY = 'Escape';
 export const Z_KEY = 'z';
 export const Y_KEY = 'y';

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../generic/atoms/Button';
+import Button from '../atoms/Button';
 
 interface Props {
 	onClick: React.MouseEventHandler;

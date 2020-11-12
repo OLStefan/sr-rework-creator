@@ -1,10 +1,6 @@
 import { cloneDeep, isEqual } from 'lodash';
-import { AttributeName, SectionName } from '../../../constants';
-import { Character } from '../character/characterTypes';
-export interface MessagesState {
-	errors: { [sectionName in SectionName]: string[] };
-	hints: { [sectionName in SectionName]: string[] };
-}
+import { AttributeName, Character, MessagesState, SectionName } from '../../../types';
+
 export const initialState: MessagesState = {
 	errors: (() =>
 		Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['errors'])(),
@@ -35,12 +31,12 @@ export default function ({
 	);
 
 	if (maxedAttributes.length > 1) {
-		messages.errors[SectionName.attributes].push('Only one attribute may be raised to its natural maximum');
+		messages.errors[SectionName.ATTRIBUTES].push('Only one attribute may be raised to its natural maximum');
 	}
 
 	// TODO: Make real validation
 	if (Object.values(AttributeName).reduce((prev, curr) => prev + newCharacter.attributes[curr].rating, 0) < 10) {
-		messages.hints[SectionName.attributes].push('Spent more attribute points');
+		messages.hints[SectionName.ATTRIBUTES].push('Spent more attribute points');
 	}
 	return messages;
 }

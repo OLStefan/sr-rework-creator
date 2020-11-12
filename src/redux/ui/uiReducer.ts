@@ -1,7 +1,6 @@
-import { Action } from '../rootReducer';
+import { Action, UiState } from '../../types';
 import { StorageActionTypes } from '../storage/storageActions';
 import { setAllowStorage, UiActionTypes } from './uiActions';
-import { UiState } from './uiTypes';
 
 const initialState: UiState = {
 	displayMenu: false,

@@ -1,12 +1,12 @@
-import { SectionName } from '../../constants';
-import { CharacterAction } from './character/characterActions';
+import { SectionName } from '../../types';
+import { CharacterActionTypes } from './character/characterActions';
 
 export enum EditorActionTypes {
 	TOGGLE_CARD = 'toggleCard',
 }
 
-export function toggleCard(cardName: keyof typeof SectionName) {
+export function toggleCard(cardName: SectionName) {
 	return { type: EditorActionTypes.TOGGLE_CARD, cardName } as const;
 }
 
-export type EditorAction = ReturnType<typeof toggleCard> | CharacterAction;
+export type EditorAction = ReturnType<typeof toggleCard> | CharacterActionTypes;

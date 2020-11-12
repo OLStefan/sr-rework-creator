@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { Dispatch } from 'redux';
+import { State } from '../../types';
 import { initialState } from '../editor/editorReducer';
-import { State } from '../rootReducer';
 import { setAllowStorage } from '../ui/uiActions';
 
 export function loadState() {

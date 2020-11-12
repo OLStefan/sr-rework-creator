@@ -2,7 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import { useUpdatingCallback } from 'use-updating-callbacks';
-import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD, SectionName } from '../../constants';
+import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
+import { SectionName } from '../../types';
 import SectionContent from './SectionContent';
 
 interface ItemType {

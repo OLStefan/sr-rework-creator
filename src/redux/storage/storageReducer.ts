@@ -1,6 +1,5 @@
-import { Action } from '../rootReducer';
+import { Action, StorageState } from '../../types';
 import { saveCharacter, StorageActionTypes } from './storageActions';
-import { StorageState } from './storageTypes';
 
 const initialState: StorageState = {};
 
