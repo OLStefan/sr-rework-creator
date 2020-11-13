@@ -1,5 +1,8 @@
 import { StateWithHistory } from 'redux-undo';
 import { UUID, Character } from '.';
+import { EditorAction } from '../redux/editor/editorActions';
+import { StorageAction } from '../redux/storage/storageActions';
+import { UiAction } from '../redux/ui/uiActions';
 
 export interface UiState {
 	displayMenu: boolean;
@@ -36,14 +39,12 @@ export interface EditorState {
 
 export type UndoableEditorState = StateWithHistory<EditorState>;
 
-export interface StorageState {
-	[x: string]: Character;
-}
+export type StorageState = Partial<Record<UUID, Character>>;
 
 export type State = {
 	ui: UiState;
 	editor: UndoableEditorState;
-	storage: Partial<Record<UUID, Character>>;
+	storage: StorageState;
 };
 
 export type Action = EditorAction | UiAction | StorageAction;

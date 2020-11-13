@@ -7,7 +7,7 @@ function handleSaveCharacter(storage: StorageState, { character }: ReturnType<ty
 	return { ...storage, [character.uuid]: character };
 }
 
-export default function (storage = initialState, action: Action) {
+export default function (storage = initialState, action: Action): StorageState {
 	switch (action.type) {
 		case StorageActionTypes.SAVE_CHARACTER:
 			return handleSaveCharacter(storage, action);

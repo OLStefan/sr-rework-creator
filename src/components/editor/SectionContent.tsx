@@ -17,7 +17,7 @@ interface Props {
 const CardContent = React.memo(function Content({ name, ...otherProps }: Props) {
 	return useMemo(() => {
 		switch (name) {
-			case SectionName.attributes:
+			case SectionName.ATTRIBUTES:
 				return <AttributeSection {...otherProps} />;
 			default:
 				return <span>Some text</span>;

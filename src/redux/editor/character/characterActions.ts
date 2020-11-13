@@ -8,4 +8,4 @@ export function changeAttribute(attributeName: AttributeName, change: number) {
 	return { type: CharacterActionTypes.CHANGE_ATTRIBUTE, attributeName, change } as const;
 }
 
-export type CharacterAction = ReturnType<typeof changeAttribute>;
+export type CharacterActions = ReturnType<typeof changeAttribute>;
