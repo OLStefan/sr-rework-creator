@@ -1,8 +1,9 @@
 import { StateWithHistory } from 'redux-undo';
-import { UUID, Character } from '.';
-import { EditorAction } from '../redux/editor/editorActions';
-import { StorageAction } from '../redux/storage/storageActions';
-import { UiAction } from '../redux/ui/uiActions';
+import { Character, UUID } from '.';
+import { CharacterActions } from '../redux/editor/character/characterActions';
+import { EditorActions } from '../redux/editor/editorActions';
+import { StorageActions } from '../redux/storage/storageActions';
+import { UiActions } from '../redux/ui/uiActions';
 
 export interface UiState {
 	displayMenu: boolean;
@@ -47,4 +48,4 @@ export type State = {
 	storage: StorageState;
 };
 
-export type Action = EditorAction | UiAction | StorageAction;
+export type Action = EditorActions | CharacterActions | UiActions | StorageActions;

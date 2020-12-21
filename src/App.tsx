@@ -10,9 +10,9 @@ import TitleBar from './components/menu/TitleBar';
 import WelcomePage from './components/WelcomePage';
 import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
 import { useCharacterLoaded, useDarkMode, useAllowLocalStorage } from './redux/selectors';
-import { saveCharacterThunk } from './redux/storage/storageThunks';
 import GDPR from './components/GDPR';
 import { BaseProps } from './types/props';
+import storageActions from './redux/storage/storageActions';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
@@ -39,7 +39,7 @@ function App({ ...otherProps }: BaseProps) {
 						break;
 					case S_KEY:
 						isHandled = true;
-						dispatch(saveCharacterThunk());
+						dispatch(storageActions.saveCurrentCharacter());
 						break;
 					case O_KEY:
 						isHandled = true;

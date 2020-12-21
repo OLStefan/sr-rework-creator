@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
-import { createNewCharacterThunk, importCharacterThunk } from '../redux/storage/storageThunks';
-import { selectCharacter } from '../redux/ui/uiActions';
+import storageActions from '../redux/storage/storageActions';
+import uiActions from '../redux/ui/uiActions';
 import { BaseProps } from '../types/props';
 import Button from './generic/atoms/Button';
 import Dropzone from './generic/atoms/Dropzone';
@@ -14,9 +14,9 @@ function WelcomePage({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 
 	const callbacks = useUpdatingCallbacks({
-		importFile: (file: File) => dispatch(importCharacterThunk(file)),
-		newCharacter: () => dispatch(createNewCharacterThunk()),
-		loadCharacter: () => dispatch(selectCharacter()),
+		importFile: (file: File) => dispatch(storageActions.importCharacter(file)),
+		newCharacter: () => dispatch(storageActions.createNewCharacter()),
+		loadCharacter: () => dispatch(uiActions.startSelectingCharacter()),
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({

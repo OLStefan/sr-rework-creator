@@ -1,17 +1,17 @@
 import { Action, Character } from '../../../types';
-import { setCharacter, StorageActionTypes } from '../../storage/storageActions';
-import { changeAttribute, CharacterActionTypes } from './characterActions';
+import storageActions, { StorageAction } from '../../storage/storageActions';
+import characterActions, { CharacterAction } from './characterActions';
 
 const initialState: Character | null = null;
 
-function handleSetCharacter({ character }: ReturnType<typeof setCharacter>) {
+function handleSetCharacter({ character }: StorageAction<'setCharacter'>) {
 	return character;
 }
 
 function handleChangeAttribute(
 	character: Character | null,
-	{ attributeName, change }: ReturnType<typeof changeAttribute>,
-) {
+	{ attributeName, change }: CharacterAction<'changeAttribute'>,
+): Character | null {
 	if (!character || !character.attributes[attributeName]) {
 		return character;
 	}
@@ -33,11 +33,11 @@ function handleChangeAttribute(
 	};
 }
 
-export default function (character = initialState, action: Action) {
+export default function (character = initialState, action: Action): Character | null {
 	switch (action.type) {
-		case StorageActionTypes.SET_CHARACTER:
+		case storageActions.types.setCharacter:
 			return handleSetCharacter(action);
-		case CharacterActionTypes.CHANGE_ATTRIBUTE:
+		case characterActions.types.changeAttribute:
 			return handleChangeAttribute(character, action);
 		default:
 			return character;

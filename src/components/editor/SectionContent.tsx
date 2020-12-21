@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
-import { toggleCard } from '../../redux/editor/editorActions';
+import editorActions from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
 import { SectionName } from '../../types';
 import { BaseProps } from '../../types/props';
@@ -37,7 +37,7 @@ function SectionContent({ name, ...otherProps }: Props) {
 	}));
 
 	const callbacks = useUpdatingCallbacks({
-		[name]: () => dispatch(toggleCard(name)),
+		[name]: () => dispatch(editorActions.toggleCard(name)),
 	});
 
 	return (

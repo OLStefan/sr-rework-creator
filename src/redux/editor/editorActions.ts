@@ -1,12 +1,16 @@
-import { SectionName } from '../../types';
-import { CharacterActions } from './character/characterActions';
+import { ActionCreatorBuilder, AllActions, FilterAction, SectionName } from '../../types';
 
-export enum EditorActionTypes {
-	TOGGLE_CARD = 'toggleCard',
-}
+export const EDITOR_NAMESPACE = 'EditorActions';
+export const EDITOR_TYPEGUARD = 'isEditorAction';
 
-export function toggleCard(cardName: SectionName) {
-	return { type: EditorActionTypes.TOGGLE_CARD, cardName } as const;
-}
+const builder = new ActionCreatorBuilder(EDITOR_NAMESPACE, EDITOR_TYPEGUARD);
 
-export type EditorAction = ReturnType<typeof toggleCard> | CharacterActions;
+const creators = {
+	toggleCard(cardName: SectionName) {
+		return { type: builder.createType('toggleCard'), cardName } as const;
+	},
+};
+
+export default builder.createCreators(creators, {});
+export type EditorActions = AllActions<typeof creators>;
+export type EditorAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

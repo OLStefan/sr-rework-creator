@@ -18,13 +18,8 @@ import {
 	useIsMenuDisplayed,
 } from '../../redux/selectors';
 import { clearLocalStorageThunk } from '../../redux/storage/localStorage';
-import {
-	createNewCharacterThunk,
-	exportCharacterFile,
-	importCharacterThunk,
-	saveCharacterThunk,
-} from '../../redux/storage/storageThunks';
-import { changeDarkMode, hideMenu, selectCharacter } from '../../redux/ui/uiActions';
+import storageActions from '../../redux/storage/storageActions';
+import uiActions from '../../redux/ui/uiActions';
 import { BaseProps } from '../../types/props';
 import Button from '../generic/atoms/Button';
 import Switch from '../generic/atoms/Switch';
@@ -58,22 +53,22 @@ function SideBarMenu({ ...otherProps }: BaseProps) {
 	const callbacks = useUpdatingCallbacks({
 		onUndo: () => dispatch(ActionCreators.undo()),
 		onRedo: () => dispatch(ActionCreators.redo()),
-		onHide: () => dispatch(hideMenu()),
+		onHide: () => dispatch(uiActions.hideMenu()),
 		onKeyDown: (event: React.KeyboardEvent) => {
 			if (event.key === ESCAPE_KEY) {
-				dispatch(hideMenu());
+				dispatch(uiActions.hideMenu());
 			}
 		},
-		onBackgroundClick: () => dispatch(hideMenu()),
-		createNewCharacter: () => dispatch(createNewCharacterThunk()),
-		loadCharacter: () => dispatch(selectCharacter()),
-		importCharacter: (file: File) => dispatch(importCharacterThunk(file)),
-		saveCharacter: () => dispatch(saveCharacterThunk()),
+		onBackgroundClick: () => dispatch(uiActions.hideMenu()),
+		createNewCharacter: () => dispatch(storageActions.createNewCharacter()),
+		loadCharacter: () => dispatch(uiActions.startSelectingCharacter()),
+		importCharacter: (file: File) => dispatch(storageActions.importCharacter(file)),
+		saveCharacter: () => dispatch(storageActions.saveCurrentCharacter()),
 		exportCharacter: () => {
-			dispatch(exportCharacterFile(characterName || labels.newCharacter));
+			dispatch(storageActions.exportCharacterFile(characterName || labels.newCharacter));
 		},
 		clearLocalStorage: () => dispatch(clearLocalStorageThunk()),
-		toggleDarkMode: () => dispatch(changeDarkMode()),
+		toggleDarkMode: () => dispatch(uiActions.changeDarkMode()),
 	});
 
 	return (

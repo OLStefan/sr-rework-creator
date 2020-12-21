@@ -1,11 +1,16 @@
-import { AttributeName } from '../../../types';
+import { ActionCreatorBuilder, AllActions, AttributeName, FilterAction } from '../../../types';
 
-export enum CharacterActionTypes {
-	CHANGE_ATTRIBUTE = 'changeAttribute',
-}
+export const CHARACTER_NAMESPACE = 'CharacterActions';
+export const CHARACTER_TYPEGUARD = 'isCharacterAction';
 
-export function changeAttribute(attributeName: AttributeName, change: number) {
-	return { type: CharacterActionTypes.CHANGE_ATTRIBUTE, attributeName, change } as const;
-}
+const builder = new ActionCreatorBuilder(CHARACTER_NAMESPACE, CHARACTER_TYPEGUARD);
 
-export type CharacterActions = ReturnType<typeof changeAttribute>;
+const creators = {
+	changeAttribute(attributeName: AttributeName, change: number) {
+		return { type: builder.createType('changeAttribute'), attributeName, change };
+	},
+};
+
+export default builder.createCreators(creators, {});
+export type CharacterActions = AllActions<typeof creators>;
+export type CharacterAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

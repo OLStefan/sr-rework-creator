@@ -1,6 +1,6 @@
 import { Action, UiState } from '../../types';
-import { StorageActionTypes } from '../storage/storageActions';
-import { setAllowStorage, UiActionTypes } from './uiActions';
+import storageActions from '../storage/storageActions';
+import uiActions, { UiAction } from './uiActions';
 
 const initialState: UiState = {
 	displayMenu: false,
@@ -9,33 +9,33 @@ const initialState: UiState = {
 	allowLocalStorage: null,
 };
 
-function handleShowMenu(ui: UiState) {
+function handleShowMenu(ui: UiState): UiState {
 	if (ui.displayMenu) {
 		return ui;
 	}
 	return { ...ui, displayMenu: true };
 }
 
-function handleHideMenu(ui: UiState) {
+function handleHideMenu(ui: UiState): UiState {
 	if (!ui.displayMenu) {
 		return ui;
 	}
 	return { ...ui, displayMenu: false };
 }
 
-function handleChangeDarkMode(ui: UiState) {
+function handleChangeDarkMode(ui: UiState): UiState {
 	return { ...ui, darkMode: !ui.darkMode };
 }
 
-function handleSelectCharacter(ui: UiState) {
-	return { ...ui, loadingCharacter: true };
+function handleSelectCharacter(ui: UiState): UiState {
+	return { ...ui, isSelectingCharacter: true };
 }
 
-function handleSetCharacter(ui: UiState) {
-	return { ...ui, loadingCharacter: false, displayMenu: false };
+function handleSetCharacter(ui: UiState): UiState {
+	return { ...ui, isSelectingCharacter: false, displayMenu: false };
 }
 
-function handleSetAllowStorage(ui: UiState, { value }: ReturnType<typeof setAllowStorage>) {
+function handleSetAllowStorage(ui: UiState, { value }: UiAction<'setAllowStorage'>): UiState {
 	if (ui.allowLocalStorage === value) {
 		return ui;
 	}
@@ -44,18 +44,18 @@ function handleSetAllowStorage(ui: UiState, { value }: ReturnType<typeof setAllo
 
 export default function (ui = initialState, action: Action): UiState {
 	switch (action.type) {
-		case UiActionTypes.SHOW_MENU:
+		case uiActions.types.showMenu:
 			return handleShowMenu(ui);
-		case StorageActionTypes.SET_CHARACTER:
+		case storageActions.types.setCharacter:
 			return handleSetCharacter(ui);
-		case StorageActionTypes.SAVE_CHARACTER:
-		case UiActionTypes.HIDE_MENU:
+		case storageActions.types.saveCharacter:
+		case uiActions.types.hideMenu:
 			return handleHideMenu(ui);
-		case UiActionTypes.CHANGE_DARK_MODE:
+		case uiActions.types.changeDarkMode:
 			return handleChangeDarkMode(ui);
-		case UiActionTypes.SELCT_CHARACTER:
+		case uiActions.types.startSelectingCharacter:
 			return handleSelectCharacter(ui);
-		case UiActionTypes.SET_ALLOW_STORAGE:
+		case uiActions.types.setAllowStorage:
 			return handleSetAllowStorage(ui, action);
 		default:
 			return ui;

@@ -1,34 +1,28 @@
-export enum UiActionTypes {
-	SHOW_MENU = 'showMenu',
-	HIDE_MENU = 'hideMenu',
-	CHANGE_DARK_MODE = 'changeDarkMode',
-	SELCT_CHARACTER = 'selectCharacter',
-	SET_ALLOW_STORAGE = 'setAllowStorage',
-}
+import { ActionCreatorBuilder, AllActions, FilterAction } from '../../types';
 
-export function showMenu() {
-	return { type: UiActionTypes.SHOW_MENU } as const;
-}
+export const UI_NAMESPACE = 'UiActions';
+export const UI_TYPEGUARD = 'isUiAction';
 
-export function hideMenu() {
-	return { type: UiActionTypes.HIDE_MENU } as const;
-}
+const builder = new ActionCreatorBuilder(UI_NAMESPACE, UI_TYPEGUARD);
 
-export function changeDarkMode() {
-	return { type: UiActionTypes.CHANGE_DARK_MODE } as const;
-}
+const creators = {
+	showMenu() {
+		return { type: builder.createType('showMenu') } as const;
+	},
+	hideMenu() {
+		return { type: builder.createType('hideMenu') } as const;
+	},
+	changeDarkMode() {
+		return { type: builder.createType('changeDarkMode') } as const;
+	},
+	startSelectingCharacter() {
+		return { type: builder.createType('startSelectingCharacter') } as const;
+	},
+	setAllowStorage(value: boolean) {
+		return { type: builder.createType('setAllowStorage'), value } as const;
+	},
+};
 
-export function selectCharacter() {
-	return { type: UiActionTypes.SELCT_CHARACTER } as const;
-}
-
-export function setAllowStorage(value: boolean) {
-	return { type: UiActionTypes.SET_ALLOW_STORAGE, value } as const;
-}
-
-export type UiAction =
-	| ReturnType<typeof showMenu>
-	| ReturnType<typeof hideMenu>
-	| ReturnType<typeof changeDarkMode>
-	| ReturnType<typeof selectCharacter>
-	| ReturnType<typeof setAllowStorage>;
+export default builder.createCreators(creators, {});
+export type UiActions = AllActions<typeof creators>;
+export type UiAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

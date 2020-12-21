@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
 import { useCharacterLoaded, useCharacterName, useIsDirty } from '../../redux/selectors';
-import { showMenu } from '../../redux/ui/uiActions';
+import uiActions from '../../redux/ui/uiActions';
 import { BaseProps } from '../../types/props';
 import BurgerMenuButton from '../generic/molecules/BurgerMenuButton';
 
@@ -16,7 +16,7 @@ function TitleBar({ ...otherProps }: BaseProps) {
 	const isDirty = useIsDirty();
 
 	const callbacks = useUpdatingCallbacks({
-		onShowMenu: () => dispatch(showMenu()),
+		onShowMenu: () => dispatch(uiActions.showMenu()),
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({

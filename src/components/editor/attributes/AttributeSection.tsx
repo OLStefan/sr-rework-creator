@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../../hooks';
-import { changeAttribute } from '../../../redux/editor/character/characterActions';
+import characterActions from '../../../redux/editor/character/characterActions';
 import { useCharacterAttributes } from '../../../redux/selectors';
 import { AttributeName } from '../../../types';
 import { BaseProps } from '../../../types/props';
@@ -16,10 +16,11 @@ function AttributeSection({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 	const attributes = useCharacterAttributes();
 	const callbacks = useUpdatingCallbacks({
-		onIncreaseAttribute: (attributeName: AttributeName) => dispatch(changeAttribute(attributeName, 1)),
-		onDecreaseAttribute: (attributeName: AttributeName) => dispatch(changeAttribute(attributeName, -1)),
+		onIncreaseAttribute: (attributeName: AttributeName) => dispatch(characterActions.changeAttribute(attributeName, 1)),
+		onDecreaseAttribute: (attributeName: AttributeName) =>
+			dispatch(characterActions.changeAttribute(attributeName, -1)),
 		onChangeAttribute: (attributeName: AttributeName, newRating: number) =>
-			dispatch(changeAttribute(attributeName, newRating)),
+			dispatch(characterActions.changeAttribute(attributeName, newRating)),
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({

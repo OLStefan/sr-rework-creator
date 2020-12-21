@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import { Dispatch } from 'redux';
 import { State } from '../../types';
 import { initialState } from '../editor/editorReducer';
-import { setAllowStorage } from '../ui/uiActions';
+import uiActions from '../ui/uiActions';
 
 export function loadState() {
 	try {
@@ -49,7 +49,7 @@ export function saveState(state: State) {
 
 export function clearLocalStorageThunk() {
 	const thunk = (dispatch: Dispatch) => {
-		dispatch(setAllowStorage(false));
+		dispatch(uiActions.setAllowStorage(false));
 		localStorage.clear();
 	};
 

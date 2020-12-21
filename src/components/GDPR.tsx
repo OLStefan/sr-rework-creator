@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallback } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
-import { setAllowStorage } from '../redux/ui/uiActions';
+import uiActions from '../redux/ui/uiActions';
 import { BaseProps } from '../types/props';
 import Button from './generic/atoms/Button';
 
 function GDPR({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
-	const setGdprResult = useUpdatingCallback((value: boolean) => dispatch(setAllowStorage(value)));
+	const setGdprResult = useUpdatingCallback((value: boolean) => dispatch(uiActions.setAllowStorage(value)));
 
 	const { labels } = useLabels((t: TFunction) => ({
 		yes: t('yes'),

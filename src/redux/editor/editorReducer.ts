@@ -1,9 +1,9 @@
 import undoable, { includeAction } from 'redux-undo';
 import { Action, EditorState, SectionName } from '../../types';
-import { CharacterActionTypes } from './character/characterActions';
+import characterActions from './character/characterActions';
 import characterReducer from './character/characterReducer';
 import incrementReducer from './character/incrementReducer';
-import { EditorActionTypes, toggleCard } from './editorActions';
+import editorActions, { EditorAction } from './editorActions';
 import validateCharacter, { initialState as messages } from './messages/validateCharacter';
 
 export const initialState: EditorState = {
@@ -15,15 +15,15 @@ export const initialState: EditorState = {
 	})(),
 };
 
-function handleToggleCard(editor: EditorState, { cardName }: ReturnType<typeof toggleCard>) {
+function handleToggleCard(editor: EditorState, { cardName }: EditorAction<'toggleCard'>): EditorState {
 	if (!cardName) {
 		return editor;
 	}
 	return { ...editor, expandedCards: { ...editor.expandedCards, [cardName]: !editor.expandedCards[cardName] } };
 }
 
-function reducer(editor = initialState, action: Action) {
-	if (action.type === EditorActionTypes.TOGGLE_CARD) {
+function reducer(editor = initialState, action: Action): EditorState {
+	if (action.type === editorActions.types.toggleCard) {
 		return handleToggleCard(editor, action);
 	}
 
@@ -43,6 +43,6 @@ function reducer(editor = initialState, action: Action) {
 }
 
 export default undoable(reducer, {
-	filter: includeAction([...Object.values(CharacterActionTypes)]),
+	filter: includeAction([...Object.values(characterActions.types)]),
 	syncFilter: true,
 });
