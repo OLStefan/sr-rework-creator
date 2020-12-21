@@ -11,7 +11,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, ...otherProps },
 	ref,
 ) {
-	const updateId = useRef<number>(0);
+	const updateId = useRef<NodeJS.Timeout>();
 	const [currentValue, setCurrentValue] = useState(value);
 	const callbacks = useUpdatingCallbacks({
 		onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -23,7 +23,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
 
 				updateId.current = setTimeout(() => {
 					onChange(event);
-					updateId.current = 0;
+					updateId.current = undefined;
 				}, timeout);
 				setCurrentValue(event.target.value);
 			}

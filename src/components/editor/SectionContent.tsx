@@ -7,12 +7,12 @@ import { useLabels } from '../../hooks';
 import { toggleCard } from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
 import { SectionName } from '../../types';
+import { BaseProps } from '../../types/props';
 import CollapsibleCard from '../generic/molecules/CollapsibleCard';
 import AttributeSection from './attributes/AttributeSection';
 
-interface Props {
+interface Props extends BaseProps {
 	name: SectionName;
-	className?: string;
 }
 const CardContent = React.memo(function Content({ name, ...otherProps }: Props) {
 	return useMemo(() => {

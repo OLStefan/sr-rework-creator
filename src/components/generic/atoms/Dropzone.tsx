@@ -2,8 +2,9 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { FILE_ENDING } from '../../../constants';
+import { BaseProps } from '../../../types/props';
 
-interface Props {
+interface Props extends BaseProps {
 	readFile: (file: File) => void;
 	text: string;
 	className?: string;

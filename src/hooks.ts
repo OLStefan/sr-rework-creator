@@ -1,13 +1,12 @@
 import { TFunction } from 'i18next';
 import { useMemo } from 'react';
-import { useTranslation, UseTranslationOptions } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-export function useLabels<T extends { [key: string]: string }>(
+export function useLabels<T>(
 	labelsFunction: (t: TFunction) => T,
-	ns?: string | string[] | undefined,
-	options?: UseTranslationOptions | undefined,
-) {
-	const { t } = useTranslation(ns, options);
+	...args: Parameters<typeof useTranslation>
+): { t: TFunction; labels: T } {
+	const { t } = useTranslation(...args);
 
 	return useMemo(
 		() => ({

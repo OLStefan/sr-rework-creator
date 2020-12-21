@@ -12,11 +12,12 @@ import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
 import { useCharacterLoaded, useDarkMode, useAllowLocalStorage } from './redux/selectors';
 import { saveCharacterThunk } from './redux/storage/storageThunks';
 import GDPR from './components/GDPR';
+import { BaseProps } from './types/props';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
 
-function App({ ...otherProps }: {}) {
+function App({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 	const characterLoaded = useCharacterLoaded();
 	const darkMode = useDarkMode();

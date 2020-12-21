@@ -6,9 +6,10 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
 import { useCharacterLoaded, useCharacterName, useIsDirty } from '../../redux/selectors';
 import { showMenu } from '../../redux/ui/uiActions';
+import { BaseProps } from '../../types/props';
 import BurgerMenuButton from '../generic/molecules/BurgerMenuButton';
 
-function TitleBar({ ...otherProps }: {}) {
+function TitleBar({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 	const characterLoaded = useCharacterLoaded();
 	const name = useCharacterName();

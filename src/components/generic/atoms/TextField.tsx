@@ -12,7 +12,7 @@ const TextField = React.forwardRef<HTMLInputElement, Props>(function (
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, limitValue = (value: string) => value, ...otherProps },
 	ref,
 ) {
-	const updateId = useRef<number>(0);
+	const updateId = useRef<NodeJS.Timeout>();
 	const [currentValue, setCurrentValue] = useState(value);
 	const callbacks = useUpdatingCallbacks({
 		onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ const TextField = React.forwardRef<HTMLInputElement, Props>(function (
 
 				updateId.current = setTimeout(() => {
 					onChange(event);
-					updateId.current = 0;
+					updateId.current = undefined;
 				}, timeout);
 				setCurrentValue(event.target.value);
 			}

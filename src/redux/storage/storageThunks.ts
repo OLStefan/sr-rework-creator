@@ -1,12 +1,12 @@
 import { Dispatch } from 'react';
 import { saveAs } from 'file-saver';
-import { isCharacter } from '../../utils/typeguards';
 import { saveCharacter, setCharacter } from './storageActions';
 import { FILE_ENDING } from '../../constants';
 import { isDirty } from '../selectors';
 import createNewCharacter from '../editor/character/createNewCharacter';
 import { ActionCreators } from 'redux-undo';
 import { Action, State } from '../../types';
+import isCharacter from '../../utils/isChraracter';
 
 export function createNewCharacterThunk() {
 	const thunk = (dispatch: Dispatch<Action>) => {

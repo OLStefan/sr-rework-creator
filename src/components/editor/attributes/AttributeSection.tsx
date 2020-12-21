@@ -7,11 +7,12 @@ import { useLabels } from '../../../hooks';
 import { changeAttribute } from '../../../redux/editor/character/characterActions';
 import { useCharacterAttributes } from '../../../redux/selectors';
 import { AttributeName } from '../../../types';
+import { BaseProps } from '../../../types/props';
 import Button from '../../generic/atoms/Button';
 import TextField from '../../generic/atoms/TextField';
 import Attribute from './Attribute';
 
-function AttributeSection({ ...otherProps }: {}) {
+function AttributeSection({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 	const attributes = useCharacterAttributes();
 	const callbacks = useUpdatingCallbacks({

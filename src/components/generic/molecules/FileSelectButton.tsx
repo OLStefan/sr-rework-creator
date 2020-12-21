@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import { BaseProps } from '../../../types/props';
 import Button from '../atoms/Button';
 
-interface Props {
+interface Props extends BaseProps {
 	children: React.ReactNode;
 	onFileSelect: (file: File) => void;
 	acceptedFiles: string;

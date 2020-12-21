@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useUpdatingCallback } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
 import { SectionName } from '../../types';
+import { BaseProps } from '../../types/props';
 import SectionContent from './SectionContent';
 
 interface ItemType {
@@ -15,7 +16,7 @@ function sameItems(a: ItemType, b: ItemType) {
 	return a.id === b.id;
 }
 
-function CharacterEditor({ ...otherProps }: {}) {
+function CharacterEditor({ ...otherProps }: BaseProps) {
 	const initialList = useMemo(
 		() => Object.values(SectionName).map((section, index) => ({ name: section, id: index })),
 		[],

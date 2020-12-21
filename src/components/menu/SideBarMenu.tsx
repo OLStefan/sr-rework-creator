@@ -25,13 +25,14 @@ import {
 	saveCharacterThunk,
 } from '../../redux/storage/storageThunks';
 import { changeDarkMode, hideMenu, selectCharacter } from '../../redux/ui/uiActions';
+import { BaseProps } from '../../types/props';
 import Button from '../generic/atoms/Button';
 import Switch from '../generic/atoms/Switch';
 import FileSelectButton from '../generic/molecules/FileSelectButton';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-function SideBarMenu({ ...otherProps }: {}) {
+function SideBarMenu({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 
 	const displayMenu = useIsMenuDisplayed();

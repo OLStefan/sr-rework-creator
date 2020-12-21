@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BaseProps } from '../../../types/props';
 import Button from '../atoms/Button';
 
-interface Props {
+interface Props extends BaseProps {
 	onClick: React.MouseEventHandler;
 }
 function BurgerMenuButton({ onClick, ...otherProps }: Props) {

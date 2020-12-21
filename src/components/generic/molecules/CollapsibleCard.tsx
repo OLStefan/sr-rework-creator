@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
 import React, { useMemo, useRef } from 'react';
 import styled, { css } from 'styled-components';
+import { BaseProps } from '../../../types/props';
 import Button from '../atoms/Button';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
-interface Props {
+interface Props extends BaseProps {
 	title: string;
 	children: React.ReactNode;
 	onExpandClick: React.MouseEventHandler;

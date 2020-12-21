@@ -6,10 +6,11 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
 import { createNewCharacterThunk, importCharacterThunk } from '../redux/storage/storageThunks';
 import { selectCharacter } from '../redux/ui/uiActions';
+import { BaseProps } from '../types/props';
 import Button from './generic/atoms/Button';
 import Dropzone from './generic/atoms/Dropzone';
 
-function WelcomePage({ ...otherProps }: {}) {
+function WelcomePage({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 
 	const callbacks = useUpdatingCallbacks({

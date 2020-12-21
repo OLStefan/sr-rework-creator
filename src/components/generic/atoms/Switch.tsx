@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { BaseProps } from '../../../types/props';
 
-interface Props {
+interface Props extends BaseProps {
 	checked: boolean;
 	onClick: React.MouseEventHandler;
 }
