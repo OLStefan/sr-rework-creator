@@ -24,7 +24,8 @@ function CharacterEditor({ ...otherProps }: BaseProps) {
 	const [list, setList] = useState<ItemType[]>(initialList);
 
 	const updateListOrder = useUpdatingCallback((newList: ItemType[]) => {
-		if (!list.every((item, index) => sameItems(item, newList[index]))) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		if (!list.every((item, index) => sameItems(item, newList[index]!))) {
 			setList(newList);
 		}
 	});

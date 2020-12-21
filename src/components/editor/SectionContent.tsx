@@ -46,8 +46,10 @@ function SectionContent({ name, ...otherProps }: Props) {
 				error={errorMessage}
 				hint={hintMessage}
 				expanded={expanded}
-				onExpandClick={callbacks[name]}
-				title={labels[name]}>
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				onExpandClick={callbacks[name]!}
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				title={labels[name]!}>
 				<CardContent {...{ name }} />
 			</CollapsibleCard>
 		</div>

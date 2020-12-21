@@ -27,7 +27,9 @@ function Dropzone({ readFile, text, ...otherProps }: Props) {
 			event.preventDefault();
 			setDragActive(false);
 			const file = event.dataTransfer.files[0];
-			readFile(file);
+			if (file) {
+				readFile(file);
+			}
 		},
 		onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => {
 			const file = event.target.files && event.target.files[0];
