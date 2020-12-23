@@ -1,28 +1,32 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { FILE_ENDING } from '../../../constants';
 import { BaseProps } from '../../../types/props';
 
 interface Props extends BaseProps {
 	readFile: (file: File) => void;
+	fileType: string;
 	text: string;
-	className?: string;
+	acceptMultiple?: boolean;
 }
-function Dropzone({ readFile, text, ...otherProps }: Props) {
+function Dropzone({ readFile, text, fileType, acceptMultiple, ...otherProps }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [isDragActive, setDragActive] = useState<boolean>(false);
 
 	const callbacks = useUpdatingCallbacks({
-		onDragEnter: () => setDragActive(true),
-		onDragLeave: () => setDragActive(false),
-		onDragOver: (event: React.DragEvent) => {
+		onDragEnter() {
+			setDragActive(true);
+		},
+		onDragLeave() {
+			setDragActive(false);
+		},
+		onDragOver(event: React.DragEvent) {
 			event.stopPropagation();
 			event.preventDefault();
 			event.dataTransfer.dropEffect = 'copy';
 		},
-		onDrop: (event: React.DragEvent) => {
+		onDrop(event: React.DragEvent) {
 			event.stopPropagation();
 			event.preventDefault();
 			setDragActive(false);
@@ -31,7 +35,7 @@ function Dropzone({ readFile, text, ...otherProps }: Props) {
 				readFile(file);
 			}
 		},
-		onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+		onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
 			const file = event.target.files && event.target.files[0];
 			if (!file) {
 				return;
@@ -52,8 +56,8 @@ function Dropzone({ readFile, text, ...otherProps }: Props) {
 			<input
 				type="file"
 				className="input"
-				accept={FILE_ENDING}
-				multiple={false}
+				accept={fileType}
+				multiple={acceptMultiple}
 				ref={inputRef}
 				onChange={callbacks.onInputChange}
 			/>

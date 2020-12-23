@@ -3,6 +3,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import { CHARCTER_FILE_TYPE } from '../constants';
 import { useLabels } from '../hooks';
 import storageActions from '../redux/storage/storageActions';
 import uiActions from '../redux/ui/uiActions';
@@ -14,9 +15,15 @@ function WelcomePage({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 
 	const callbacks = useUpdatingCallbacks({
-		importFile: (file: File) => dispatch(storageActions.importCharacter(file)),
-		newCharacter: () => dispatch(storageActions.createNewCharacter()),
-		loadCharacter: () => dispatch(uiActions.startSelectingCharacter()),
+		importFile(file: File) {
+			dispatch(storageActions.importCharacter(file));
+		},
+		newCharacter() {
+			dispatch(storageActions.createNewCharacter());
+		},
+		loadCharacter() {
+			dispatch(uiActions.startSelectingCharacter());
+		},
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
@@ -33,7 +40,12 @@ function WelcomePage({ ...otherProps }: BaseProps) {
 			<Button className="load" onClick={callbacks.loadCharacter}>
 				<span>{labels.load}</span>
 			</Button>
-			<Dropzone readFile={callbacks.importFile} text={labels.dropText} className="dropzone" />
+			<Dropzone
+				readFile={callbacks.importFile}
+				text={labels.dropText}
+				fileType={CHARCTER_FILE_TYPE}
+				className="dropzone"
+			/>
 		</div>
 	);
 }

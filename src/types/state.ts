@@ -33,7 +33,7 @@ export interface MessagesState {
 }
 
 export interface EditorState {
-	currentCharacter: Character | null;
+	currentCharacter?: Character;
 	messages: MessagesState;
 	expandedCards: { [x in SectionName]: boolean };
 }

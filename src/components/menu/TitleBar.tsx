@@ -16,7 +16,9 @@ function TitleBar({ ...otherProps }: BaseProps) {
 	const isDirty = useIsDirty();
 
 	const callbacks = useUpdatingCallbacks({
-		onShowMenu: () => dispatch(uiActions.showMenu()),
+		onShowMenu() {
+			dispatch(uiActions.showMenu());
+		},
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({

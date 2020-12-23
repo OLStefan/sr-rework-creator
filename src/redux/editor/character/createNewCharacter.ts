@@ -5,7 +5,6 @@ export default function (): Character {
 	return {
 		saveVersion: 0.1,
 		increment: 0,
-		name: '',
 		uuid: uuid(),
 		careerMode: false,
 		attributes: {
@@ -16,5 +15,6 @@ export default function (): Character {
 			[AttributeName.WILLPOWER]: { name: AttributeName.WILLPOWER, minRating: 1, maxRating: 6, rating: 5 },
 			[AttributeName.CHARISMA]: { name: AttributeName.CHARISMA, minRating: 1, maxRating: 6, rating: 6 },
 		},
+		details: { name: '' },
 	};
 }

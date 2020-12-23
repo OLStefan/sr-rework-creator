@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { ESCAPE_KEY, FILE_ENDING } from '../../constants';
+import { ESCAPE_KEY, CHARCTER_FILE_TYPE } from '../../constants';
 import { useLabels } from '../../hooks';
 import {
 	useAllowLocalStorage,
@@ -51,24 +51,44 @@ function SideBarMenu({ ...otherProps }: BaseProps) {
 	}));
 
 	const callbacks = useUpdatingCallbacks({
-		onUndo: () => dispatch(ActionCreators.undo()),
-		onRedo: () => dispatch(ActionCreators.redo()),
-		onHide: () => dispatch(uiActions.hideMenu()),
-		onKeyDown: (event: React.KeyboardEvent) => {
+		onUndo() {
+			dispatch(ActionCreators.undo());
+		},
+		onRedo() {
+			dispatch(ActionCreators.redo());
+		},
+		onHide() {
+			dispatch(uiActions.hideMenu());
+		},
+		onKeyDown(event: React.KeyboardEvent) {
 			if (event.key === ESCAPE_KEY) {
 				dispatch(uiActions.hideMenu());
 			}
 		},
-		onBackgroundClick: () => dispatch(uiActions.hideMenu()),
-		createNewCharacter: () => dispatch(storageActions.createNewCharacter()),
-		loadCharacter: () => dispatch(uiActions.startSelectingCharacter()),
-		importCharacter: (file: File) => dispatch(storageActions.importCharacter(file)),
-		saveCharacter: () => dispatch(storageActions.saveCurrentCharacter()),
-		exportCharacter: () => {
+		onBackgroundClick() {
+			dispatch(uiActions.hideMenu());
+		},
+		createNewCharacter() {
+			dispatch(storageActions.createNewCharacter());
+		},
+		loadCharacter() {
+			dispatch(uiActions.startSelectingCharacter());
+		},
+		importCharacter(file: File) {
+			dispatch(storageActions.importCharacter(file));
+		},
+		saveCharacter() {
+			dispatch(storageActions.saveCurrentCharacter());
+		},
+		exportCharacter() {
 			dispatch(storageActions.exportCharacterFile(characterName || labels.newCharacter));
 		},
-		clearLocalStorage: () => dispatch(clearLocalStorageThunk()),
-		toggleDarkMode: () => dispatch(uiActions.changeDarkMode()),
+		clearLocalStorage() {
+			dispatch(clearLocalStorageThunk());
+		},
+		toggleDarkMode() {
+			dispatch(uiActions.changeDarkMode());
+		},
 	});
 
 	return (
@@ -111,7 +131,10 @@ function SideBarMenu({ ...otherProps }: BaseProps) {
 									<span className="symbol">&#xe930;</span>
 									{labels.load}
 								</Button>
-								<FileSelectButton onFileSelect={callbacks.importCharacter} acceptedFiles={FILE_ENDING} multiple={false}>
+								<FileSelectButton
+									onFileSelect={callbacks.importCharacter}
+									acceptedFiles={CHARCTER_FILE_TYPE}
+									multiple={false}>
 									<span className="symbol">&#xe960;</span>
 									{labels.import}
 								</FileSelectButton>
@@ -159,7 +182,7 @@ function SideBarMenu({ ...otherProps }: BaseProps) {
 	);
 }
 
-export default styled(SideBarMenu)`
+export default styled(React.memo(SideBarMenu))`
 	width: 100%;
 	height: 100%;
 	z-index: 1;

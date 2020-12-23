@@ -13,6 +13,7 @@ import { useCharacterLoaded, useDarkMode, useAllowLocalStorage } from './redux/s
 import GDPR from './components/GDPR';
 import { BaseProps } from './types/props';
 import storageActions from './redux/storage/storageActions';
+import { isNil } from 'lodash';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;
@@ -25,7 +26,7 @@ function App({ ...otherProps }: BaseProps) {
 	const color = computedStyle.getPropertyValue('--backgound-logo-color');
 
 	const callbacks = useUpdatingCallbacks({
-		onKeyDown: (event: React.KeyboardEvent) => {
+		onKeyDown(event: React.KeyboardEvent) {
 			let isHandled = false;
 			if (event.ctrlKey) {
 				switch (event.key) {
@@ -71,13 +72,8 @@ function App({ ...otherProps }: BaseProps) {
 				),
 				[characterLoaded, color],
 			)}
-			{useMemo(() => (allowLocalStorage === undefined || allowLocalStorage === null) && <GDPR />, [allowLocalStorage])}
-			{useMemo(
-				() => (
-					<SideBarMenu />
-				),
-				[],
-			)}
+			{useMemo(() => isNil(allowLocalStorage) && <GDPR />, [allowLocalStorage])}
+			<SideBarMenu />
 		</div>
 	);
 }

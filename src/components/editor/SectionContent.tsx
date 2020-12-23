@@ -10,6 +10,7 @@ import { SectionName } from '../../types';
 import { BaseProps } from '../../types/props';
 import CollapsibleCard from '../generic/molecules/CollapsibleCard';
 import AttributeSection from './attributes/AttributeSection';
+import DetailsSection from './details/DetailsSection';
 
 interface Props extends BaseProps {
 	name: SectionName;
@@ -19,6 +20,8 @@ const CardContent = React.memo(function Content({ name, ...otherProps }: Props) 
 		switch (name) {
 			case SectionName.ATTRIBUTES:
 				return <AttributeSection {...otherProps} />;
+			case SectionName.DETAILS:
+				return <DetailsSection {...otherProps} />;
 			default:
 				return <span>Some text</span>;
 		}
@@ -37,7 +40,9 @@ function SectionContent({ name, ...otherProps }: Props) {
 	}));
 
 	const callbacks = useUpdatingCallbacks({
-		[name]: () => dispatch(editorActions.toggleCard(name)),
+		[name]() {
+			dispatch(editorActions.toggleCard(name));
+		},
 	});
 
 	return (
@@ -46,11 +51,13 @@ function SectionContent({ name, ...otherProps }: Props) {
 				error={errorMessage}
 				hint={hintMessage}
 				expanded={expanded}
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				// callbacks and labels are created locally with the name attribute existing
+				/* eslint-disable @typescript-eslint/no-non-null-assertion */
 				onExpandClick={callbacks[name]!}
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				title={labels[name]!}>
-				<CardContent {...{ name }} />
+				title={labels[name]!}
+				/* eslint-enable @typescript-eslint/no-non-null-assertion */
+			>
+				<CardContent name={name} />
 			</CollapsibleCard>
 		</div>
 	);

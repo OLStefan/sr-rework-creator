@@ -16,18 +16,21 @@ function AttributeSection({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
 	const attributes = useCharacterAttributes();
 	const callbacks = useUpdatingCallbacks({
-		onIncreaseAttribute: (attributeName: AttributeName) => dispatch(characterActions.changeAttribute(attributeName, 1)),
-		onDecreaseAttribute: (attributeName: AttributeName) =>
-			dispatch(characterActions.changeAttribute(attributeName, -1)),
-		onChangeAttribute: (attributeName: AttributeName, newRating: number) =>
-			dispatch(characterActions.changeAttribute(attributeName, newRating)),
+		onIncreaseAttribute(attributeName: AttributeName) {
+			dispatch(characterActions.changeAttribute(attributeName, 1));
+		},
+		onDecreaseAttribute(attributeName: AttributeName) {
+			dispatch(characterActions.changeAttribute(attributeName, -1));
+		},
+		onChangeAttribute(attributeName: AttributeName, newRating: number) {
+			dispatch(characterActions.changeAttribute(attributeName, newRating));
+		},
 	});
 
 	const { labels } = useLabels((t: TFunction) => ({
-		...(function () {
-			const result = Object.fromEntries(Object.values(AttributeName).map((attr) => [attr, t(attr)]));
-			return result as { [x in AttributeName]: string };
-		})(),
+		...(Object.fromEntries(Object.values(AttributeName).map((attr) => [attr, t(attr)])) as {
+			[x in AttributeName]: string;
+		}),
 	}));
 
 	return (

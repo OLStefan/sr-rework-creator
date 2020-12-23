@@ -1,5 +1,5 @@
+// any needed for argument definitions
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { State } from '../state';

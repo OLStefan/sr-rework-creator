@@ -1,3 +1,4 @@
+// any needed for argument definitions
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AbstractCreatorDescriptor, AbstractThunkDescriptor, AllActions, Creator, Thunk } from './actionTypes';
 

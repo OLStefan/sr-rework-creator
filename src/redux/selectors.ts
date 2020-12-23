@@ -34,21 +34,28 @@ export const isCharacterLoaded = ({
 		present: { currentCharacter },
 	},
 }: State) => !!currentCharacter;
-export const getCharacterName = ({
-	editor: {
-		present: { currentCharacter },
-	},
-}: State) => currentCharacter?.name || null;
 export const getCurrentCharacter = ({
 	editor: {
 		present: { currentCharacter },
 	},
-}: State) => currentCharacter || null;
+}: State) => currentCharacter;
+
 export const getAttributes = ({
 	editor: {
 		present: { currentCharacter },
 	},
-}: State) => currentCharacter?.attributes || null;
+}: State) => currentCharacter?.attributes;
+export const getCharacterDetails = ({
+	editor: {
+		present: { currentCharacter },
+	},
+}: State) => currentCharacter?.details;
+
+export const getCharacterName = ({
+	editor: {
+		present: { currentCharacter },
+	},
+}: State) => currentCharacter?.details.name;
 
 export const getErrorMessage = (
 	sectionName: SectionName,
@@ -106,9 +113,11 @@ export const useExpandedCard = (cardName: SectionName) =>
 
 // Character
 export const useCharacterLoaded = () => useSelector(isCharacterLoaded);
-export const useCharacterName = () => useSelector(getCharacterName);
 export const useCurrentCharacter = () => useSelector(getCurrentCharacter);
 export const useCharacterAttributes = () => useSelector(getAttributes);
+export const useCharacterDetails = () => useSelector(getCharacterDetails);
+
+export const useCharacterName = () => useSelector(getCharacterName);
 
 // Errors
 export const useErrorMessage = (sectionName: SectionName) =>

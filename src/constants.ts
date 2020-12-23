@@ -7,7 +7,8 @@ export const S_KEY = 's';
 export const TOOLTIP_LINE_BREAK = '\n';
 export const TOOLTIP_BULLET_POINT = '•';
 
-export const FILE_ENDING = '.srchar';
+export const CHARCTER_FILE_TYPE = '.srchar';
+export const IMAGE_FILE_TYPE = 'image/*';
 
 export const DEFAULT_TIMEOUT = 200; //ms
 export const DRAG_MOVE_THRESHOLD = 8; // px

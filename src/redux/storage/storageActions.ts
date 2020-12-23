@@ -1,8 +1,7 @@
 import { saveAs } from 'file-saver';
-import { Dispatch } from 'redux';
 import { ActionCreators } from 'redux-undo';
-import { FILE_ENDING } from '../../constants';
-import { Action, ActionCreatorBuilder, AllActions, Character, FilterAction, State } from '../../types';
+import { CHARCTER_FILE_TYPE } from '../../constants';
+import { ActionCreatorBuilder, AllActions, Character, FilterAction, Thunk } from '../../types';
 import isCharacter from '../../utils/isChraracter';
 import createNewCharacter from '../editor/character/createNewCharacter';
 import { getCurrentCharacter, isDirty } from '../selectors';
@@ -23,14 +22,14 @@ const creators = {
 
 const thunks = {
 	createNewCharacter() {
-		const thunk = (dispatch: Dispatch<Action>) => {
+		const thunk: Thunk = (dispatch) => {
 			dispatch(ActionCreators.clearHistory());
 			dispatch(creators.setCharacter(createNewCharacter()));
 		};
 		return thunk;
 	},
 	loadCharacter(uuid: string) {
-		const thunk = (dispatch: Dispatch<Action>, getState: () => State) => {
+		const thunk: Thunk = (dispatch, getState) => {
 			const character = getState().storage[uuid];
 			if (character) {
 				dispatch(ActionCreators.clearHistory());
@@ -40,35 +39,30 @@ const thunks = {
 		return thunk;
 	},
 	importCharacter(file: File) {
-		const thunk = (dispatch: Dispatch<Action>) => {
-			const reader = new FileReader();
-			reader.onload = (event: ProgressEvent<FileReader>) => {
-				const characterJson = event?.target?.result;
-				if (characterJson) {
-					let character;
-					let valid = true;
-					try {
-						character = JSON.parse(characterJson.toString());
-						character.increment = 0;
-					} catch {
-						valid = false;
-					}
-					if (valid && isCharacter(character)) {
-						// TODO: Handle character already existing
-						dispatch(creators.saveCharacter(character));
-						dispatch(creators.setCharacter(character));
-					} else {
-						// TODO Show error to user
-					}
+		const thunk: Thunk = (dispatch) => {
+			file.text().then((characterJson) => {
+				let character;
+				let valid = true;
+				try {
+					character = JSON.parse(characterJson.toString());
+					character.increment = 0;
+				} catch {
+					valid = false;
 				}
-			};
-			reader.readAsText(file);
+				if (valid && isCharacter(character)) {
+					// TODO: Handle character already existing
+					dispatch(creators.saveCharacter(character));
+					dispatch(creators.setCharacter(character));
+				} else {
+					// TODO Show error to user
+				}
+			});
 		};
 
 		return thunk;
 	},
 	saveCurrentCharacter() {
-		const thunk = (dispatch: Dispatch<Action>, getState: () => State) => {
+		const thunk: Thunk = (dispatch, getState) => {
 			const character = getCurrentCharacter(getState());
 			if (character && isDirty(getState())) {
 				dispatch(creators.saveCharacter(character));
@@ -77,18 +71,18 @@ const thunks = {
 		return thunk;
 	},
 	exportCharacterFile(fileName: string) {
-		const thunk = (_: Dispatch<Action>, getState: () => State) => {
+		const thunk: Thunk = (_, getState) => {
 			const { currentCharacter: character } = getState().editor.present;
 			if (character) {
-				// Remove increment and uuid as it is not needed when exported
+				// Remove increment as it is not needed when exported
 
 				// Spreading useed to remove attribute
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				const { increment, ...cleanedCharacter } = character;
 
 				const json = JSON.stringify(cleanedCharacter, null, '\t');
-				const blob = new Blob([json], { type: 'text/json' });
-				saveAs(blob, `${fileName}${FILE_ENDING}`);
+				const blob = new Blob([json], { type: 'text/json;charset=utf-8' });
+				saveAs(blob, `${fileName}${CHARCTER_FILE_TYPE}`);
 			}
 		};
 

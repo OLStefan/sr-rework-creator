@@ -10,9 +10,10 @@ export default function isCharacter(x: unknown): x is Character {
 		isType(object.saveVersion, 'number') &&
 		isType(object.increment, 'number') &&
 		isType(object.uuid, 'string') &&
-		isType(object.name, 'string') &&
 		isType(object.careerMode, 'boolean') &&
 		!isNil(object.attributes) &&
-		Object.values(AttributeName).every((key) => isAttribute(object.attributes[key]))
+		Object.values(AttributeName).every((key) => isAttribute(object.attributes[key])) &&
+		!isNil(object.details) &&
+		isType(object.details.name, 'string')
 	);
 }

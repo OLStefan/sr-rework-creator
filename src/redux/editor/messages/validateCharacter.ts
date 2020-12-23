@@ -1,11 +1,9 @@
 import { cloneDeep, isEqual } from 'lodash';
 import { AttributeName, Character, MessagesState, SectionName } from '../../../types';
 
-export const initialState: MessagesState = {
-	errors: (() =>
-		Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['errors'])(),
-	hints: (() =>
-		Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['hints'])(),
+const initialState: MessagesState = {
+	errors: Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['errors'],
+	hints: Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['hints'],
 };
 
 export default function ({
@@ -13,10 +11,10 @@ export default function ({
 	newCharacter,
 	oldMessages,
 }: {
-	oldCharacter: Character | null;
-	newCharacter: Character | null;
-	oldMessages: MessagesState | null;
-}) {
+	oldCharacter?: Character;
+	newCharacter?: Character;
+	oldMessages?: MessagesState;
+} = {}) {
 	if (!newCharacter) {
 		return initialState;
 	}
