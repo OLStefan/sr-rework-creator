@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
-import { useUpdatingCallback } from 'use-updating-callbacks';
+import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
 import { SectionName } from '../../types';
 import { BaseProps } from '../../types/props';
@@ -23,19 +23,21 @@ function CharacterEditor({ ...otherProps }: BaseProps) {
 	);
 	const [list, setList] = useState<ItemType[]>(initialList);
 
-	const updateListOrder = useUpdatingCallback((newList: ItemType[]) => {
-		// Iterating over indices, so each index does exist
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		if (!list.every((item, index) => sameItems(item, newList[index]!))) {
-			setList(newList);
-		}
+	const callbacks = useUpdatingCallbacks({
+		updateListOrder(newList: ItemType[]) {
+			// Checked beforehand
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			if (!list.every((item, index) => !!newList[index] && sameItems(item, newList[index]!))) {
+				setList(newList);
+			}
+		},
 	});
 
 	return (
 		<div {...otherProps} data-component="character-editor">
 			<ReactSortable
 				list={list}
-				setList={updateListOrder}
+				setList={callbacks.updateListOrder}
 				className="list"
 				handle=".titlebar"
 				delay={DEFAULT_TIMEOUT}

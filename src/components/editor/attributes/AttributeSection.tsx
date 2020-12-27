@@ -33,30 +33,26 @@ function AttributeSection({ ...otherProps }: BaseProps) {
 		}),
 	}));
 
-	return (
+	return attributes ? (
 		<div {...otherProps} data-component="attribute-section">
-			{attributes && (
-				<div className="attribute-container">
-					{Object.values(AttributeName).map((attributeName) => (
-						<Attribute
-							key={attributeName}
-							className="attribute"
-							title={labels[attributeName]}
-							attribute={attributes[attributeName]}
-							onChangeAttribute={callbacks.onChangeAttribute}
-							onIncreaseAttribute={callbacks.onIncreaseAttribute}
-							onDecreaseAttribute={callbacks.onDecreaseAttribute}
-						/>
-					))}
-				</div>
-			)}
+			<div className="attribute-container">
+				{Object.values(AttributeName).map((attributeName) => (
+					<Attribute
+						key={attributeName}
+						className="attribute"
+						title={labels[attributeName]}
+						attribute={attributes[attributeName]}
+						onChangeAttribute={callbacks.onChangeAttribute}
+						onIncreaseAttribute={callbacks.onIncreaseAttribute}
+						onDecreaseAttribute={callbacks.onDecreaseAttribute}
+					/>
+				))}
+			</div>
 		</div>
-	);
+	) : null;
 }
 
-const AttributeSectionMemo = React.memo(AttributeSection);
-
-export default styled(AttributeSectionMemo)`
+export default styled(React.memo(AttributeSection))`
 	display: flex;
 	flex-wrap: wrap-reverse;
 	justify-content: center;

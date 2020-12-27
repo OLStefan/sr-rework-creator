@@ -5,17 +5,24 @@ import { BaseProps } from '../../../types/props';
 import Button from '../atoms/Button';
 
 interface Props extends BaseProps {
-	children: React.ReactNode;
 	onFileSelect: (file: File) => void;
 	acceptedFiles: string;
 	multiple: boolean;
 }
-function FileSelectButton({ onFileSelect, acceptedFiles, multiple, children, ...otherProps }: Props) {
+function FileSelectButton({
+	onFileSelect,
+	acceptedFiles,
+	multiple,
+	children,
+	...otherProps
+}: React.PropsWithChildren<Props>) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const callbacks = useUpdatingCallbacks({
-		onClick: () => inputRef.current?.click(),
-		onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+		onClick() {
+			inputRef.current?.click();
+		},
+		onChange(event: React.ChangeEvent<HTMLInputElement>) {
 			const file = event.target.files && event.target.files[0];
 			if (!file) {
 				return;

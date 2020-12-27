@@ -18,36 +18,39 @@ function DetailsSection({ ...otherProps }: BaseProps) {
 		},
 	});
 
-	return (
+	return details ? (
 		<div {...otherProps} data-component="details-section">
-			{details && (
-				<>
-					<div className="text-details"></div>
-					<div className="picture">
-						{details.mugshot ? (
-							<img src={details.mugshot} />
-						) : (
-							<Dropzone readFile={callbacks.readFile} fileType={IMAGE_FILE_TYPE} text="Drop hier" />
-						)}
-					</div>
-				</>
-			)}
+			<div className="text-details"></div>
+			<div className="picture">
+				<label className="label">Portrait:</label>
+				{details.mugshot ? (
+					<img src={details.mugshot} />
+				) : (
+					<Dropzone readFile={callbacks.readFile} fileType={IMAGE_FILE_TYPE} text="Drop hier" />
+				)}
+			</div>
 		</div>
-	);
+	) : null;
 }
 
 export default styled(DetailsSection)`
 	display: flex;
 
+	.label {
+		font-size: 1.25em;
+	}
+
 	.text-details {
-		flex: 1 0 0;
+		flex: 2 0 0;
 		height: 200px;
+		padding-right: var(--spacing-small);
 	}
 
 	.picture {
 		flex: 1 0 0;
 		height: 200px;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 
 		& > img {

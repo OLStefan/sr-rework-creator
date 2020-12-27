@@ -1,19 +1,20 @@
-import React, { HTMLProps, useLayoutEffect, useRef, useState } from 'react';
+import React, { HTMLProps, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT } from '../../../constants';
 
-interface Props extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
+interface Props extends HTMLProps<HTMLInputElement> {
 	timeout?: number;
-	limitValue?: (newValue: string) => string;
 }
 
 const TextField = React.forwardRef<HTMLInputElement, Props>(function (
-	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, limitValue = (value: string) => value, ...otherProps },
+	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, ...otherProps },
 	ref,
 ) {
 	const updateId = useRef<NodeJS.Timeout>();
+	const [overwriteCurrentValue, setOverwriteCurrentValue] = useState(false);
 	const [currentValue, setCurrentValue] = useState(value);
+
 	const callbacks = useUpdatingCallbacks({
 		onChange(event: React.ChangeEvent<HTMLInputElement>) {
 			event.persist();
@@ -22,18 +23,16 @@ const TextField = React.forwardRef<HTMLInputElement, Props>(function (
 					clearTimeout(updateId.current);
 				}
 
-				event.target.value = limitValue(event.target.value);
-
 				updateId.current = setTimeout(() => {
 					onChange(event);
 					updateId.current = undefined;
+					setOverwriteCurrentValue(true);
 				}, timeout);
 				setCurrentValue(event.target.value);
 			}
 		},
 		onBlur(event: React.FocusEvent<HTMLInputElement>) {
 			event.persist();
-			event.target.value = limitValue(event.target.value);
 			if (onChange && updateId.current) {
 				clearTimeout(updateId.current);
 				onChange(event);
@@ -44,9 +43,12 @@ const TextField = React.forwardRef<HTMLInputElement, Props>(function (
 		},
 	});
 
-	useLayoutEffect(() => {
+	useEffect(() => {
+		setOverwriteCurrentValue(false);
 		setCurrentValue(value);
-	}, [value]);
+		// always reset the value, if overwriteValue is set
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [value, overwriteCurrentValue]);
 
 	return (
 		<input ref={ref} onChange={callbacks.onChange} onBlur={callbacks.onBlur} value={currentValue} {...otherProps} />

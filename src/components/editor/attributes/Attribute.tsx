@@ -1,5 +1,6 @@
 import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
+import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { Attribute as AttributeType, AttributeName } from '../../../types';
 import { BaseProps } from '../../../types/props';
 import Button from '../../generic/atoms/Button';
@@ -22,10 +23,24 @@ function Attribute({
 	...otherProps
 }: Props) {
 	const ref = useRef<HTMLInputElement>(null);
+	const callbacks = useUpdatingCallbacks({
+		onChange(event: React.ChangeEvent<HTMLInputElement>) {
+			const value = event?.target?.value;
+			const newRating = Number(value);
+			if (value && value.trim() !== '' && !Number.isNaN(newRating)) {
+				onChangeAttribute(attribute.name, newRating - attribute.rating);
+			} else {
+				onChangeAttribute(attribute.name, attribute.minRating - attribute.rating);
+			}
+		},
+		onFocus() {
+			ref.current?.select();
+		},
+	});
 
 	return (
 		<div {...otherProps}>
-			<div className="title">{title}</div>
+			<label className="title">{title}</label>
 			{useMemo(
 				() => (
 					<div className="limit">{`(${attribute.minRating}/${attribute.maxRating})`}</div>
@@ -43,22 +58,11 @@ function Attribute({
 				min={attribute.minRating}
 				value={attribute.rating}
 				max={attribute.maxRating}
-				onFocus={() => ref.current?.select()}
-				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-					const value = event?.target?.value;
-					const newRating = Number(value);
-					if (value && value.trim() !== '' && !Number.isNaN(newRating)) {
-						onChangeAttribute(attribute.name, newRating - attribute.rating);
-					}
-				}}
+				onFocus={callbacks.onFocus}
+				onChange={callbacks.onChange}
+				timeout={500}
+				// onWheel must be set to allow for scrolling to change value
 				onWheel={noop}
-				limitValue={(newValue: string) => {
-					const newRating = Number(newValue);
-					if (newValue && newValue.trim() !== '' && !Number.isNaN(newRating)) {
-						return String(Math.min(Math.max(newRating, attribute.minRating), attribute.maxRating));
-					}
-					return String(attribute.minRating);
-				}}
 			/>
 			<Button disabled={attribute.rating >= attribute.maxRating} onClick={() => onIncreaseAttribute(attribute.name)}>
 				<div className="filler" />

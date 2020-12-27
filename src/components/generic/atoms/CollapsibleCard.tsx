@@ -2,19 +2,26 @@ import { motion } from 'framer-motion';
 import React, { useMemo, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { BaseProps } from '../../../types/props';
-import Button from '../atoms/Button';
+import Button from './Button';
 
 const computedStyle = getComputedStyle(document.documentElement);
 
 interface Props extends BaseProps {
 	title: string;
-	children: React.ReactNode;
 	onExpandClick: React.MouseEventHandler;
 	expanded: boolean;
 	error?: string;
 	hint?: string;
 }
-function CollapsibleCard({ title, children, expanded = false, error, hint, onExpandClick, ...otherProps }: Props) {
+function CollapsibleCard({
+	title,
+	children,
+	expanded = false,
+	error,
+	hint,
+	onExpandClick,
+	...otherProps
+}: React.PropsWithChildren<Props>) {
 	const contentRef = useRef<HTMLDivElement>(null);
 
 	return (
@@ -63,9 +70,7 @@ function CollapsibleCard({ title, children, expanded = false, error, hint, onExp
 	);
 }
 
-const CollapsibleCardMemo = React.memo(CollapsibleCard);
-
-export default styled(CollapsibleCardMemo)`
+export default styled(React.memo(CollapsibleCard))`
 	position: relative;
 	background: var(--background);
 	border-radius: var(--border-radius);

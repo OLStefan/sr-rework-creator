@@ -1,9 +1,9 @@
-import React, { HTMLProps, useRef, useState } from 'react';
+import React, { HTMLProps, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT } from '../../../constants';
 
-interface Props extends Omit<HTMLProps<HTMLTextAreaElement>, 'ref'> {
+interface Props extends HTMLProps<HTMLTextAreaElement> {
 	timeout?: number;
 }
 
@@ -12,6 +12,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
 	ref,
 ) {
 	const updateId = useRef<NodeJS.Timeout>();
+	const [overwriteCurrentValue, setOverwriteCurrentValue] = useState(false);
 	const [currentValue, setCurrentValue] = useState(value);
 	const callbacks = useUpdatingCallbacks({
 		onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -24,6 +25,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
 				updateId.current = setTimeout(() => {
 					onChange(event);
 					updateId.current = undefined;
+					setOverwriteCurrentValue(true);
 				}, timeout);
 				setCurrentValue(event.target.value);
 			}
@@ -39,6 +41,13 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
 			}
 		},
 	});
+
+	useEffect(() => {
+		setOverwriteCurrentValue(false);
+		setCurrentValue(value);
+		// always reset the value, if overwriteValue is set
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [value, overwriteCurrentValue]);
 
 	return (
 		<textarea ref={ref} onChange={callbacks.onChange} onBlur={callbacks.onBlur} value={currentValue} {...otherProps} />
