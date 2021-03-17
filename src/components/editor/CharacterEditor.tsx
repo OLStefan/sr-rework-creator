@@ -3,8 +3,6 @@ import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
-import { SectionName } from '../../types';
-import { BaseProps } from '../../types/props';
 import SectionContent from './SectionContent';
 
 interface ItemType {

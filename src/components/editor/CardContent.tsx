@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react';
-import { SectionName } from '../../types';
-import { BaseProps } from '../../types/props';
 import AttributeSection from './attributes/AttributeSection';
 import DetailsSection from './details/DetailsSection';
 

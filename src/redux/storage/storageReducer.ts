@@ -1,4 +1,4 @@
-import { Action, StorageState } from '../../types';
+import { AnyAction } from '../rootReducer';
 import storageActions, { StorageAction } from './storageActions';
 
 const initialState: StorageState = {};
@@ -7,7 +7,7 @@ function handleSaveCharacter(storage: StorageState, { character }: StorageAction
 	return { ...storage, [character.uuid]: character };
 }
 
-export default function (storage = initialState, action: Action): StorageState {
+export default function (storage = initialState, action: AnyAction): StorageState {
 	switch (action.type) {
 		case storageActions.types.saveCharacter:
 			return handleSaveCharacter(storage, action);

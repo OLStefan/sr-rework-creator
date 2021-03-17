@@ -5,7 +5,6 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { IMAGE_FILE_TYPE } from '../../../constants';
 import characterActions from '../../../redux/editor/character/characterActions';
 import { useCharacterDetails } from '../../../redux/selectors';
-import { BaseProps } from '../../../types/props';
 import Dropzone from '../../generic/atoms/Dropzone';
 
 function DetailsSection({ ...otherProps }: BaseProps) {

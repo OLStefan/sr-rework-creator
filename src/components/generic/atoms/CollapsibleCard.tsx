@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { useMemo, useRef } from 'react';
 import styled, { css } from 'styled-components';
-import { BaseProps } from '../../../types/props';
 import Button from './Button';
 
 const computedStyle = getComputedStyle(document.documentElement);

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BaseProps } from '../../../types/props';
 import Button from '../atoms/Button';
 
 interface Props extends BaseProps {

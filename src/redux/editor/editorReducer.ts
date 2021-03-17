@@ -1,5 +1,5 @@
 import undoable, { includeAction } from 'redux-undo';
-import { Action, EditorState, SectionName } from '../../types';
+import { AnyAction } from '../rootReducer';
 import characterActions from './character/characterActions';
 import characterReducer from './character/characterReducer';
 import incrementReducer from './character/incrementReducer';
@@ -20,7 +20,7 @@ function handleToggleCard(editor: EditorState, { cardName }: EditorAction<'toggl
 	return { ...editor, expandedCards: { ...editor.expandedCards, [cardName]: !editor.expandedCards[cardName] } };
 }
 
-function reducer(editor = initialState, action: Action): EditorState {
+function reducer(editor = initialState, action: AnyAction): EditorState {
 	switch (action.type) {
 		case editorActions.types.toggleCard:
 			return handleToggleCard(editor, action);

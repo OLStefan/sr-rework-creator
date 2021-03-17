@@ -6,7 +6,6 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
 import { useCharacterLoaded, useCharacterName, useIsDirty } from '../../redux/selectors';
 import uiActions from '../../redux/ui/uiActions';
-import { BaseProps } from '../../types/props';
 import BurgerMenuButton from '../generic/molecules/BurgerMenuButton';
 
 function TitleBar({ ...otherProps }: BaseProps) {

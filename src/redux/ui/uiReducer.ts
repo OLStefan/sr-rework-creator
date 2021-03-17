@@ -1,4 +1,4 @@
-import { Action, UiState } from '../../types';
+import { AnyAction } from '../rootReducer';
 import storageActions from '../storage/storageActions';
 import uiActions, { UiAction } from './uiActions';
 
@@ -42,7 +42,7 @@ function handleSetAllowStorage(ui: UiState, { value }: UiAction<'setAllowStorage
 	return { ...ui, allowLocalStorage: value };
 }
 
-export default function (ui = initialState, action: Action): UiState {
+export default function (ui = initialState, action: AnyAction): UiState {
 	switch (action.type) {
 		case uiActions.types.showMenu:
 			return handleShowMenu(ui);

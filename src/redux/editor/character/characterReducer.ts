@@ -1,4 +1,4 @@
-import { Action, Character } from '../../../types';
+import { AnyAction } from '../../rootReducer';
 import storageActions, { StorageAction } from '../../storage/storageActions';
 import characterActions, { CharacterAction } from './characterActions';
 
@@ -43,7 +43,7 @@ function handleSetImage(
 	return { ...character, details: { ...character.details, mugshot: base64Image } };
 }
 
-export default function (character = initialState, action: Action): Character | undefined {
+export default function (character = initialState, action: AnyAction): Character | undefined {
 	switch (action.type) {
 		case storageActions.types.setCharacter:
 			return handleSetCharacter(action);

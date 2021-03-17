@@ -1,6 +1,4 @@
-import { UUID } from '.';
-
-export enum AttributeName {
+enum AttributeName {
 	STRENGTH = 'strength',
 	AGILITY = 'agility',
 	BODY = 'body',
@@ -8,14 +6,15 @@ export enum AttributeName {
 	WILLPOWER = 'willpower',
 	CHARISMA = 'charisma',
 }
-export interface Attribute {
+
+interface Attribute {
 	name: AttributeName;
 	minRating: number;
 	maxRating: number;
 	rating: number;
 }
 
-export interface Details {
+interface Details {
 	name: string;
 	mugshot?: string;
 }
@@ -37,4 +36,4 @@ interface CareerCharacter extends BaseCharacter {
 	careerMode: true;
 }
 
-export type Character = CreationCharacter | CareerCharacter;
+type Character = CreationCharacter | CareerCharacter;

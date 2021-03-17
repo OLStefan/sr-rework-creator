@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { BaseProps } from '../../../types/props';
 
 interface Props extends BaseProps {
 	checked: boolean;
@@ -8,7 +7,7 @@ interface Props extends BaseProps {
 }
 // Used in styling
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function Switch({ checked, onClick, ...otherProps }: Props) {
+function ToggleSwitch({ checked, onClick, ...otherProps }: Props) {
 	return (
 		<div {...otherProps}>
 			<div className="filler" />
@@ -21,7 +20,7 @@ function Switch({ checked, onClick, ...otherProps }: Props) {
 	);
 }
 
-export default styled(Switch)`
+export default styled(ToggleSwitch)`
 	width: 100%;
 	display: grid;
 

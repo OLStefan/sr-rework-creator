@@ -1,8 +1,12 @@
 // any needed for argument definitions
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { AbstractCreatorDescriptor, AbstractThunkDescriptor, AllActions, Creator, Thunk } from './actionTypes';
 
-type MapDescriptor<Prefix extends string, Descriptor extends AbstractCreatorDescriptor | AbstractThunkDescriptor> = {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export type MapDescriptor<
+	Prefix extends string,
+	Descriptor extends AbstractCreatorDescriptor | AbstractThunkDescriptor
+> = {
 	[K in keyof Descriptor]: K extends string
 		? Descriptor[K] extends Creator<any[], { type: `${Prefix}.${K}` }> | ((...args: any[]) => Thunk)
 			? Descriptor[K]
@@ -10,17 +14,17 @@ type MapDescriptor<Prefix extends string, Descriptor extends AbstractCreatorDesc
 		: never;
 };
 
-type ExtractConstants<Descriptor extends AbstractCreatorDescriptor> = {
+export type ExtractConstants<Descriptor extends AbstractCreatorDescriptor> = {
 	[K in keyof Descriptor]: ReturnType<Descriptor[K]>['type'];
 };
 
-type Guard<Descriptor extends AbstractCreatorDescriptor> = (x: { type: unknown }) => x is AllActions<Descriptor>;
+export type Guard<Descriptor extends AbstractCreatorDescriptor> = (x: { type: unknown }) => x is AllActions<Descriptor>;
 
-type Keyof<Something extends Record<string, unknown>> = Record<string, never> extends Something
+export type Keyof<Something extends Record<string, unknown>> = Record<string, never> extends Something
 	? never
 	: keyof Something;
 
-type ExtendedDescriptor<
+export type ExtendedDescriptor<
 	CreatorDescriptor extends AbstractCreatorDescriptor,
 	ThunkDescriptor extends AbstractThunkDescriptor,
 	TypeGuard extends string

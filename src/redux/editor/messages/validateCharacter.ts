@@ -1,5 +1,4 @@
 import { cloneDeep, isEqual } from 'lodash';
-import { AttributeName, Character, MessagesState, SectionName } from '../../../types';
 
 const initialState: MessagesState = {
 	errors: Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['errors'],

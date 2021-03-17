@@ -1,4 +1,4 @@
-import { ActionCreatorBuilder, AllActions, FilterAction, SectionName } from '../../types';
+import { ActionCreatorBuilder, AllActions, FilterAction } from '../actionCreators';
 
 export const EDITOR_NAMESPACE = 'EditorActions';
 export const EDITOR_TYPEGUARD = 'isEditorAction';

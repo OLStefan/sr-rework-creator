@@ -1,13 +1,11 @@
 import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { Attribute as AttributeType, AttributeName } from '../../../types';
-import { BaseProps } from '../../../types/props';
 import Button from '../../generic/atoms/Button';
 import TextField from '../../generic/atoms/TextField';
 
 interface Props extends BaseProps {
-	attribute: AttributeType;
+	attribute: Attribute;
 	title: string;
 	onChangeAttribute: (attributeName: AttributeName, newRating: number) => void;
 	onIncreaseAttribute: (attributeName: AttributeName) => void;

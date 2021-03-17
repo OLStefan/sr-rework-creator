@@ -1,4 +1,4 @@
-import { ActionCreatorBuilder, AllActions, FilterAction } from '../../types';
+import { ActionCreatorBuilder, AllActions, FilterAction } from '../actionCreators';
 
 export const UI_NAMESPACE = 'UiActions';
 export const UI_TYPEGUARD = 'isUiAction';

@@ -1,5 +1,4 @@
 import { isNil } from 'lodash';
-import { AttributeName, Character } from '../types';
 import isAttribute from './isAttribute';
 import isType from './isType';
 

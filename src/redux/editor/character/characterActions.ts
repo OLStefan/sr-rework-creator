@@ -1,5 +1,5 @@
 import { encode } from 'uint8-to-base64';
-import { ActionCreatorBuilder, AllActions, AttributeName, FilterAction, Thunk } from '../../../types';
+import { ActionCreatorBuilder, AllActions, FilterAction, Thunk } from '../../actionCreators';
 
 export const CHARACTER_NAMESPACE = 'CharacterActions';
 export const CHARACTER_TYPEGUARD = 'isCharacterAction';

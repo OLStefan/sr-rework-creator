@@ -7,7 +7,6 @@ import { CHARCTER_FILE_TYPE } from '../constants';
 import { useLabels } from '../hooks';
 import storageActions from '../redux/storage/storageActions';
 import uiActions from '../redux/ui/uiActions';
-import { BaseProps } from '../types/props';
 import Button from './generic/atoms/Button';
 import Dropzone from './generic/atoms/Dropzone';
 

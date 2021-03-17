@@ -11,7 +11,6 @@ import WelcomePage from './components/WelcomePage';
 import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
 import { useCharacterLoaded, useDarkMode, useAllowLocalStorage } from './redux/selectors';
 import GDPR from './components/GDPR';
-import { BaseProps } from './types/props';
 import storageActions from './redux/storage/storageActions';
 import { isNil } from 'lodash';
 

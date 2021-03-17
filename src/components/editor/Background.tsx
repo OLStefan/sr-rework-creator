@@ -1,5 +1,4 @@
 import React from 'react';
-import { BaseProps } from '../../types/props';
 
 interface Props extends BaseProps {
 	color: string;
