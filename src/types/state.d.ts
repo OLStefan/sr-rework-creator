@@ -6,17 +6,17 @@ interface UiState {
 }
 
 interface MessagesState {
-	errors: Record<import('./enums').SectionName, string[]>;
-	hints: Record<import('./enums').SectionName, string[]>;
+	errors: Record<SectionName, string[]>;
+	hints: Record<SectionName, string[]>;
 }
 
 interface EditorState {
 	currentCharacter?: Character;
 	messages: MessagesState;
-	expandedCards: { [x in import('./enums').SectionName]: boolean };
+	expandedCards: { [x in SectionName]: boolean };
 }
 
-type UndoableEditorState = import('redux-undo').StateWithHistory<EditorState>;
+type UndoableEditorState = StateWithHistory<EditorState>;
 
 type StorageState = Partial<Record<UUID, Character>>;
 

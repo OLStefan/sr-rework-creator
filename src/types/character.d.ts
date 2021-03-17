@@ -1,5 +1,5 @@
 interface Attribute {
-	name: import('./enums').AttributeName;
+	name: AttributeName;
 	minRating: number;
 	maxRating: number;
 	rating: number;
@@ -15,7 +15,7 @@ interface BaseCharacter {
 	increment: number;
 	uuid: UUID;
 	careerMode: boolean;
-	attributes: Record<import('./enums').AttributeName, Attribute>;
+	attributes: Record<AttributeName, Attribute>;
 	details: Details;
 }
 
