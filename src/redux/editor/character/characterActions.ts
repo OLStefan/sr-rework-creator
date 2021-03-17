@@ -1,4 +1,5 @@
 import { encode } from 'uint8-to-base64';
+import { AttributeName } from '../../../types';
 import { ActionCreatorBuilder, AllActions, FilterAction, Thunk } from '../../actionCreators';
 
 export const CHARACTER_NAMESPACE = 'CharacterActions';

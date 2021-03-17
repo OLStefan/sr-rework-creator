@@ -1,14 +1,5 @@
-enum AttributeName {
-	STRENGTH = 'strength',
-	AGILITY = 'agility',
-	BODY = 'body',
-	INTELLIGENCE = 'intelligence',
-	WILLPOWER = 'willpower',
-	CHARISMA = 'charisma',
-}
-
 interface Attribute {
-	name: AttributeName;
+	name: import('./enums').AttributeName;
 	minRating: number;
 	maxRating: number;
 	rating: number;
@@ -24,7 +15,7 @@ interface BaseCharacter {
 	increment: number;
 	uuid: UUID;
 	careerMode: boolean;
-	attributes: Record<AttributeName, Attribute>;
+	attributes: Record<import('./enums').AttributeName, Attribute>;
 	details: Details;
 }
 

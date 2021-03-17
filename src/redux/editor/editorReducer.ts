@@ -1,4 +1,5 @@
 import undoable, { includeAction } from 'redux-undo';
+import { SectionName } from '../../types';
 import { AnyAction } from '../rootReducer';
 import characterActions from './character/characterActions';
 import characterReducer from './character/characterReducer';

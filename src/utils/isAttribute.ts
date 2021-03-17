@@ -1,4 +1,5 @@
 import { isNil } from 'lodash';
+import { AttributeName } from '../types';
 import isType from './isType';
 
 export default function isAttribute(x: unknown): x is Attribute {

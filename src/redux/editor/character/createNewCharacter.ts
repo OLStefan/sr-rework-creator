@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { AttributeName } from '../../../types';
 
 export default function (): Character {
 	return {

@@ -6,6 +6,7 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
 import editorActions from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
+import { SectionName } from '../../types';
 import CollapsibleCard from '../generic/atoms/CollapsibleCard';
 import CardContent from './CardContent';
 

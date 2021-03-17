@@ -1,6 +1,7 @@
 import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import { AttributeName } from '../../../types';
 import Button from '../../generic/atoms/Button';
 import TextField from '../../generic/atoms/TextField';
 
