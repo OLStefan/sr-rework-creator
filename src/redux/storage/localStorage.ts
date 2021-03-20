@@ -39,10 +39,10 @@ export function saveState(state: State) {
 
 		const serializedState = JSON.stringify(stateClone);
 		localStorage.setItem('state', serializedState);
-	} catch {
+	} catch (e) {
 		// Just log the error
 		// eslint-disable-next-line no-console
-		console.log('Error writing state to local storage');
+		console.log('Error writing state to local storage', e);
 	}
 }
 

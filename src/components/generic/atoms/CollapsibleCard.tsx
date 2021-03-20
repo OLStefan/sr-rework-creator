@@ -105,7 +105,7 @@ export default styled(React.memo(CollapsibleCard))`
 
 		.content-container {
 			padding: var(--spacing-medium);
-			visibility: var(--visibility, block);
+			visibility: var(--visibility);
 		}
 	}
 

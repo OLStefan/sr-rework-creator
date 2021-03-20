@@ -32,7 +32,11 @@ function AttributeSection({ ...otherProps }: BaseProps) {
 		}),
 	}));
 
-	return attributes ? (
+	if (!attributes) {
+		return null;
+	}
+
+	return (
 		<div {...otherProps} data-component="attribute-section">
 			{Object.values(AttributeName).map((attributeName) => (
 				<Attribute
@@ -46,7 +50,7 @@ function AttributeSection({ ...otherProps }: BaseProps) {
 				/>
 			))}
 		</div>
-	) : null;
+	);
 }
 
 export default styled(React.memo(AttributeSection))`

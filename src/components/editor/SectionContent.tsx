@@ -21,11 +21,11 @@ function SectionContent({ name, ...otherProps }: Props) {
 	const hintMessage = useHintMessage(name);
 
 	const { labels } = useLabels((t: TFunction) => ({
-		[name]: t(name),
+		title: t(name),
 	}));
 
 	const callbacks = useUpdatingCallbacks({
-		[name]() {
+		expandCard() {
 			dispatch(editorActions.toggleCard(name));
 		},
 	});
@@ -36,12 +36,8 @@ function SectionContent({ name, ...otherProps }: Props) {
 				error={errorMessage}
 				hint={hintMessage}
 				expanded={expanded}
-				// callbacks and labels are created locally with the name attribute existing
-				/* eslint-disable @typescript-eslint/no-non-null-assertion */
-				onExpandClick={callbacks[name]!}
-				title={labels[name]!}
-				/* eslint-enable @typescript-eslint/no-non-null-assertion */
-			>
+				onExpandClick={callbacks.expandCard}
+				title={labels.title}>
 				{useMemo(
 					() => (
 						<CardContent name={name} />

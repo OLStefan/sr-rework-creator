@@ -6,6 +6,7 @@ import { IMAGE_FILE_TYPE } from '../../../constants';
 import characterActions from '../../../redux/editor/character/characterActions';
 import { useCharacterDetails } from '../../../redux/selectors';
 import Dropzone from '../../generic/atoms/Dropzone';
+import TextArea from '../../generic/atoms/TextArea';
 
 function DetailsSection({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
@@ -17,19 +18,27 @@ function DetailsSection({ ...otherProps }: BaseProps) {
 		},
 	});
 
-	return details ? (
+	if (!details) {
+		return null;
+	}
+
+	return (
 		<div {...otherProps} data-component="details-section">
-			<div className="text-details"></div>
+			<div className="text-details">
+				<TextArea className="text-area" autosize maxRows={10} minRows={2} />
+			</div>
 			<div className="picture">
 				<label className="label">Portrait:</label>
 				{details.mugshot ? (
-					<img src={details.mugshot} />
+					<div className="image-container">
+						<img src={details.mugshot} />
+					</div>
 				) : (
 					<Dropzone readFile={callbacks.readFile} fileType={IMAGE_FILE_TYPE} text="Drop hier" />
 				)}
 			</div>
 		</div>
-	) : null;
+	);
 }
 
 export default styled(DetailsSection)`
@@ -43,6 +52,11 @@ export default styled(DetailsSection)`
 		flex: 2 0 0;
 		height: 200px;
 		padding-right: var(--spacing-small);
+
+		.text-area {
+			resize: none;
+			width: 100%;
+		}
 	}
 
 	.picture {
@@ -50,11 +64,16 @@ export default styled(DetailsSection)`
 		height: 200px;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: flex-start;
 
-		& > img {
-			width: 100%;
-			object-fit: contain;
+		.image-container {
+			position: relative;
+			min-width: 0;
+
+			img {
+				width: 100%;
+				object-fit: contain;
+			}
 		}
 	}
 `;
