@@ -30,8 +30,8 @@
 
 	--font-weight-bold: 700;
 
-	--character-editor-card-small-width: 40ch;
-	--character-editor-card-wide-width: calc(2 * var(--character-editor-card-small-width));
+	--character-editor-card-min-width: 40ch;
+	--character-editor-card-max-width: 400px;
 
 	--menu-min-width: 20ch;
 	--menu-divider-height: 0.1em;

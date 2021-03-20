@@ -3,6 +3,7 @@ import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { SectionType } from '../../types';
 import SectionContent from './SectionContent';
 
@@ -11,41 +12,47 @@ interface ItemType {
 	name: SectionType;
 }
 
-function sameItems(a: ItemType, b: ItemType) {
-	return a.id === b.id;
-}
+const computedStyle = getComputedStyle(document.documentElement);
+
+const initialList = Object.values(SectionType).map((section, index) => ({ name: section, id: index }));
 
 function CharacterEditor({ ...otherProps }: BaseProps) {
-	const initialList = useMemo(
-		() => Object.values(SectionType).map((section, index) => ({ name: section, id: index })),
-		[],
-	);
 	const [list, setList] = useState<ItemType[]>(initialList);
+
+	const { width: windowWidth } = useWindowDimensions();
+	const minCardSize = parseFloat(computedStyle.getPropertyValue('--character-editor-card-max-width'));
+	const cardsPerRow = Math.floor(windowWidth / minCardSize);
 
 	const callbacks = useUpdatingCallbacks({
 		updateListOrder(newList: ItemType[]) {
-			// Checked beforehand
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			if (!list.every((item, index) => !!newList[index] && sameItems(item, newList[index]!))) {
+			if (!list.every((item, index) => newList[index]?.id === item.id)) {
 				setList(newList);
 			}
 		},
 	});
 
 	return (
-		<div {...otherProps} data-component="character-editor">
-			<ReactSortable
-				list={list}
-				setList={callbacks.updateListOrder}
-				className="list"
-				handle=".titlebar"
-				delay={DEFAULT_TIMEOUT}
-				touchStartThreshold={DRAG_MOVE_THRESHOLD}
-				forceFallback>
-				{list.map((sectionItem) => (
-					<SectionContent key={sectionItem.id} name={sectionItem.name} />
-				))}
-			</ReactSortable>
+		<div
+			{...otherProps}
+			style={{ '--cardMinWidth': cardsPerRow ? `${100 / cardsPerRow}%` : cardsPerRow } as React.CSSProperties}
+			data-component="character-editor">
+			{useMemo(
+				() => (
+					<ReactSortable
+						list={list}
+						setList={callbacks.updateListOrder}
+						className="list"
+						handle=".titlebar"
+						delay={DEFAULT_TIMEOUT}
+						touchStartThreshold={DRAG_MOVE_THRESHOLD}
+						forceFallback>
+						{list.map((sectionItem) => (
+							<SectionContent key={sectionItem.id} name={sectionItem.name} className="section-content" />
+						))}
+					</ReactSortable>
+				),
+				[callbacks.updateListOrder, list],
+			)}
 		</div>
 	);
 }
@@ -59,17 +66,9 @@ export default styled(CharacterEditor)`
 		flex-wrap: wrap;
 		align-content: flex-start;
 
-		${SectionContent} {
-			flex: 1 0 var(--character-editor-card-small-width);
-			max-width: var(--character-editor-card-wide-width);
-		}
-
-		/* calc(3 * var(--character-editor-card-medium-width))*/
-		@media only screen and (min-width: 1200px) {
-			${SectionContent} {
-				min-width: calc(1.5 * var(--character-editor-card-small-width));
-				max-width: calc(1.5 * var(--character-editor-card-wide-width));
-			}
+		.section-content {
+			flex: 0 1 var(--character-editor-card-max-width);
+			min-width: var(--cardMinWidth);
 		}
 	}
 `;
