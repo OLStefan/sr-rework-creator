@@ -5,8 +5,8 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { IMAGE_FILE_TYPE } from '../../../constants';
 import characterActions from '../../../redux/editor/character/characterActions';
 import { useCharacterDetails } from '../../../redux/selectors';
-import Dropzone from '../../generic/atoms/Dropzone';
-import TextArea from '../../generic/atoms/TextArea';
+import Dropzone from '../../atoms/Dropzone';
+import TextArea from '../../atoms/TextArea';
 
 function DetailsSection({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();

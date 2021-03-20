@@ -3,8 +3,8 @@ import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { AttributeName } from '../../../types';
-import Button from '../../generic/atoms/Button';
-import TextField from '../../generic/atoms/TextField';
+import Button from '../../atoms/Button';
+import TextField from '../../atoms/TextField';
 
 interface Props extends BaseProps {
 	attribute: Attribute;

@@ -1,7 +1,7 @@
 import React, { HTMLProps, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { DEFAULT_TIMEOUT } from '../../../constants';
+import { DEFAULT_TIMEOUT } from '../../constants';
 
 interface Props extends HTMLProps<HTMLInputElement> {
 	timeout?: number;

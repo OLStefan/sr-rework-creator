@@ -20,9 +20,9 @@ import {
 import { clearLocalStorageThunk } from '../../redux/storage/localStorage';
 import storageActions from '../../redux/storage/storageActions';
 import uiActions from '../../redux/ui/uiActions';
-import Button from '../generic/atoms/Button';
-import Switch from '../generic/atoms/ToggleSwitch';
-import FileSelectButton from '../generic/molecules/FileSelectButton';
+import Button from '../atoms/Button';
+import Switch from '../atoms/ToggleSwitch';
+import FileSelectButton from '../molecules/FileSelectButton';
 
 const computedStyle = getComputedStyle(document.documentElement);
 

@@ -2,7 +2,7 @@ import React, { HTMLProps, useEffect, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { DEFAULT_TIMEOUT } from '../../../constants';
+import { DEFAULT_TIMEOUT } from '../../constants';
 
 type Style = Omit<NonNullable<HTMLProps<HTMLTextAreaElement>['style']>, 'maxHeight' | 'minHeight'> & {
 	height?: number;

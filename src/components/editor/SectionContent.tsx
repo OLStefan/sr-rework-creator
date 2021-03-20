@@ -6,7 +6,7 @@ import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
 import editorActions from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
-import CollapsibleCard from '../generic/atoms/CollapsibleCard';
+import CollapsibleCard from '../atoms/CollapsibleCard';
 import CardContent from './CardContent';
 
 interface Props extends BaseProps {

@@ -7,8 +7,8 @@ import { useLabels } from '../../../hooks';
 import characterActions from '../../../redux/editor/character/characterActions';
 import { useCharacterAttributes } from '../../../redux/selectors';
 import { AttributeName } from '../../../types';
-import Button from '../../generic/atoms/Button';
-import TextField from '../../generic/atoms/TextField';
+import Button from '../../atoms/Button';
+import TextField from '../../atoms/TextField';
 import Attribute from './Attribute';
 
 function AttributeSection({ ...otherProps }: BaseProps) {

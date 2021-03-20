@@ -7,8 +7,8 @@ import { CHARCTER_FILE_TYPE } from '../constants';
 import { useLabels } from '../hooks';
 import storageActions from '../redux/storage/storageActions';
 import uiActions from '../redux/ui/uiActions';
-import Button from './generic/atoms/Button';
-import Dropzone from './generic/atoms/Dropzone';
+import Button from './atoms/Button';
+import Dropzone from './atoms/Dropzone';
 
 function WelcomePage({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();

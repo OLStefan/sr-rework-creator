@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useUpdatingCallback } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
 import uiActions from '../redux/ui/uiActions';
-import Button from './generic/atoms/Button';
+import Button from './atoms/Button';
 
 function GDPR({ ...otherProps }: BaseProps) {
 	const dispatch = useDispatch();
