@@ -4,13 +4,14 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"start": "npm install && react-scripts start",
+		"develop": "yarn install && react-scripts start",
 		"build": "react-scripts build",
+		"clean": "rimraf node_modules build",
 		"test": "react-scripts test",
 		"lint": "eslint . --ext .tsx --ext .ts",
 		"eject": "react-scripts eject",
-		"predeploy": "npm run build",
-		"deploy": "npm run lint && gh-pages -d build"
+		"predeploy": "yarn build",
+		"deploy": "yarn lint && gh-pages -d build"
 	},
 	"browserslist": {
 		"production": [

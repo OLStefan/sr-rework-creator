@@ -1,5 +1,6 @@
 import { noop } from 'lodash';
 import React, { useMemo, useRef } from 'react';
+import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { AttributeName } from '../../../types';
 import Button from '../../generic/atoms/Button';
@@ -35,21 +36,35 @@ function Attribute({
 		onFocus() {
 			ref.current?.select();
 		},
+		onIncreaseAttribute() {
+			onIncreaseAttribute(attribute.name);
+		},
+		onDecreaseAttribute() {
+			onDecreaseAttribute(attribute.name);
+		},
 	});
+
+	const decreaseDisabled = attribute.rating <= attribute.minRating;
+	const increaseDisabled = attribute.rating >= attribute.maxRating;
 
 	return (
 		<div {...otherProps}>
 			<label className="title">{title}</label>
 			{useMemo(
 				() => (
-					<div className="limit">{`(${attribute.minRating}/${attribute.maxRating})`}</div>
+					<label className="limit">{`(${attribute.minRating}/${attribute.maxRating})`}</label>
 				),
 				[attribute.maxRating, attribute.minRating],
 			)}
-			<Button disabled={attribute.rating <= attribute.minRating} onClick={() => onDecreaseAttribute(attribute.name)}>
-				<div className="filler" />
-				<div className="minus">-</div>
-			</Button>
+			{useMemo(
+				() => (
+					<Button disabled={decreaseDisabled} onClick={callbacks.onDecreaseAttribute}>
+						<div className="filler" />
+						<div className="minus">-</div>
+					</Button>
+				),
+				[callbacks.onDecreaseAttribute, decreaseDisabled],
+			)}
 
 			<TextField
 				type="number"
@@ -63,12 +78,26 @@ function Attribute({
 				// onWheel must be set to allow for scrolling to change value
 				onWheel={noop}
 			/>
-			<Button disabled={attribute.rating >= attribute.maxRating} onClick={() => onIncreaseAttribute(attribute.name)}>
-				<div className="filler" />
-				<div className="plus">+</div>
-			</Button>
+			{useMemo(
+				() => (
+					<Button disabled={increaseDisabled} onClick={callbacks.onIncreaseAttribute}>
+						<div className="filler" />
+						<div className="plus">+</div>
+					</Button>
+				),
+				[callbacks.onIncreaseAttribute, increaseDisabled],
+			)}
 		</div>
 	);
 }
 
-export default React.memo(Attribute);
+export default styled(React.memo(Attribute))`
+	label {
+		display: flex;
+		align-items: center;
+
+		&.limit {
+			justify-content: center;
+		}
+	}
+`;

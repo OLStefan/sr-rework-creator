@@ -4,5 +4,5 @@ export as namespace enums;
 
 declare global {
 	type AttributeName = enums.AttributeName;
-	type SectionName = enums.SectionName;
+	type SectionType = enums.SectionType;
 }

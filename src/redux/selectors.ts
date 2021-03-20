@@ -20,10 +20,12 @@ export const isDirty = ({
 	!!currentCharacter &&
 	(!storage[currentCharacter.uuid] || currentCharacter.increment !== storage[currentCharacter.uuid]?.increment);
 export const getExpandedCard = (
-	cardName: SectionName,
+	cardName: SectionType,
 	{
 		editor: {
-			present: { expandedCards },
+			present: {
+				ui: { expandedCards },
+			},
 		},
 	}: State,
 ) => expandedCards[cardName];
@@ -57,14 +59,14 @@ export const getCharacterName = ({
 }: State) => currentCharacter?.details.name;
 
 export const getErrorMessage = (
-	sectionName: SectionName,
+	sectionType: SectionType,
 	{
 		editor: {
 			present: { messages },
 		},
 	}: State,
 ) => {
-	const errorMessages = messages.errors[sectionName];
+	const errorMessages = messages.errors[sectionType];
 	if (!errorMessages) {
 		return '';
 	}
@@ -75,14 +77,14 @@ export const getErrorMessage = (
 				.reduce((prev, current) => `${prev}${TOOLTIP_BULLET_POINT} ${current}${TOOLTIP_LINE_BREAK}`, '');
 };
 export const getHintMessage = (
-	sectionName: SectionName,
+	sectionType: SectionType,
 	{
 		editor: {
 			present: { messages },
 		},
 	}: State,
 ) => {
-	const hintMessages = messages.hints[sectionName];
+	const hintMessages = messages.hints[sectionType];
 	if (!hintMessages) {
 		return '';
 	}
@@ -107,7 +109,7 @@ export const useAllowLocalStorage = () => useSelector(getAllowLocalStorage);
 export const useHasPast = () => useSelector(hasPast);
 export const useHasFuture = () => useSelector(hasFuture);
 export const useIsDirty = () => useSelector(isDirty);
-export const useExpandedCard = (cardName: SectionName) =>
+export const useExpandedCard = (cardName: SectionType) =>
 	useSelector((state: State) => getExpandedCard(cardName, state));
 
 // Character
@@ -119,7 +121,7 @@ export const useCharacterDetails = () => useSelector(getCharacterDetails);
 export const useCharacterName = () => useSelector(getCharacterName);
 
 // Errors
-export const useErrorMessage = (sectionName: SectionName) =>
+export const useErrorMessage = (sectionName: SectionType) =>
 	useSelector((state: State) => getErrorMessage(sectionName, state));
-export const useHintMessage = (sectionName: SectionName) =>
+export const useHintMessage = (sectionName: SectionType) =>
 	useSelector((state: State) => getHintMessage(sectionName, state));

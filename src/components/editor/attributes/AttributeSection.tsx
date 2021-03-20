@@ -34,75 +34,60 @@ function AttributeSection({ ...otherProps }: BaseProps) {
 
 	return attributes ? (
 		<div {...otherProps} data-component="attribute-section">
-			<div className="attribute-container">
-				{Object.values(AttributeName).map((attributeName) => (
-					<Attribute
-						key={attributeName}
-						className="attribute"
-						title={labels[attributeName]}
-						attribute={attributes[attributeName]}
-						onChangeAttribute={callbacks.onChangeAttribute}
-						onIncreaseAttribute={callbacks.onIncreaseAttribute}
-						onDecreaseAttribute={callbacks.onDecreaseAttribute}
-					/>
-				))}
-			</div>
+			{Object.values(AttributeName).map((attributeName) => (
+				<Attribute
+					key={attributeName}
+					className="attribute"
+					title={labels[attributeName]}
+					attribute={attributes[attributeName]}
+					onChangeAttribute={callbacks.onChangeAttribute}
+					onIncreaseAttribute={callbacks.onIncreaseAttribute}
+					onDecreaseAttribute={callbacks.onDecreaseAttribute}
+				/>
+			))}
 		</div>
 	) : null;
 }
 
 export default styled(React.memo(AttributeSection))`
-	display: flex;
-	flex-wrap: wrap-reverse;
-	justify-content: center;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 5ch 2em 5ch 2em;
+	grid-gap: var(--spacing-medium);
+	justify-content: stretch;
+	margin-top: calc(-1 * var(--spacing-small));
 
-	.attribute-container {
-		flex: 1 0 0;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		margin-top: calc(-1 * var(--spacing-small));
+	.attribute {
+		display: contents;
 
-		.attribute {
+		.title {
+			font-size: 1.25em;
+		}
+
+		.limit {
+			text-align: center;
+		}
+
+		${Button} {
+			font-size: 1.5em;
+			font-weight: var(--font-weight-bold);
+			border-radius: 50%;
 			display: grid;
-			grid-template-columns: 1fr 5ch 2em 5ch 2em;
-			grid-gap: var(--spacing-medium);
-			align-items: center;
-			margin-top: var(--spacing-small);
+			place-items: center;
 
-			&:last-child {
-				margin-bottom: var(--spacing-small);
+			.filler,
+			.plus,
+			.minus {
+				grid-area: 1/1;
 			}
 
-			.title {
-				font-size: 1.25em;
+			.filler {
+				padding-top: 100%;
 			}
+		}
 
-			.limit {
-				text-align: center;
-			}
-
-			${Button} {
-				font-size: 1.5em;
-				font-weight: var(--font-weight-bold);
-				border-radius: 50%;
-				display: grid;
-				place-items: center;
-
-				.filler,
-				.plus,
-				.minus {
-					grid-area: 1/1;
-				}
-
-				.filler {
-					padding-top: 100%;
-				}
-			}
-
-			${TextField} {
-				font-size: 1.25em;
-			}
+		${TextField} {
+			font-size: 1.25em;
 		}
 	}
 `;

@@ -1,16 +1,17 @@
-export enum SectionName {
+export enum SectionType {
 	DETAILS = 'details',
-	QUALITIES = 'qualities',
 	ATTRIBUTES = 'attributes',
+	QUALITIES = 'qualities',
 	SKILLS = 'skills',
-	SPELLS = 'spells',
 	WEAPONS = 'weapons',
 	ARMOR = 'armor',
-	GEAR = 'gear',
 	DRONES = 'drones',
 	VEHICLES = 'vehicles',
+	GEAR = 'gear',
 	LIFESTYLES = 'lifestyles',
 	CONTACTS = 'contacts',
+	SPELLS = 'spells',
+	POWERS = 'powers',
 }
 
 export enum AttributeName {

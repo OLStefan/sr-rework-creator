@@ -1,9 +1,9 @@
 import { cloneDeep, isEqual } from 'lodash';
-import { AttributeName, SectionName } from '../../../types';
+import { AttributeName, SectionType } from '../../../types';
 
 const initialState: MessagesState = {
-	errors: Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['errors'],
-	hints: Object.fromEntries<string[]>(Object.values(SectionName).map((name) => [name, []])) as MessagesState['hints'],
+	errors: Object.fromEntries<string[]>(Object.values(SectionType).map((name) => [name, []])) as MessagesState['errors'],
+	hints: Object.fromEntries<string[]>(Object.values(SectionType).map((name) => [name, []])) as MessagesState['hints'],
 };
 
 export default function ({
@@ -29,12 +29,12 @@ export default function ({
 	);
 
 	if (maxedAttributes.length > 1) {
-		messages.errors[SectionName.ATTRIBUTES].push('Only one attribute may be raised to its natural maximum');
+		messages.errors[SectionType.ATTRIBUTES].push('Only one attribute may be raised to its natural maximum');
 	}
 
 	// TODO: Make real validation
 	if (Object.values(AttributeName).reduce((prev, curr) => prev + newCharacter.attributes[curr].rating, 0) < 10) {
-		messages.hints[SectionName.ATTRIBUTES].push('Spent more attribute points');
+		messages.hints[SectionType.ATTRIBUTES].push('Spent more attribute points');
 	}
 	return messages;
 }

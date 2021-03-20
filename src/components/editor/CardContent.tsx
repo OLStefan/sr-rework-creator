@@ -1,18 +1,18 @@
 import React, { useMemo } from 'react';
-import { SectionName } from '../../types';
+import { SectionType } from '../../types';
 import AttributeSection from './attributes/AttributeSection';
 import DetailsSection from './details/DetailsSection';
 
 interface Props extends BaseProps {
-	name: SectionName;
+	name: SectionType;
 }
 
 function CardContent({ name, ...otherProps }: Props) {
 	return useMemo(() => {
 		switch (name) {
-			case SectionName.ATTRIBUTES:
+			case SectionType.ATTRIBUTES:
 				return <AttributeSection {...otherProps} />;
-			case SectionName.DETAILS:
+			case SectionType.DETAILS:
 				return <DetailsSection {...otherProps} />;
 			default:
 				return <span>Some text</span>;

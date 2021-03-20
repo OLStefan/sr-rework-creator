@@ -6,14 +6,18 @@ interface UiState {
 }
 
 interface MessagesState {
-	errors: Record<SectionName, string[]>;
-	hints: Record<SectionName, string[]>;
+	errors: Record<SectionType, string[]>;
+	hints: Record<SectionType, string[]>;
+}
+
+interface EditorUiState {
+	expandedCards: { [x in SectionType]: boolean };
 }
 
 interface EditorState {
 	currentCharacter?: Character;
 	messages: MessagesState;
-	expandedCards: { [x in SectionName]: boolean };
+	ui: EditorUiState;
 }
 
 type UndoableEditorState = StateWithHistory<EditorState>;

@@ -1,5 +1,5 @@
 import { TFunction } from 'i18next';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
@@ -10,7 +10,7 @@ import CollapsibleCard from '../generic/atoms/CollapsibleCard';
 import CardContent from './CardContent';
 
 interface Props extends BaseProps {
-	name: SectionName;
+	name: SectionType;
 }
 
 function SectionContent({ name, ...otherProps }: Props) {
@@ -42,7 +42,12 @@ function SectionContent({ name, ...otherProps }: Props) {
 				title={labels[name]!}
 				/* eslint-enable @typescript-eslint/no-non-null-assertion */
 			>
-				<CardContent name={name} />
+				{useMemo(
+					() => (
+						<CardContent name={name} />
+					),
+					[name],
+				)}
 			</CollapsibleCard>
 		</div>
 	);

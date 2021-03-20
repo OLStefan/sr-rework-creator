@@ -3,12 +3,12 @@ import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
-import { SectionName } from '../../types';
+import { SectionType } from '../../types';
 import SectionContent from './SectionContent';
 
 interface ItemType {
 	id: number;
-	name: SectionName;
+	name: SectionType;
 }
 
 function sameItems(a: ItemType, b: ItemType) {
@@ -17,7 +17,7 @@ function sameItems(a: ItemType, b: ItemType) {
 
 function CharacterEditor({ ...otherProps }: BaseProps) {
 	const initialList = useMemo(
-		() => Object.values(SectionName).map((section, index) => ({ name: section, id: index })),
+		() => Object.values(SectionType).map((section, index) => ({ name: section, id: index })),
 		[],
 	);
 	const [list, setList] = useState<ItemType[]>(initialList);

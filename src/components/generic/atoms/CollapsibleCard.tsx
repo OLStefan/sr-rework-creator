@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { useMemo, useRef } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import Button from './Button';
 
@@ -8,20 +8,35 @@ const computedStyle = getComputedStyle(document.documentElement);
 interface Props extends BaseProps {
 	title: string;
 	onExpandClick: React.MouseEventHandler;
-	expanded: boolean;
+	expanded?: boolean;
 	error?: string;
 	hint?: string;
 }
 function CollapsibleCard({
 	title,
 	children,
-	expanded = false,
+	expanded,
 	error,
 	hint,
 	onExpandClick,
 	...otherProps
 }: React.PropsWithChildren<Props>) {
 	const contentRef = useRef<HTMLDivElement>(null);
+
+	// Need to use a ref here, so the content stays visible until the transition ends
+	const expandedRef = useRef(!!expanded);
+	const [contentHeight, setContentHeight] = useState(0);
+
+	useLayoutEffect(() => {
+		const expandedHeight = contentRef.current?.getBoundingClientRect().height ?? 0;
+		const newHeight = expanded ? expandedHeight : 0;
+		if (newHeight !== contentHeight) {
+			expandedRef.current = !!expanded;
+			setContentHeight(newHeight);
+		}
+		// No need to react to the triggered changed of contentHeight
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [expanded]);
 
 	return (
 		<div data-component="card" {...otherProps}>
@@ -45,17 +60,17 @@ function CollapsibleCard({
 				[error, hint, onExpandClick, title],
 			)}
 			<motion.div
-				// Needed as per the framer motion
+				// Needed as per the framer motion docu
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				initial={{ height: 0, '--visibility': 'visible' } as any}
+				initial={{ height: contentHeight, '--visibility': 'visible' } as any}
 				animate={
 					{
-						height: expanded ? contentRef.current?.getBoundingClientRect().height : 0,
 						'--visibility': 'visible',
+						height: contentHeight,
 						transitionEnd: {
-							'--visibility': expanded ? 'visible' : 'hidden',
+							'--visibility': expandedRef.current ? 'visible' : 'hidden',
 						},
-						// Needed as per the framer motion
+						// Needed as per the framer motion docu
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					} as any
 				}

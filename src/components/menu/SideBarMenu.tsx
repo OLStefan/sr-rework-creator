@@ -208,6 +208,10 @@ export default styled(React.memo(SideBarMenu))`
 			display: flex;
 			justify-content: flex-end;
 
+			button {
+				border-radius: unset;
+			}
+
 			.undo,
 			.redo {
 				font-family: 'icomoon';
