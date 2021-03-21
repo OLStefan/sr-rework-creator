@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { AttributeName } from '../../../types';
+import { AttributeName, CharacterState } from '../../../types';
 
 export default function (): Character {
 	return {
@@ -15,6 +15,13 @@ export default function (): Character {
 			[AttributeName.WILLPOWER]: { name: AttributeName.WILLPOWER, minRating: 1, maxRating: 6, rating: 5 },
 			[AttributeName.CHARISMA]: { name: AttributeName.CHARISMA, minRating: 1, maxRating: 6, rating: 6 },
 		},
-		details: { name: '' },
+		details: {
+			name: '',
+			player: '',
+			description: '',
+			background: '',
+			notes: '',
+			state: CharacterState.CREATION,
+		},
 	};
 }

@@ -1,3 +1,4 @@
+import { inBound } from '../../../utils';
 import { AnyAction } from '../../rootReducer';
 import storageActions, { StorageAction } from '../../storage/storageActions';
 import characterActions, { CharacterAction } from './characterActions';
@@ -17,8 +18,7 @@ function handleChangeAttribute(
 	}
 
 	const attribute = character.attributes[attributeName];
-
-	const newRating = Math.min(Math.max(attribute.rating + change, attribute.minRating), attribute.maxRating);
+	const newRating = inBound(attribute.rating + change, attribute.minRating, attribute.maxRating);
 
 	if (newRating === attribute.rating) {
 		return character;
@@ -33,9 +33,45 @@ function handleChangeAttribute(
 	};
 }
 
+function handleChangeDetail(
+	character: Character | undefined,
+	{ attribute, newValue }: CharacterAction<'changeDetail'>,
+): Character | undefined {
+	if (!character) {
+		return character;
+	}
+
+	if (character.details[attribute] === newValue) {
+		return character;
+	}
+
+	return {
+		...character,
+		details: { ...character.details, [attribute]: newValue },
+	};
+}
+
+function handleChangeState(
+	character: Character | undefined,
+	{ newState }: CharacterAction<'changeState'>,
+): Character | undefined {
+	if (!character) {
+		return character;
+	}
+
+	if (character.details.state === newState) {
+		return character;
+	}
+
+	return {
+		...character,
+		details: { ...character.details, state: newState },
+	};
+}
+
 function handleSetImage(
 	character: Character | undefined,
-	{ base64Image }: CharacterAction<'setImage'>,
+	{ base64Image }: CharacterAction<'setMugshot'>,
 ): Character | undefined {
 	if (!character) {
 		return character;
@@ -49,7 +85,11 @@ export default function (character = initialState, action: AnyAction): Character
 			return handleSetCharacter(action);
 		case characterActions.types.changeAttribute:
 			return handleChangeAttribute(character, action);
-		case characterActions.types.setImage:
+		case characterActions.types.changeDetail:
+			return handleChangeDetail(character, action);
+		case characterActions.types.changeState:
+			return handleChangeState(character, action);
+		case characterActions.types.setMugshot:
 			return handleSetImage(character, action);
 		default:
 			return character;

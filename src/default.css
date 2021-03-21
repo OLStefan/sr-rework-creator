@@ -28,6 +28,8 @@
 	--card-title-font-size: 1.5rem;
 	--card-expand-font-size: 1.5rem;
 
+	--card-content-text-size: 1.25em;
+
 	--font-weight-bold: 700;
 
 	--character-editor-card-min-width: 40ch;
@@ -38,6 +40,11 @@
 	--burger-button-size: 1.25em;
 
 	--card-shadow-error: 0 0 4px 2px var(--error-color);
+
+	--details-row-size: 4em;
+	--details-textfield-min: 10ch;
+	--details-textfield-max: 25ch;
+	--details-portrait-max: 200px;
 }
 
 body {

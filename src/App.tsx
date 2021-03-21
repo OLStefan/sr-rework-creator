@@ -63,9 +63,8 @@ function App({ ...otherProps }: BaseProps) {
 					<div className="content">
 						<TitleBar />
 						<div className="editor">
-							<Logo className="background" color={color} />
-							{!characterLoaded && <WelcomePage />}
-							{characterLoaded && <CharacterEditor />}
+							<Logo className="background-image" color={color} />
+							{characterLoaded ? <CharacterEditor /> : <WelcomePage />}
 						</div>
 					</div>
 				),
@@ -98,7 +97,7 @@ export default styled(App)`
 			position: relative;
 			flex: 1 0 0;
 
-			.background {
+			.background-image {
 				position: absolute;
 				top: 0;
 				left: 0;

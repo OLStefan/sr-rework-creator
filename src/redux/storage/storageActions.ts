@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver';
 import { ActionCreators } from 'redux-undo';
 import { CHARCTER_FILE_TYPE } from '../../constants';
-import isCharacter from '../../utils/isChraracter';
+import { isCharacter } from '../../utils';
 import createNewCharacter from '../editor/character/createNewCharacter';
 import { getCurrentCharacter, isDirty } from '../selectors';
 import { ActionCreatorBuilder, AllActions, FilterAction, Thunk } from '../actionCreators';

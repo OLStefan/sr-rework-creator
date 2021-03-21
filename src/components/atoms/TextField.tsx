@@ -54,6 +54,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function (
 });
 
 export default styled(TextField)`
+	font-family: unset;
 	height: var(--textfield-default-size);
 
 	&[type='number'] {

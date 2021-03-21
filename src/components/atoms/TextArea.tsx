@@ -75,4 +75,5 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
 
 export default styled(TextArea)`
 	padding: var(--spacing-small);
+	font-family: unset;
 `;

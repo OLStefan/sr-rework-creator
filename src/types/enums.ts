@@ -5,9 +5,10 @@ export enum SectionType {
 	SKILLS = 'skills',
 	WEAPONS = 'weapons',
 	ARMOR = 'armor',
-	DRONES = 'drones',
-	VEHICLES = 'vehicles',
+	WARE = 'ware',
 	GEAR = 'gear',
+	VEHICLES = 'vehicles',
+	DRONES = 'drones',
 	LIFESTYLES = 'lifestyles',
 	CONTACTS = 'contacts',
 	SPELLS = 'spells',
@@ -18,7 +19,13 @@ export enum AttributeName {
 	STRENGTH = 'strength',
 	AGILITY = 'agility',
 	BODY = 'body',
-	INTELLIGENCE = 'intelligence',
+	ACUITY = 'acuity',
 	WILLPOWER = 'willpower',
 	CHARISMA = 'charisma',
+}
+
+export enum CharacterState {
+	CREATION = 'creation',
+	ACTIVE = 'active',
+	RETIRED = 'retired',
 }

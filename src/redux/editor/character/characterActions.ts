@@ -1,4 +1,5 @@
 import { encode } from 'uint8-to-base64';
+import { MAX_IMAGE_SIZE } from '../../../constants';
 import { AttributeName } from '../../../types';
 import { ActionCreatorBuilder, AllActions, FilterAction, Thunk } from '../../actionCreators';
 
@@ -13,8 +14,14 @@ const creators = {
 	changeAttribute(attributeName: AttributeName, change: number) {
 		return { type: builder.createType('changeAttribute'), attributeName, change };
 	},
-	setImage(base64Image?: string) {
-		return { type: builder.createType('setImage'), base64Image };
+	changeDetail(attribute: keyof Omit<Details, 'state' | 'mugshot'>, newValue?: string) {
+		return { type: builder.createType('changeDetail'), attribute, newValue };
+	},
+	changeState(newState: CharacterState) {
+		return { type: builder.createType('changeState'), newState };
+	},
+	setMugshot(base64Image?: string) {
+		return { type: builder.createType('setMugshot'), base64Image };
 	},
 };
 
@@ -25,10 +32,16 @@ const thunks = {
 				return;
 			}
 
+			if (file.size > MAX_IMAGE_SIZE) {
+				console.log(`Image too large, max ${MAX_IMAGE_SIZE} bytes`);
+				// TODO: User message
+				return;
+			}
+
 			file.arrayBuffer().then((arrayBuffer) => {
 				const bytes = new Uint8Array(arrayBuffer);
 				const base64String = `data:${file.type};base64,${encode(bytes)}`;
-				dispatch(creators.setImage(base64String));
+				dispatch(creators.setMugshot(base64String));
 			});
 		};
 

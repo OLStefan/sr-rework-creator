@@ -7,6 +7,11 @@ interface Attribute {
 
 interface Details {
 	name: string;
+	player: string;
+	description: string;
+	background: string;
+	notes: string;
+	state: CharacterState;
 	mugshot?: string;
 }
 

@@ -48,7 +48,7 @@ function CharacterEditor({ ...otherProps }: BaseProps) {
 }
 
 export default styled(CharacterEditor)`
-	max-height: 100%;
+	height: 100%;
 	overflow-y: auto;
 
 	.list {

@@ -65,7 +65,7 @@ export default styled(React.memo(AttributeSection))`
 		display: contents;
 
 		.title {
-			font-size: 1.25em;
+			font-size: var(--card-content-text-size);
 		}
 
 		.limit {
@@ -91,7 +91,7 @@ export default styled(React.memo(AttributeSection))`
 		}
 
 		${TextField} {
-			font-size: 1.25em;
+			font-size: var(--card-content-text-size);
 		}
 	}
 `;

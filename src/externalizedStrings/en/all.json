@@ -30,5 +30,17 @@
 	"no": "Forbid",
 	"allowLocalStorage": "Allow this app to use your browser's local storage for storing created characters and settings?",
 	"clearLocalStorage": "Clear local storage",
-	"clearLocalStorageExtended": "Clear local storage and forbid future usage"
+	"clearLocalStorageExtended": "Clear local storage and forbid future usage",
+	"name": "Name",
+	"player": "Player",
+	"state": "State",
+	"creation": "In Creation",
+	"active": "Active Career",
+	"retired": "Retired",
+	"mugshot": "Mugshot",
+	"dropImage": "Drop Image",
+	"removeImage": "Remove Mugshot",
+	"description": "Description",
+	"background": "Background",
+	"notes": "Notes"
 }
