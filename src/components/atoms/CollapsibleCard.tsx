@@ -95,6 +95,7 @@ export default styled(React.memo(CollapsibleCard))`
 		font-size: var(--card-title-font-size);
 		background: none;
 		display: flex;
+		gap: var(--spacing-medium);
 		justify-content: flex-start;
 		align-items: center;
 		padding: var(--spacing-medium);
@@ -112,7 +113,6 @@ export default styled(React.memo(CollapsibleCard))`
 		.title {
 			flex: 1 1 auto;
 			color: var(--primary-color);
-			margin-left: var(--spacing-medium);
 			font-size: var(--card-title-font-size);
 			display: flex;
 			overflow: hidden;

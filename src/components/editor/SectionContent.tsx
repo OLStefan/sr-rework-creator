@@ -28,22 +28,6 @@ function SectionContent({ name, ...otherProps }: Props) {
 		expandCard() {
 			dispatch(editorActions.toggleCard(name));
 		},
-		renderTitleError() {
-			return (
-				<>
-					{hintMessage && (
-						<div className="hint round" title={hintMessage}>
-							!
-						</div>
-					)}
-					{errorMessage && (
-						<div className="error round" title={errorMessage}>
-							!
-						</div>
-					)}
-				</>
-			);
-		},
 	});
 
 	return (
@@ -53,19 +37,16 @@ function SectionContent({ name, ...otherProps }: Props) {
 				onExpandClick={callbacks.expandCard}
 				title={labels.title}
 				data-error={!!errorMessage}
+				data-hint={!!hintMessage}
 				className="card"
 				renderAdditionalTitle={() => (
 					<>
-						{hintMessage && (
-							<div className="hint round" title={hintMessage}>
-								!
-							</div>
-						)}
-						{errorMessage && (
-							<div className="error round" title={errorMessage}>
-								!
-							</div>
-						)}
+						<div className="hint round" title={hintMessage}>
+							!
+						</div>
+						<div className="error round" title={errorMessage}>
+							!
+						</div>
 					</>
 				)}>
 				{useMemo(
@@ -85,16 +66,25 @@ export default styled(React.memo(SectionContent))`
 	.card {
 		&[data-error='true'] {
 			box-shadow: var(--card-shadow-error);
+
+			.error {
+				visibility: visible;
+			}
+		}
+
+		&[data-hint='true'] .hint {
+			visibility: visible;
 		}
 
 		.round {
 			border-radius: 50%;
 			aspect-ratio: 1/1;
 			height: 100%;
+			/* Needed for aspect-ratio to work*/
+			visibility: hidden;
 		}
 
 		.error {
-			margin-left: var(--spacing-medium);
 			background-color: var(--error-color);
 		}
 
