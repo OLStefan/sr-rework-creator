@@ -51,6 +51,7 @@
 		"state-array-functions": "^0.9.2",
 		"styled-components": "^5.2.1",
 		"uint8-to-base64": "^0.2.0",
+		"use-resize-observer": "^7.0.0",
 		"use-updating-callbacks": "^0.9.5",
 		"uuid": "^8.3.2"
 	},

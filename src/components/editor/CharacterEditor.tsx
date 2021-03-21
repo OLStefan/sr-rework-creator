@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
+import useResizeObserver from 'use-resize-observer';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { SectionType } from '../../types';
 import SectionContent from './SectionContent';
 
@@ -19,9 +19,9 @@ const initialList = Object.values(SectionType).map((section, index) => ({ name: 
 function CharacterEditor({ ...otherProps }: BaseProps) {
 	const [list, setList] = useState<ItemType[]>(initialList);
 
-	const { width: windowWidth } = useWindowDimensions();
+	const { ref, width: editorWidth = 0 } = useResizeObserver();
 	const minCardSize = parseFloat(computedStyle.getPropertyValue('--character-editor-card-max-width'));
-	const cardsPerRow = Math.floor(windowWidth / minCardSize);
+	const cardsPerRow = Math.floor(editorWidth / minCardSize);
 
 	const callbacks = useUpdatingCallbacks({
 		updateListOrder(newList: ItemType[]) {
@@ -34,7 +34,8 @@ function CharacterEditor({ ...otherProps }: BaseProps) {
 	return (
 		<div
 			{...otherProps}
-			style={{ '--cardMinWidth': cardsPerRow ? `${100 / cardsPerRow}%` : cardsPerRow } as React.CSSProperties}
+			ref={ref}
+			style={{ '--card-width': cardsPerRow ? `${100 / cardsPerRow}%` : '100%' } as React.CSSProperties}
 			data-component="character-editor">
 			{useMemo(
 				() => (
@@ -68,7 +69,7 @@ export default styled(CharacterEditor)`
 
 		.section-content {
 			flex: 0 1 var(--character-editor-card-max-width);
-			min-width: var(--cardMinWidth);
+			min-width: max(var(--card-width), var(--character-editor-card-max-width));
 		}
 	}
 `;
