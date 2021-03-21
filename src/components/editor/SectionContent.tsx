@@ -28,16 +28,46 @@ function SectionContent({ name, ...otherProps }: Props) {
 		expandCard() {
 			dispatch(editorActions.toggleCard(name));
 		},
+		renderTitleError() {
+			return (
+				<>
+					{hintMessage && (
+						<div className="hint round" title={hintMessage}>
+							!
+						</div>
+					)}
+					{errorMessage && (
+						<div className="error round" title={errorMessage}>
+							!
+						</div>
+					)}
+				</>
+			);
+		},
 	});
 
 	return (
 		<div {...otherProps} data-component="section-content">
 			<CollapsibleCard
-				error={errorMessage}
-				hint={hintMessage}
 				expanded={expanded}
 				onExpandClick={callbacks.expandCard}
-				title={labels.title}>
+				title={labels.title}
+				data-error={!!errorMessage}
+				className="card"
+				renderAdditionalTitle={() => (
+					<>
+						{hintMessage && (
+							<div className="hint round" title={hintMessage}>
+								!
+							</div>
+						)}
+						{errorMessage && (
+							<div className="error round" title={errorMessage}>
+								!
+							</div>
+						)}
+					</>
+				)}>
 				{useMemo(
 					() => (
 						<CardContent name={name} />
@@ -51,4 +81,25 @@ function SectionContent({ name, ...otherProps }: Props) {
 
 export default styled(React.memo(SectionContent))`
 	padding: var(--spacing-medium);
+
+	.card {
+		&[data-error='true'] {
+			box-shadow: var(--card-shadow-error);
+		}
+
+		.round {
+			border-radius: 50%;
+			aspect-ratio: 1/1;
+			height: 100%;
+		}
+
+		.error {
+			margin-left: var(--spacing-medium);
+			background-color: var(--error-color);
+		}
+
+		.hint {
+			background-color: var(--hint-color);
+		}
+	}
 `;

@@ -5,7 +5,6 @@
 		}
 	],
 	"settings": {
-		"editor.tabSize": 2,
 		"editor.insertSpaces": false,
 		"[javascriptreact]": {
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -15,8 +14,7 @@
 		},
 		"workbench.tree.indent": 17,
 		"files.eol": "\n",
-		"todo-tree.general.rootFolder": "${workspaceFolder}/src",
-		"gitlens.advanced.telemetry.enabled": false
+		"todo-tree.general.rootFolder": "${workspaceFolder}/src"
 	},
 	"extensions": {
 		"recommendations": [

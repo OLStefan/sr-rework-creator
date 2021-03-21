@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import { useResizeObserver } from '../../hooks';
 import Button from './Button';
 
 const computedStyle = getComputedStyle(document.documentElement);
@@ -8,20 +9,18 @@ const computedStyle = getComputedStyle(document.documentElement);
 interface Props extends BaseProps {
 	title: string;
 	onExpandClick: React.MouseEventHandler;
+	renderAdditionalTitle?: () => JSX.Element;
 	expanded?: boolean;
-	error?: string;
-	hint?: string;
 }
 function CollapsibleCard({
 	title,
 	children,
 	expanded,
-	error,
-	hint,
 	onExpandClick,
+	renderAdditionalTitle,
 	...otherProps
 }: React.PropsWithChildren<Props>) {
-	const contentRef = useRef<HTMLDivElement>(null);
+	const [contentRef, { height }] = useResizeObserver<HTMLDivElement>(['height']);
 
 	// Need to use a ref here, so the content stays visible until the transition ends
 	const expandedRef = useRef(!!expanded);
@@ -35,8 +34,9 @@ function CollapsibleCard({
 			setContentHeight(newHeight);
 		}
 		// No need to react to the triggered changed of contentHeight
+		// Also trigger for resize changes
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [expanded]);
+	}, [expanded, height]);
 
 	return (
 		<div data-component="card" {...otherProps}>
@@ -45,19 +45,10 @@ function CollapsibleCard({
 					<Button className="titlebar" onClick={onExpandClick}>
 						<div className="expand">❯</div>
 						<span className="title">{title}</span>
-						{hint && (
-							<div data-html="true" className="hint" title={hint}>
-								!
-							</div>
-						)}
-						{error && (
-							<div data-html="true" className="error" title={error}>
-								!
-							</div>
-						)}
+						{renderAdditionalTitle && renderAdditionalTitle()}
 					</Button>
 				),
-				[error, hint, onExpandClick, title],
+				[onExpandClick, renderAdditionalTitle, title],
 			)}
 			<motion.div
 				// Needed as per the framer motion docu
@@ -88,20 +79,10 @@ export default styled(React.memo(CollapsibleCard))`
 	position: relative;
 	background: var(--background);
 	border-radius: var(--border-radius);
-	${({ error }) =>
-		error
-			? css`
-					box-shadow: var(--card-shadow-error);
-			  `
-			: css`
-					box-shadow: var(--card-shadow);
-			  `}
+	box-shadow: var(--card-shadow);
 
 	& > .content {
-		flex: 1 0 auto;
-		vertical-align: top;
 		overflow: hidden;
-		height: 100%;
 
 		.content-container {
 			padding: var(--spacing-medium);
@@ -136,22 +117,6 @@ export default styled(React.memo(CollapsibleCard))`
 			display: flex;
 			overflow: hidden;
 			text-overflow: ellipsis;
-		}
-
-		.error,
-		.hint {
-			white-space: pre-line;
-			width: 1.2em;
-			border-radius: 50%;
-		}
-
-		.error {
-			margin-left: var(--spacing-medium);
-			background-color: var(--error-color);
-		}
-
-		.hint {
-			background-color: var(--hint-color);
 		}
 	}
 `;

@@ -11,7 +11,7 @@ export default function (): Character {
 			[AttributeName.STRENGTH]: { name: AttributeName.STRENGTH, minRating: 1, maxRating: 6, rating: 1 },
 			[AttributeName.AGILITY]: { name: AttributeName.AGILITY, minRating: 1, maxRating: 6, rating: 2 },
 			[AttributeName.BODY]: { name: AttributeName.BODY, minRating: 1, maxRating: 6, rating: 3 },
-			[AttributeName.INTELLIGENCE]: { name: AttributeName.INTELLIGENCE, minRating: 1, maxRating: 6, rating: 4 },
+			[AttributeName.ACUITY]: { name: AttributeName.ACUITY, minRating: 1, maxRating: 6, rating: 4 },
 			[AttributeName.WILLPOWER]: { name: AttributeName.WILLPOWER, minRating: 1, maxRating: 6, rating: 5 },
 			[AttributeName.CHARISMA]: { name: AttributeName.CHARISMA, minRating: 1, maxRating: 6, rating: 6 },
 		},

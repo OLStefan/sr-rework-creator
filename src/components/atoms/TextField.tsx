@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT } from '../../constants';
 
-interface Props extends HTMLProps<HTMLInputElement> {
+export interface TextFieldProps extends HTMLProps<HTMLInputElement> {
 	timeout?: number;
 }
 
-const TextField = React.forwardRef<HTMLInputElement, Props>(function (
+const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function (
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, ...otherProps },
 	ref,
 ) {

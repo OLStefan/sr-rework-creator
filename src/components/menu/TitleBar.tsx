@@ -46,9 +46,13 @@ export default styled(TitleBar)`
 	display: flex;
 	align-items: center;
 	font-size: var(--title-bar-font-size);
+	height: 3rem;
 
 	${BurgerMenuButton} {
 		flex: 0 0 auto;
+		height: 100%;
+		aspect-ratio: 1/1;
+		margin-right: var(--spacing-small);
 	}
 
 	.title-container {
