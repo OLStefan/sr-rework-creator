@@ -33,8 +33,7 @@ const thunks = {
 			}
 
 			if (file.size > MAX_IMAGE_SIZE) {
-				console.log(`Image too large, max ${MAX_IMAGE_SIZE} bytes`);
-				// TODO: User message
+				// TODO: Show error to user
 				return;
 			}
 

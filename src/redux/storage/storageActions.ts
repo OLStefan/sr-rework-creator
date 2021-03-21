@@ -54,7 +54,7 @@ const thunks = {
 					dispatch(creators.saveCharacter(character));
 					dispatch(creators.setCharacter(character));
 				} else {
-					// TODO Show error to user
+					// TODO: Show error to user
 				}
 			});
 		};
