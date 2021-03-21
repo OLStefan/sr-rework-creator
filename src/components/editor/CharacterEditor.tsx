@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
-import useResizeObserver from 'use-resize-observer';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT, DRAG_MOVE_THRESHOLD } from '../../constants';
 import { SectionType } from '../../types';
@@ -12,16 +11,10 @@ interface ItemType {
 	name: SectionType;
 }
 
-const computedStyle = getComputedStyle(document.documentElement);
-
 const initialList = Object.values(SectionType).map((section, index) => ({ name: section, id: index }));
 
 function CharacterEditor({ ...otherProps }: BaseProps) {
 	const [list, setList] = useState<ItemType[]>(initialList);
-
-	const { ref, width: editorWidth = 0 } = useResizeObserver();
-	const minCardSize = parseFloat(computedStyle.getPropertyValue('--character-editor-card-max-width'));
-	const cardsPerRow = Math.floor(editorWidth / minCardSize);
 
 	const callbacks = useUpdatingCallbacks({
 		updateListOrder(newList: ItemType[]) {
@@ -32,11 +25,7 @@ function CharacterEditor({ ...otherProps }: BaseProps) {
 	});
 
 	return (
-		<div
-			{...otherProps}
-			ref={ref}
-			style={{ '--card-width': cardsPerRow ? `${100 / cardsPerRow}%` : '100%' } as React.CSSProperties}
-			data-component="character-editor">
+		<div {...otherProps} data-component="character-editor">
 			{useMemo(
 				() => (
 					<ReactSortable
@@ -48,7 +37,7 @@ function CharacterEditor({ ...otherProps }: BaseProps) {
 						touchStartThreshold={DRAG_MOVE_THRESHOLD}
 						forceFallback>
 						{list.map((sectionItem) => (
-							<SectionContent key={sectionItem.id} name={sectionItem.name} className="section-content" />
+							<SectionContent key={sectionItem.id} name={sectionItem.name} />
 						))}
 					</ReactSortable>
 				),
@@ -63,13 +52,7 @@ export default styled(CharacterEditor)`
 	overflow-y: auto;
 
 	.list {
-		display: flex;
-		flex-wrap: wrap;
-		align-content: flex-start;
-
-		.section-content {
-			flex: 0 1 var(--character-editor-card-max-width);
-			min-width: max(var(--card-width), var(--character-editor-card-max-width));
-		}
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(var(--character-editor-card-min-width), 1fr));
 	}
 `;
