@@ -1,4 +1,4 @@
-import React, { HTMLProps } from 'react';
+import { HTMLProps } from 'react';
 import styled, { css } from 'styled-components';
 
 function Button({ children, ...otherProps }: Omit<HTMLProps<HTMLButtonElement>, 'type'>) {

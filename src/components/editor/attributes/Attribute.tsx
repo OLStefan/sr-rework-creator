@@ -1,5 +1,5 @@
 import { noop } from 'lodash';
-import React, { useMemo, useRef } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { AttributeName } from '../../../types';
@@ -91,7 +91,7 @@ function Attribute({
 	);
 }
 
-export default styled(React.memo(Attribute))`
+export default styled(memo(Attribute))`
 	label {
 		display: flex;
 		align-items: center;

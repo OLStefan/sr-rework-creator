@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { SectionType } from '../../types';
 import AttributeSection from './attributes/AttributeSection';
 import DetailsSection from './details/DetailsSection';
@@ -20,4 +20,4 @@ function CardContent({ name, ...otherProps }: Props) {
 	}, [name, otherProps]);
 }
 
-export default React.memo(CardContent);
+export default memo(CardContent);

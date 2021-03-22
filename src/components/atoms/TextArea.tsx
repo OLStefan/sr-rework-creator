@@ -1,4 +1,4 @@
-import React, { HTMLProps, useEffect, useRef, useState } from 'react';
+import { forwardRef, HTMLProps, useEffect, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
@@ -16,7 +16,7 @@ interface Props extends Omit<HTMLProps<HTMLTextAreaElement>, 'style' | 'ref'> {
 	onHeightChange?: () => void;
 }
 
-const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(function (
+const TextArea = forwardRef<HTMLTextAreaElement, Props>(function (
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, autosize, ...otherProps },
 	ref,
 ) {

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { memo, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useResizeObserver } from '../../hooks';
 import Button from './Button';
@@ -75,7 +75,7 @@ function CollapsibleCard({
 	);
 }
 
-export default styled(React.memo(CollapsibleCard))`
+export default styled(memo(CollapsibleCard))`
 	position: relative;
 	background: var(--background);
 	border-radius: var(--border-radius);

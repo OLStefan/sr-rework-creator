@@ -1,4 +1,4 @@
-import React, { HTMLProps, useEffect, useRef, useState } from 'react';
+import { forwardRef, HTMLProps, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { DEFAULT_TIMEOUT } from '../../constants';
@@ -7,7 +7,7 @@ export interface TextFieldProps extends HTMLProps<HTMLInputElement> {
 	timeout?: number;
 }
 
-const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function (
+const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function (
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, ...otherProps },
 	ref,
 ) {

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { TFunction } from 'i18next';
-import React, { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
@@ -181,7 +181,7 @@ function SideBarMenu({ ...otherProps }: BaseProps) {
 	);
 }
 
-export default styled(React.memo(SideBarMenu))`
+export default styled(memo(SideBarMenu))`
 	width: 100%;
 	height: 100%;
 	z-index: 1;

@@ -1,5 +1,5 @@
 import { TFunction } from 'i18next';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';

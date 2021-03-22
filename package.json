@@ -4,7 +4,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"develop": "yarn install && react-scripts start",
+		"develop": "yarn install && BROWSER=none react-scripts start",
 		"build": "react-scripts build",
 		"clean": "rimraf node_modules build",
 		"test": "react-scripts test --watchAll=false",

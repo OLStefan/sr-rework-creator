@@ -1,5 +1,5 @@
 import { TFunction } from 'i18next';
-import React, { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
@@ -60,7 +60,7 @@ function SectionContent({ name, ...otherProps }: Props) {
 	);
 }
 
-export default styled(React.memo(SectionContent))`
+export default styled(memo(SectionContent))`
 	padding: var(--spacing-medium);
 
 	.card {
