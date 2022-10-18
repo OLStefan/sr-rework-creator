@@ -5,7 +5,7 @@ import { AbstractCreatorDescriptor, AbstractThunkDescriptor, AllActions, Creator
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type MapDescriptor<
 	Prefix extends string,
-	Descriptor extends AbstractCreatorDescriptor | AbstractThunkDescriptor
+	Descriptor extends AbstractCreatorDescriptor | AbstractThunkDescriptor,
 > = {
 	[K in keyof Descriptor]: K extends string
 		? Descriptor[K] extends Creator<any[], { type: `${Prefix}.${K}` }> | ((...args: any[]) => Thunk)
@@ -27,7 +27,7 @@ export type Keyof<Something extends Record<string, unknown>> = Record<string, ne
 export type ExtendedDescriptor<
 	CreatorDescriptor extends AbstractCreatorDescriptor,
 	ThunkDescriptor extends AbstractThunkDescriptor,
-	TypeGuard extends string
+	TypeGuard extends string,
 > = TypeGuard extends Keyof<CreatorDescriptor> | Keyof<ThunkDescriptor> | 'types'
 	? Keyof<CreatorDescriptor> | Keyof<ThunkDescriptor> | 'types'
 	: {
@@ -40,6 +40,7 @@ export type ExtendedDescriptor<
 				: K extends keyof ThunkDescriptor
 				? ThunkDescriptor[K]
 				: never;
+			// eslint-disable-next-line no-mixed-spaces-and-tabs
 	  };
 
 export class ActionCreatorBuilder<Prefix extends string, TypeGuard extends string> {
@@ -56,13 +57,13 @@ export class ActionCreatorBuilder<Prefix extends string, TypeGuard extends strin
 		const creatorKeys = Object.keys(creators);
 		const types = creatorKeys.map((creator) => `${this.prefix}.${creator}`);
 
-		return ({
+		return {
 			...creators,
 			...thunks,
 			types: creatorKeys.reduce((previous, action) => ({ ...previous, [action]: `${this.prefix}.${action}` }), {}),
 			[this.typeGuard](x: { type: unknown }): x is AllActions<CreatorDescriptor> {
 				return typeof x.type === 'string' && types.includes(x.type);
 			},
-		} as unknown) as ExtendedDescriptor<CreatorDescriptor, ThunkDescriptor, TypeGuard>;
+		} as unknown as ExtendedDescriptor<CreatorDescriptor, ThunkDescriptor, TypeGuard>;
 	}
 }

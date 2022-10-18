@@ -2,6 +2,7 @@
 
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { State } from '../../types';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Creator<Args extends any[] = any[], Return extends { type: unknown } = { type: unknown }> {

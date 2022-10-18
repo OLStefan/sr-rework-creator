@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
@@ -5,14 +6,13 @@ import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import Logo from './components/editor/Background';
 import CharacterEditor from './components/editor/CharacterEditor';
+import GDPR from './components/GDPR';
 import SideBarMenu from './components/menu/SideBarMenu';
 import TitleBar from './components/menu/TitleBar';
 import WelcomePage from './components/WelcomePage';
 import { O_KEY, S_KEY, Y_KEY, Z_KEY } from './constants';
-import { useCharacterLoaded, useDarkMode, useAllowLocalStorage } from './redux/selectors';
-import GDPR from './components/GDPR';
+import { useAllowLocalStorage, useCharacterLoaded, useDarkMode } from './redux/selectors';
 import storageActions from './redux/storage/storageActions';
-import { isNil } from 'lodash';
 
 const computedStyle = getComputedStyle(document.documentElement);
 const documentClassName = document.documentElement.className;

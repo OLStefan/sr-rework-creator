@@ -1,29 +1,35 @@
 {
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:react-hooks/recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:import/errors",
+		"plugin:import/warnings",
+		"plugin:import/typescript"
+	],
+	"overrides": [],
 	"parser": "@typescript-eslint/parser",
-	"plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
-	"extends": ["plugin:@typescript-eslint/recommended", "plugin:react/recommended", "prettier"],
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"plugins": ["react", "@typescript-eslint"],
 	"rules": {
-		"@typescript-eslint/explicit-function-return-type": "off",
-		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"@typescript-eslint/no-unused-vars": "warn",
-		"@typescript-eslint/no-use-before-define": "off",
-		"curly": ["error", "all"],
-		"eqeqeq": "error",
-		"max-depth": ["warn", 4],
-		"max-statements-per-line": ["error", { "max": 1 }],
+		"no-mixed-spaces-and-tabs": "off",
+		"import/no-cycle": "warn",
+		"@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
+		"import/no-named-as-default-member": "off",
 		"no-console": "warn",
-		"no-magic-numbers": ["error", { "ignore": [-100, -1, 0, 1, 2, 10, 100, 1000], "enforceConst": true }],
-		"no-return-assign": ["error", "except-parens"],
-		"no-unused-expressions": "error",
-		"react-hooks/exhaustive-deps": "error",
-		"react/jsx-indent": ["warn", "tab"],
-		"react/prop-types": "off",
 		"react/react-in-jsx-scope": "off"
 	},
 	"settings": {
-		"react": {
-			"pragma": "React",
-			"version": "16.13"
+		"react": { "version": "17" },
+		"import/resolver": {
+			"typescript": {}
 		}
 	}
 }

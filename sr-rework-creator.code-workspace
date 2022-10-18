@@ -17,12 +17,6 @@
 		"todo-tree.general.rootFolder": "${workspaceFolder}/src"
 	},
 	"extensions": {
-		"recommendations": [
-			"dbaeumer.vscode-eslint",
-			"esbenp.prettier-vscode",
-			"jpoissonnier.vscode-styled-components",
-			"msjsdiag.debugger-for-chrome",
-			"firefox-devtools.vscode-firefox-debug"
-		]
+		"recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
 	}
 }
