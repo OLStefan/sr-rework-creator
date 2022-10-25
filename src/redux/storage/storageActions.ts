@@ -1,10 +1,11 @@
 import { saveAs } from 'file-saver';
 import { ActionCreators } from 'redux-undo';
 import { CHARCTER_FILE_TYPE } from '../../constants';
+import { Character } from '../../types';
 import { isCharacter } from '../../utils';
+import { ActionCreatorBuilder, AllActions, FilterAction, Thunk } from '../actionCreators';
 import createNewCharacter from '../editor/character/createNewCharacter';
 import { getCurrentCharacter, isDirty } from '../selectors';
-import { ActionCreatorBuilder, AllActions, FilterAction, Thunk } from '../actionCreators';
 
 export const STORAGE_NAMESPACE = 'StorageActions';
 export const STORAGE_TYPEGUARD = 'isStorageAction';
@@ -90,6 +91,6 @@ const thunks = {
 	},
 };
 
-export default builder.createCreators(creators, thunks);
+export default builder.createCreators<typeof creators, typeof thunks>(creators, thunks);
 export type StorageActions = AllActions<typeof creators>;
 export type StorageAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

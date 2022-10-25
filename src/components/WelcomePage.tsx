@@ -1,11 +1,12 @@
 import { TFunction } from 'i18next';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { CHARCTER_FILE_TYPE } from '../constants';
 import { useLabels } from '../hooks';
 import storageActions from '../redux/storage/storageActions';
 import uiActions from '../redux/ui/uiActions';
+import { BaseProps } from '../types';
+import { useDispatch } from '../utils/store';
 import Button from './atoms/Button';
 import Dropzone from './atoms/Dropzone';
 

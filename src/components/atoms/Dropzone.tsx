@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import { BaseProps } from '../../types';
 
 interface Props extends BaseProps {
 	readFile: (file: File) => void;

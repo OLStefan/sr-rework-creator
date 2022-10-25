@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import undoable, { includeAction } from 'redux-undo';
-import { SectionType } from '../../types';
+import { EditorState, EditorUiState, SectionType } from '../../types';
 import { AnyAction } from '../rootReducer';
 import storageActions from '../storage/storageActions';
 import characterActions from './character/characterActions';

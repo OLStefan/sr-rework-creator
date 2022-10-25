@@ -1,10 +1,11 @@
 import { TFunction } from 'i18next';
 import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallback } from 'use-updating-callbacks';
 import { useLabels } from '../hooks';
 import uiActions from '../redux/ui/uiActions';
+import { BaseProps } from '../types';
+import { useDispatch } from '../utils/store';
 import Button from './atoms/Button';
 
 function GDPR({ ...otherProps }: BaseProps) {

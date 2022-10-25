@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { memo, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useResizeObserver } from '../../hooks';
+import { BaseProps } from '../../types';
 import Button from './Button';
 
 const computedStyle = getComputedStyle(document.documentElement);

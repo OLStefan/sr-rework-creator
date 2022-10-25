@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
+import { BaseProps } from '../../types';
 import Button from '../atoms/Button';
 
 interface Props extends BaseProps {

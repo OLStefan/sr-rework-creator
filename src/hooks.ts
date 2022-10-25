@@ -2,6 +2,7 @@ import { TFunction } from 'i18next';
 import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUpdatingCallback } from 'use-updating-callbacks';
+import { Box } from './types';
 
 export function useMount(func: React.EffectCallback) {
 	// useEffect should only be called once on mount

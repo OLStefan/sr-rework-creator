@@ -1,11 +1,12 @@
 import { TFunction } from 'i18next';
 import { memo, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
 import editorActions from '../../redux/editor/editorActions';
 import { useErrorMessage, useExpandedCard, useHintMessage } from '../../redux/selectors';
+import { BaseProps, SectionType } from '../../types';
+import { useDispatch } from '../../utils/store';
 import CollapsibleCard from '../atoms/CollapsibleCard';
 import CardContent from './CardContent';
 

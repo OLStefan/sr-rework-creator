@@ -2,7 +2,7 @@ import { noop } from 'lodash';
 import { memo, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { AttributeName } from '../../../types';
+import { Attribute, AttributeName, BaseProps } from '../../../types';
 import Button from '../../atoms/Button';
 import TextField from '../../atoms/TextField';
 

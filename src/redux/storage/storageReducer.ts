@@ -1,3 +1,4 @@
+import { StorageState } from '../../types';
 import { AnyAction } from '../rootReducer';
 import storageActions, { StorageAction } from './storageActions';
 

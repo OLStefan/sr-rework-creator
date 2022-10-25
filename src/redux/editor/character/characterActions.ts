@@ -1,6 +1,6 @@
 import { encode } from 'uint8-to-base64';
 import { MAX_IMAGE_SIZE } from '../../../constants';
-import { AttributeName } from '../../../types';
+import { AttributeName, CharacterState, Details } from '../../../types';
 import { ActionCreatorBuilder, AllActions, FilterAction, Thunk } from '../../actionCreators';
 
 export const CHARACTER_NAMESPACE = 'CharacterActions';
@@ -48,6 +48,6 @@ const thunks = {
 	},
 };
 
-export default builder.createCreators(creators, thunks);
+export default builder.createCreators<typeof creators, typeof thunks>(creators, thunks);
 export type CharacterActions = AllActions<typeof creators>;
 export type CharacterAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

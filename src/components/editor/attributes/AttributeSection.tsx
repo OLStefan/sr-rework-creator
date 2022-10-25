@@ -1,12 +1,12 @@
 import { TFunction } from 'i18next';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../../hooks';
 import characterActions from '../../../redux/editor/character/characterActions';
 import { useCharacterAttributes } from '../../../redux/selectors';
-import { AttributeName } from '../../../types';
+import { AttributeName, BaseProps } from '../../../types';
+import { useDispatch } from '../../../utils/store';
 import Button from '../../atoms/Button';
 import TextField from '../../atoms/TextField';
 import Attribute from './Attribute';

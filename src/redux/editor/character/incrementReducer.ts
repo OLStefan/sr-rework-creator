@@ -1,3 +1,4 @@
+import { Character } from '../../../types';
 import { AnyAction } from '../../rootReducer';
 import storageActions from '../../storage/storageActions';
 import uiActions from '../../ui/uiActions';

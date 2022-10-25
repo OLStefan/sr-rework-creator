@@ -1,3 +1,4 @@
+import { Character } from '../../../types';
 import { inBound } from '../../../utils';
 import { AnyAction } from '../../rootReducer';
 import storageActions, { StorageAction } from '../../storage/storageActions';

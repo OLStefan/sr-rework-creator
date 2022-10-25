@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
 import { TFunction } from 'i18next';
 import { memo, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
-import { ESCAPE_KEY, CHARCTER_FILE_TYPE } from '../../constants';
+import { CHARCTER_FILE_TYPE, ESCAPE_KEY } from '../../constants';
 import { useLabels } from '../../hooks';
 import {
 	useAllowLocalStorage,
@@ -20,6 +19,8 @@ import {
 import { clearLocalStorageThunk } from '../../redux/storage/localStorage';
 import storageActions from '../../redux/storage/storageActions';
 import uiActions from '../../redux/ui/uiActions';
+import { BaseProps } from '../../types';
+import { useDispatch } from '../../utils/store';
 import Button from '../atoms/Button';
 import Switch from '../atoms/ToggleSwitch';
 import FileSelectButton from '../molecules/FileSelectButton';

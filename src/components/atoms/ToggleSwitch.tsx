@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { BaseProps } from '../../types';
 
 interface Props extends BaseProps {
 	checked: boolean;

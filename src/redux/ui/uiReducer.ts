@@ -1,3 +1,4 @@
+import { UiState } from '../../types';
 import { AnyAction } from '../rootReducer';
 import storageActions from '../storage/storageActions';
 import uiActions, { UiAction } from './uiActions';

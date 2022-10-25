@@ -1,11 +1,12 @@
 import { TFunction } from 'i18next';
 import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { useLabels } from '../../hooks';
 import { useCharacterLoaded, useCharacterName, useIsDirty } from '../../redux/selectors';
 import uiActions from '../../redux/ui/uiActions';
+import { BaseProps } from '../../types';
+import { useDispatch } from '../../utils/store';
 import BurgerMenuButton from '../molecules/BurgerMenuButton';
 
 function TitleBar({ ...otherProps }: BaseProps) {

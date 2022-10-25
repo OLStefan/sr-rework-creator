@@ -1,11 +1,14 @@
-interface Attribute {
+import { AttributeName, CharacterState } from './enums';
+import { UUID } from './uuid';
+
+export interface Attribute {
 	name: AttributeName;
 	minRating: number;
 	maxRating: number;
 	rating: number;
 }
 
-interface Details {
+export interface Details {
 	name: string;
 	player: string;
 	description: string;
@@ -15,7 +18,7 @@ interface Details {
 	mugshot?: string;
 }
 
-interface BaseCharacter {
+export interface BaseCharacter {
 	saveVersion: number;
 	increment: number;
 	uuid: UUID;
@@ -24,12 +27,12 @@ interface BaseCharacter {
 	details: Details;
 }
 
-interface CreationCharacter extends BaseCharacter {
+export interface CreationCharacter extends BaseCharacter {
 	careerMode: false;
 }
 
-interface CareerCharacter extends BaseCharacter {
+export interface CareerCharacter extends BaseCharacter {
 	careerMode: true;
 }
 
-type Character = CreationCharacter | CareerCharacter;
+export type Character = CreationCharacter | CareerCharacter;

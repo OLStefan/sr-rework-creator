@@ -1,3 +1,4 @@
+import { SectionType } from '../../types';
 import { ActionCreatorBuilder, AllActions, FilterAction } from '../actionCreators';
 
 export const EDITOR_NAMESPACE = 'EditorActions';
@@ -11,6 +12,6 @@ const creators = {
 	},
 };
 
-export default builder.createCreators(creators, {});
+export default builder.createCreators<typeof creators, {}>(creators, {});
 export type EditorActions = AllActions<typeof creators>;
 export type EditorAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

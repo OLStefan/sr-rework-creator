@@ -23,6 +23,6 @@ const creators = {
 	},
 };
 
-export default builder.createCreators(creators, {});
+export default builder.createCreators<typeof creators, {}>(creators, {});
 export type UiActions = AllActions<typeof creators>;
 export type UiAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

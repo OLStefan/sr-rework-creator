@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { IMAGE_FILE_TYPE } from '../../../constants';
 import { useLabels } from '../../../hooks';
 import characterActions from '../../../redux/editor/character/characterActions';
 import { useCharacterDetails } from '../../../redux/selectors';
-import { CharacterState } from '../../../types';
+import { BaseProps, CharacterState } from '../../../types';
+import { useDispatch } from '../../../utils/store';
 import Dropzone from '../../atoms/Dropzone';
 import LabeledContent from '../../atoms/LabeledContent';
 import TextArea from '../../atoms/TextArea';

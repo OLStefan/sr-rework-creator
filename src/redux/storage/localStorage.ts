@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { Dispatch } from 'redux';
+import { State } from '../../types';
 import { initialState } from '../editor/editorReducer';
 import uiActions from '../ui/uiActions';
 

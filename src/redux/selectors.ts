@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { TOOLTIP_BULLET_POINT, TOOLTIP_LINE_BREAK } from '../constants';
+import { SectionType, State } from '../types';
 
 /*
  * Getter
