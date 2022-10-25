@@ -1,6 +1,6 @@
 import { Character } from '../../../types';
 import { inBound } from '../../../utils';
-import { AnyAction } from '../../rootReducer';
+import type { AnyAction } from '../../rootReducer';
 import storageActions, { StorageAction } from '../../storage/storageActions';
 import characterActions, { CharacterAction } from './characterActions';
 

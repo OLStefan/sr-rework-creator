@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import styled from 'styled-components';
 import { useUpdatingCallbacks } from 'use-updating-callbacks';
 import { IMAGE_FILE_TYPE } from '../../../constants';
@@ -59,94 +58,59 @@ function DetailsSection({ ...otherProps }: BaseProps) {
 
 	return (
 		<div {...otherProps} data-component="details-section">
-			{useMemo(
-				() => (
-					<LabeledContent title={labels.name} className="name text-field-container">
-						<TextField className="text-field" value={details.name} onChange={callbacks.updateName} />
-					</LabeledContent>
-				),
-				[details.name, callbacks, labels],
-			)}
-			{useMemo(
-				() => (
-					<LabeledContent title={labels.player} className="player-name text-field-container">
-						<TextField className="text-field" value={details.player} onChange={callbacks.updatePlayer} />
-					</LabeledContent>
-				),
-				[details.player, callbacks, labels],
-			)}
-			{useMemo(
-				() => (
-					<LabeledContent title={labels.state} className="state text-field-container">
-						<label className="state-label">{labels.currentState(details.state)}</label>
-					</LabeledContent>
-				),
-				[details.state, labels],
-			)}
+			<LabeledContent title={labels.name} className="name text-field-container">
+				<TextField className="text-field" value={details?.name} onChange={callbacks.updateName} />
+			</LabeledContent>
+			<LabeledContent title={labels.player} className="player-name text-field-container">
+				<TextField className="text-field" value={details?.player} onChange={callbacks.updatePlayer} />
+			</LabeledContent>
+			<LabeledContent title={labels.state} className="state text-field-container">
+				<label className="state-label">{labels.currentState(details.state)}</label>
+			</LabeledContent>
 
-			{useMemo(
-				() => (
-					<LabeledContent title={labels.mugshot} className="picture">
-						{details.mugshot ? (
-							<div className="image-container">
-								<div className="remove-image" role="button" onClick={callbacks.clearImage}>
-									{labels.removeImage}
-								</div>
-								<img src={details.mugshot} />
-							</div>
-						) : (
-							<Dropzone readFile={callbacks.loadImage} fileType={IMAGE_FILE_TYPE} text={labels.dropImage} />
-						)}
-					</LabeledContent>
-				),
-				[details.mugshot, callbacks, labels],
-			)}
+			<LabeledContent title={labels.mugshot} className="picture">
+				{details.mugshot ? (
+					<div className="image-container">
+						<div className="remove-image" role="button" onClick={callbacks.clearImage}>
+							{labels.removeImage}
+						</div>
+						<img src={details.mugshot} />
+					</div>
+				) : (
+					<Dropzone readFile={callbacks.loadImage} fileType={IMAGE_FILE_TYPE} text={labels.dropImage} />
+				)}
+			</LabeledContent>
 
-			{useMemo(
-				() => (
-					<LabeledContent title={labels.description} className="description large">
-						<TextArea
-							className="text-area"
-							autosize
-							maxRows={12}
-							minRows={3}
-							value={details.description}
-							onChange={callbacks.updateDescription}
-						/>
-					</LabeledContent>
-				),
-				[details.description, callbacks, labels],
-			)}
-			{useMemo(
-				() => (
-					<LabeledContent title={labels.background} className="background large">
-						<TextArea
-							className="text-area"
-							autosize
-							maxRows={12}
-							minRows={3}
-							value={details.background}
-							onChange={callbacks.updateBackground}
-						/>
-					</LabeledContent>
-				),
-				[details.background, callbacks, labels],
-			)}
-			{useMemo(
-				() => (
-					<LabeledContent title={labels.notes} className="notes large">
-						<TextArea
-							className="text-area"
-							autosize
-							maxRows={12}
-							minRows={3}
-							value={details.notes}
-							onChange={callbacks.updateNotes}
-						/>
-					</LabeledContent>
-				),
-				[details.notes, callbacks, labels],
-			)}
+			<LabeledContent title={labels.description} className="description large">
+				<TextArea
+					className="text-area"
+					autosize
+					maxRows={12}
+					minRows={3}
+					value={details.description}
+					onChange={callbacks.updateDescription}
+				/>
+			</LabeledContent>
+			<LabeledContent title={labels.background} className="background large">
+				<TextArea
+					className="text-area"
+					autosize
+					maxRows={12}
+					minRows={3}
+					value={details.background}
+					onChange={callbacks.updateBackground}
+				/>
+			</LabeledContent>
+			<LabeledContent title={labels.notes} className="notes large">
+				<TextArea
+					className="text-area"
+					autosize
+					maxRows={12}
+					minRows={3}
+					value={details.notes}
+					onChange={callbacks.updateNotes}
+				/>
+			</LabeledContent>
 		</div>
 	);
 }

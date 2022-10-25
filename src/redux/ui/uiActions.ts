@@ -1,4 +1,4 @@
-import { ActionCreatorBuilder, AllActions, FilterAction } from '../actionCreators';
+import { AbstractThunkDescriptor, ActionCreatorBuilder, AllActions, FilterAction } from '../actionCreators';
 
 export const UI_NAMESPACE = 'UiActions';
 export const UI_TYPEGUARD = 'isUiAction';
@@ -23,6 +23,6 @@ const creators = {
 	},
 };
 
-export default builder.createCreators<typeof creators, {}>(creators, {});
+export default builder.createCreators<typeof creators, AbstractThunkDescriptor>(creators, {});
 export type UiActions = AllActions<typeof creators>;
 export type UiAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

@@ -16,7 +16,7 @@ interface Props extends Omit<HTMLProps<HTMLTextAreaElement>, 'style' | 'ref'> {
 	onHeightChange?: () => void;
 }
 
-const TextArea = forwardRef<HTMLTextAreaElement, Props>(function (
+const TextArea = forwardRef<HTMLTextAreaElement, Props>(function TextArea(
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, autosize, ...otherProps },
 	ref,
 ) {

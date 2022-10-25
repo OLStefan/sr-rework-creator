@@ -7,7 +7,7 @@ export interface TextFieldProps extends HTMLProps<HTMLInputElement> {
 	timeout?: number;
 }
 
-const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function (
+const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
 	{ onChange, onBlur, value, timeout = DEFAULT_TIMEOUT, ...otherProps },
 	ref,
 ) {

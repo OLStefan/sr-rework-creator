@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import undoable, { includeAction } from 'redux-undo';
 import { EditorState, EditorUiState, SectionType } from '../../types';
-import { AnyAction } from '../rootReducer';
+import type { AnyAction } from '../rootReducer';
 import storageActions from '../storage/storageActions';
 import characterActions from './character/characterActions';
 import characterReducer from './character/characterReducer';
@@ -43,7 +43,7 @@ function reducer(editor = initialState, action: AnyAction): EditorState {
 				ui: cloneDeep(initialState.ui),
 			};
 		}
-		default:
+		default: {
 			let newCharacter = characterReducer(editor.currentCharacter, action);
 			if (newCharacter !== editor.currentCharacter) {
 				newCharacter = incrementReducer(newCharacter, action);
@@ -61,6 +61,7 @@ function reducer(editor = initialState, action: AnyAction): EditorState {
 			}
 
 			return editor;
+		}
 	}
 }
 

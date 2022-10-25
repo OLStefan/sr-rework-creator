@@ -1,5 +1,5 @@
 import { SectionType } from '../../types';
-import { ActionCreatorBuilder, AllActions, FilterAction } from '../actionCreators';
+import { AbstractThunkDescriptor, ActionCreatorBuilder, AllActions, FilterAction } from '../actionCreators';
 
 export const EDITOR_NAMESPACE = 'EditorActions';
 export const EDITOR_TYPEGUARD = 'isEditorAction';
@@ -12,6 +12,6 @@ const creators = {
 	},
 };
 
-export default builder.createCreators<typeof creators, {}>(creators, {});
+export default builder.createCreators<typeof creators, AbstractThunkDescriptor>(creators, {});
 export type EditorActions = AllActions<typeof creators>;
 export type EditorAction<Type extends keyof typeof creators> = FilterAction<typeof creators, Type>;

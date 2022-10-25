@@ -1,5 +1,5 @@
 import { StorageState } from '../../types';
-import { AnyAction } from '../rootReducer';
+import type { AnyAction } from '../rootReducer';
 import storageActions, { StorageAction } from './storageActions';
 
 const initialState: StorageState = {};
